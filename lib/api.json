@@ -1,0 +1,68 @@
+{
+	"host": "api.7digital.com",
+	"version": "1.2",
+	"resources": 
+		{
+		"Releases":
+			{
+				"resource": "release",
+				"actions":
+				[ 
+					{ "apiCall": "byDate", "methodName": "getByDate" },
+					{ "apiCall": "details", "methodName": "getDetails" },
+					{ "apiCall": "chart", "methodName": "getChart" },
+					{ "apiCall": "recommend", "methodName": "getRecommendations" },
+					{ "apiCall": "search", "methodName": "search" },
+					{ "apiCall": "tracks", "methodName": "getTracks" },
+					{ "apiCall": "tags", "methodName": "getTags" },
+					{ "apiCall": "bytag/new", "methodName": "getNewByTags" },
+					{ "apiCall": "bytag/top", "methodName": "getTopByTags" }
+				]
+			},
+		"Artists": 
+			{
+				"resource": "artist",
+				"actions":
+					[ 
+						{ "apiCall": "browse", "methodName": "browse" }, 
+						{ "apiCall": "chart", "methodName": "getChart" },
+						{ "apiCall": "details", "methodName": "getDetails" },
+						{ "apiCall": "releases", "methodName": "getReleases" },
+						{ "apiCall": "search", "methodName": "search" },
+						{ "apiCall": "topTracks", "methodName": "getTopTracks" },
+						{ "apiCall": "tags", "methodName": "getTags" },
+						{ "apiCall": "bytag/top", "methodName": "getTopByTags"}
+					]
+			},
+		"Tracks": 
+			{
+				"resource": "track",
+				"actions": 
+					[ 
+						{ "apiCall": "chart", "methodName": "getChart" },
+						{ "apiCall": "details", "methodName": "getDetails" },
+						{ "apiCall": "preview", "methodName": "getPreview" },
+						{ "apiCall": "search", "methodName": "search" }
+					]
+			},
+		"Tags": 
+			{
+				"resource": "tag",
+				"actions": 
+					[ 
+						{ "apiCall": "", "methodName": "all" }
+					]
+			},
+		"Basket": 
+			{
+				"resource": "basket",
+				"actions": 		
+				[
+					{ "apiCall": "", "methodName": "get" }, 
+					{ "apiCall": "addItem", "methodName": "addItem" }, 
+					{ "apiCall": "removeItem", "methodName": "removeItem" }, 
+					{ "apiCall": "create", "methodName": "create" }
+				]	
+			}
+		}
+}
