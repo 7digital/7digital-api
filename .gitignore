@@ -5,3 +5,4 @@
 *.gz
 *.swp
 /build/
+tags
