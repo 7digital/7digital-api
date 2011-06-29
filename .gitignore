@@ -4,3 +4,4 @@
 *.css
 *.gz
 *.swp
+/build/
