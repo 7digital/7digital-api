@@ -19,6 +19,10 @@ or (for npm >=1.0)
 
     npm install
 
+or globally
+
+    sudo npm install -g node-7digital-api 
+
 You will also need to make sure you have pulled in the gitsubmodules.
 
     git submodule update --init  --recursive
@@ -35,7 +39,6 @@ To run the json proxy and API explorer:
     node server.js
     curl http://localhost:3000/artist/details?artistid=1
     
-Please note, I have only really tested this on recent versions of node (0.3.1 - 
-0.4.7 at the time of writing), so please file an issue if you have problems with 
-other versions of node.
+Please note, I have only really tested this on recent versions of node (>=0.3.1).
+Please file an issue if you have problems with other versions of node.
 
