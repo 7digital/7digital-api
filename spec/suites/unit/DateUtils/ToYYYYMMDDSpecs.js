@@ -1,4 +1,4 @@
-var DateUtils = require('dateutils').DateUtils;
+var DateUtils = require('../../../../lib/dateutils').DateUtils;
 
 describe("DateUtils.toYYYYMMDD", function() {
 	

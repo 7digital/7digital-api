@@ -1,4 +1,4 @@
-var FnUtils = require('fnutils').FnUtils;
+var FnUtils = require('../../../../lib/fnutils').FnUtils;
 
 describe('FnUtils.curry', function() {
 	

@@ -1,4 +1,4 @@
-var StringUtils = require('stringutils').StringUtils;
+var StringUtils = require('../../../../lib/stringutils').StringUtils;
 
 describe('StringUtils.capitalize', function() {
 	

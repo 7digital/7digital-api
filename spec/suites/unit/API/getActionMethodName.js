@@ -1,5 +1,5 @@
-var Api = require('api').Api,
-	APIBase = require('apibase').APIBase;
+var Api = require('../../../../lib/api').Api,
+	APIBase = require('../../../../lib/apibase').APIBase;
 
 describe('API.getActionMethodName', function() {
 	var schema = {

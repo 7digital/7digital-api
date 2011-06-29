@@ -1,4 +1,4 @@
-var api = require('api').Api.buildFromFile(__dirname + '/../../../../lib/api.json');
+var api = require('../../../../lib/api').Api.buildFromFile(__dirname + '/../../../../lib/api.json');
 
 describe("Tags actions", function() {
 
