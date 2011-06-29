@@ -27,7 +27,6 @@ xdescribe('Coding Rules', function() {
 			},
 			callback
 		);
-
 	}
 
 	it('server source should passs JSHint validation', function() {
