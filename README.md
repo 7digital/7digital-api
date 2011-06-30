@@ -1,8 +1,7 @@
-![7digital](http://cdn.7static.com/static/img/logo/7digital-GB.gif)
-
 Node.js API Wrapper
 ===================
 
+![7digital](http://cdn.7static.com/static/img/logo/7digital-GB.gif)
 
 WHAT IS THIS?
 =============
