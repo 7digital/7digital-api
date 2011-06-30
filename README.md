@@ -43,6 +43,21 @@ your dependencies in the package.json file, you can use the like so:
     
     artists.getReleases({ artistid: 1 }, function(err, data) {
         console.dir(data);
+    });
+
+If you need to supply your own config, you do so like this:
+
+    var	api, artists;
+
+    api = require('../main').with({
+        oauthkey: 'MY_KEY_HERE',
+        oauthsecret: 'MY_SECRET_HERE',
+    });
+    
+    artists = new api.Artists()
+    
+    artists.getReleases({ artistid: 1 }, function(err, data) {
+	    console.dir(data);
     });	
 
 WHAT DOES THIS SUPPORT?
