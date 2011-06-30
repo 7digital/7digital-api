@@ -6,3 +6,4 @@
 *.swp
 /build/
 tags
+npm-debug.log
