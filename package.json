@@ -14,8 +14,7 @@
 		"nodejs",
 		"7digital"
 	],
-	"author": "Raoul Millais",
-	"maintainers": "Raoul Millais",
+	"author": "Raoul Millais <raoul@raoulmillais.com> (http://www.raoulmillais.com/)",
 	"licenses": [
 		"MIT"
 	],
