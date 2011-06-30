@@ -1,3 +1,9 @@
+Node.js API Wrapper
+===================
+
+![7digital](http://cdn.7static.com/static/img/logo/7digital-GB.gif)
+
+
 WHAT IS THIS?
 =============
 
@@ -10,22 +16,24 @@ nodejs.
 USAGE
 =====
 
-You will need to manually install the dependencies.  This can be done easily using npm, 
-check the packages.json for the most recent dependencies.
+The easiest way to use this wrapper is to install it via [npm](http://npmjs.org/)
 
-    npm link .
-
-or (for npm >=1.0)
-
-    npm install
+    npm install 7digital-api
 
 or globally
 
-    sudo npm install -g node-7digital-api 
+    sudo npm install -g 7digital-api 
 
-You will also need to make sure you have pulled in the gitsubmodules.
+If you have a clean checkout of the code, you must update the git submodules before installing:
 
-    git submodule update --init  --recursive
+    git submodule update --init --recursive
+
+Then you can install via npm as usual (for npm >=1.0)
+
+    npm install  ../path/to/checkout
+
+WHAT DOES THIS SUPPORT?
+=======================
 
 The 7digital wrapper currently only supports the portions of the API which
 do not require OAUTH authentication.
@@ -39,6 +47,8 @@ To run the json proxy and API explorer:
     node server.js
     curl http://localhost:3000/artist/details?artistid=1
     
-Please note, I have only really tested this on recent versions of node (>=0.3.1).
-Please file an issue if you have problems with other versions of node.
+Please note, This has only really been tested with recent versions of node (>=0.3.1).
+If you have problems with older versions of node, please try upgrading.  You may want
+to try [n](https://github.com/visionmedia/n) if you want to manage multiple versions
+of node.
 
