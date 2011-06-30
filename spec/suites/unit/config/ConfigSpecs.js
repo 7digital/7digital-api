@@ -14,4 +14,8 @@ describe('config', function() {
 		expect(config.schemapath).toEqual('lib/api.json');
 	});
 
+	it('should have debug', function() {
+		expect(config.debug).toEqual(true);
+	});
+
 });
