@@ -20,10 +20,10 @@
 		"MIT"
 	],
 	"engines": [ "node >= 0.4.1" ],
-	"modules": {
-		"api": "./lib/api"
-		
+	"scripts": {
+		"test": "spec/specs.js"
 	},
+	"main": "main.js",
 	"dependencies": {
 		"sax": "0.1.2",
 		"xml2js": ">= 0.1.5",
