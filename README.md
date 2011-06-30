@@ -13,8 +13,8 @@ It is:
 nodejs.
 * A serverside javascript wrapper round the 7digital API
 
-USAGE
-=====
+INSTALLATION
+============
 
 The easiest way to use this wrapper is to install it via [npm](http://npmjs.org/)
 
@@ -31,6 +31,19 @@ If you have a clean checkout of the code, you must update the git submodules bef
 Then you can install via npm as usual (for npm >=1.0)
 
     npm install  ../path/to/checkout
+
+USAGE
+=====
+
+See the examples folder for examples of how to use this.  If you have included 7digital-api in
+your dependencies in the package.json file, you can use the like so:
+
+    var api = require('../main'),
+        artists = new api.Artists();
+    
+    artists.getReleases({ artistid: 1 }, function(err, data) {
+        console.dir(data);
+    });	
 
 WHAT DOES THIS SUPPORT?
 =======================
