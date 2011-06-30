@@ -38,7 +38,7 @@ USAGE
 See the examples folder for examples of how to use this.  If you have included 7digital-api in
 your dependencies in the package.json file, you can use the like so:
 
-    var api = require('../main'),
+    var api = require('7digital-api'),
         artists = new api.Artists();
     
     artists.getReleases({ artistid: 1 }, function(err, data) {
