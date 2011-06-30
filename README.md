@@ -1,7 +1,7 @@
+![7digital](http://cdn.7static.com/static/img/logo/7digital-GB.gif)
+
 Node.js API Wrapper
 ===================
-
-![7digital](http://cdn.7static.com/static/img/logo/7digital-GB.gif)
 
 
 WHAT IS THIS?
@@ -54,7 +54,7 @@ If you need to supply your own config, you do so like this:
         oauthsecret: 'MY_SECRET_HERE',
     });
     
-    artists = new api.Artists()
+    artists = new api.Artists();
     
     artists.getReleases({ artistid: 1 }, function(err, data) {
 	    console.dir(data);
