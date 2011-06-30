@@ -1,4 +1,5 @@
- var api = require('./lib/api').Api.buildFromFile(__dirname + '/lib/api.json'),
+ var config = require('./config').Config,
+	api = require('./lib/api').Api.buildFromFile(__dirname + '/lib/api.json', config.oauthkey, config.oauthsecret),
 	prop;
 
 for (prop in api) {
