@@ -1,4 +1,4 @@
-var api = require('api').Api.buildFromFile(__dirname + '/../../../../lib/api.json');
+var api = require('../../../main');
 const API_TIMEOUT_MS = 5000;
 
 describe('Basket Integration Tests', function() {

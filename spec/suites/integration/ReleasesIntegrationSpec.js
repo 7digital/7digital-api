@@ -1,4 +1,4 @@
-var api = require('api').api;
+var api = require('../../../main');
 const API_TIMEOUT_MS = 5000;
 
 describe('Releases Integration Tests', function() {
