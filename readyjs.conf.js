@@ -3,7 +3,7 @@
 	dest : "./build", // the destination of your minified files
 	compiledExtension : "min", // extension of the minified file
 	runJslint : true, // if should run jsLint
-	runGCompiler : true, // if should run GoogleCompiler
+	runGCompiler : false, // if should run GoogleCompiler
 	keepCompiled : false, // if should keep the minified files
 	aggregateTo : "all.js", // If a string is specified, all the .js will be aggregated to this file in the config.dest      
 	order : [], // The order of aggregation (example : we want jquery before jquery.ui) Must not specified every file.
