@@ -2,13 +2,9 @@
 	api = require('./lib/api').Api.buildFromFile(__dirname + '/' + config.schemapath, config.oauthkey, config.oauthsecret),
 	prop;
 
-for (prop in api) {
-	if (api.hasOwnProperty(prop)) {
-		exports[prop] = api[prop]; 
-	}
-}
+module.exports = api;
 
-exports.with = function(options) {
+module.exports.with = function(options) {
 	var prop;
 
 	if (typeof options === "undefined") {
