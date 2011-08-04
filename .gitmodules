@@ -1,3 +1,3 @@
 [submodule "vendor/node-xml2js"]
 	path = vendor/node-xml2js
-	url = https://github.com/raoulmillais/node-xml2js
+	url = git://github.com/raoulmillais/node-xml2js
