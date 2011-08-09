@@ -1,3 +1,5 @@
+require('../../../helpers/Matchers.js');
+
 var Api = require('../../../../lib/api').Api,
 	APIBase = require('../../../../lib/apibase').APIBase;
 

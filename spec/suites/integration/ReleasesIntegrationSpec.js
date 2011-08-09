@@ -1,8 +1,8 @@
+require('../../helpers/Matchers.js');
 var api = require('../../../main');
 const API_TIMEOUT_MS = 5000;
 
 describe('Releases Integration Tests', function() {
-
 	var releases;
 
 	beforeEach(function() {
@@ -15,6 +15,7 @@ describe('Releases Integration Tests', function() {
 	});
 	
 	it("should return release from getDetails", function() {
+    pending()
 		var errorData,
 			successData;
 			
@@ -35,6 +36,7 @@ describe('Releases Integration Tests', function() {
 	});
 	
 	it("should return return an error from getDetails when given no releaseId", function() {
+    pending()
 		var errorData,
 			successData;
 			
