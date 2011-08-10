@@ -3,8 +3,9 @@ var	config,
 	artists;
 
 config = {
-	oauthkey: 'MY_KEY_HERE',
+	oauthkey: 'YOUR_KEY_HERE',
 	oauthsecret: '',
+	format: 'json'
 };
 
 api = require('../main').with(config);

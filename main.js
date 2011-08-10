@@ -17,6 +17,6 @@ module.exports.with = function(options) {
 		}
 	}
 	
-	return require('./lib/api').Api.buildFromFile(__dirname + '/' + options.schemapath, options.oauthkey, options.oauthsecret);
+	return require('./lib/api').Api.buildFromFile(__dirname + '/' + options.schemapath, options.oauthkey, options.oauthsecret, options.format);
 }
 

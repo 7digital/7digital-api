@@ -24,5 +24,11 @@ exports.Config = {
 	*
 	* @type boolean
 	*/
-	debug: true
+	debug: true,
+	/**
+	* sets format to JSON by default
+	*
+	* @type string
+	*/
+	format: 'json'
 };
