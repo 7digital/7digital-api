@@ -5,7 +5,7 @@ var	config,
 config = {
 	oauthkey: 'YOUR_KEY_HERE',
 	oauthsecret: '',
-	format: 'json'
+	//format: 'xml' //uncomment to receive responses in XML
 };
 
 api = require('../main').configure(config);
