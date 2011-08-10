@@ -49,7 +49,7 @@ If you need to supply your own config or want JSON, you do so like this:
 
     var api, artists;
 
-    api = require('7digital-api').with({
+    api = require('7digital-api').configure({
         format: 'JSON',
         oauthkey: 'MY_KEY_HERE',
         oauthsecret: 'MY_SECRET_HERE',

@@ -1,7 +1,8 @@
  var config = require('./config').Config,
 	api = require('./lib/api').Api.buildFromFile(__dirname + '/' + config.schemapath, 
-				config.oauthkey, config.oauthsecret, config.logger),
+				config.oauthkey, config.oauthsecret, 'json', config.logger),
 	prop;
+
 
 module.exports = api;
 
