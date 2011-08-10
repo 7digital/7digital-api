@@ -26,9 +26,17 @@ exports.Config = {
 	*/
 	debug: true,
 	/**
-	* sets format to JSON by default
+	* The desired format of API responses
+	* Sets format to JSON by default
 	*
 	* @type string
 	*/
-	format: 'json'
+	format: 'json',
+	/**
+	* A logger object for outputting messages. This should be an obect, which has function
+	* properties for each of the npm loglevels. Winston provides a default implementation.
+	*
+	* @type Winston.Logger
+	*/
+	logger: require('./lib/logger')
 };

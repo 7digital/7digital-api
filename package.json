@@ -31,7 +31,8 @@
     "oauth": "0.9.0",
     "step": ">=0.0.3",
     "eyes": ">=0.1.6",
-    "jessie": ">=0.3.7"
+    "jessie": ">=0.3.7",
+	"winston": "0.3.5"
   },
   "devDependencies": {}
 }

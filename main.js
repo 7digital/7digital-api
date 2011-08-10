@@ -1,6 +1,6 @@
  var config = require('./config').Config,
 	api = require('./lib/api').Api.buildFromFile(__dirname + '/' + config.schemapath, 
-				config.oauthkey, config.oauthsecret),
+				config.oauthkey, config.oauthsecret, config.logger),
 	prop;
 
 module.exports = api;
@@ -19,5 +19,5 @@ module.exports.configure = function(options) {
 	}
 	
 	return require('./lib/api').Api.buildFromFile(__dirname + '/' + options.schemapath, 
-				options.oauthkey, options.oauthsecret, options.format);
+				options.oauthkey, options.oauthsecret, options.format, options.logger);
 };
