@@ -8,9 +8,9 @@ config = {
 	format: 'json'
 };
 
-api = require('../main').with(config);
-artists = new api.Artists()
+api = require('../main').configure(config);
+artists = new api.Artists();
 
 artists.getReleases({ artistid: 1 }, function(err, data) {
 	console.dir(data);
-});	
+});

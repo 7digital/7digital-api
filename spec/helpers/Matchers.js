@@ -6,7 +6,7 @@ beforeEach(function() {
 		},
 		
 		toHavePrototypeOf: function(proto) {
-			return this.actual.prototype = proto.prototype;	
+			return this.actual.prototype == proto.prototype;
 		}
 	});
 

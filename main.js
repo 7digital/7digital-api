@@ -1,10 +1,11 @@
  var config = require('./config').Config,
-	api = require('./lib/api').Api.buildFromFile(__dirname + '/' + config.schemapath, config.oauthkey, config.oauthsecret),
+	api = require('./lib/api').Api.buildFromFile(__dirname + '/' + config.schemapath, 
+				config.oauthkey, config.oauthsecret),
 	prop;
 
 module.exports = api;
 
-module.exports.with = function(options) {
+module.exports.configure = function(options) {
 	var prop;
 
 	if (typeof options === "undefined") {
@@ -17,6 +18,6 @@ module.exports.with = function(options) {
 		}
 	}
 	
-	return require('./lib/api').Api.buildFromFile(__dirname + '/' + options.schemapath, options.oauthkey, options.oauthsecret, options.format);
-}
-
+	return require('./lib/api').Api.buildFromFile(__dirname + '/' + options.schemapath, 
+				options.oauthkey, options.oauthsecret, options.format);
+};
