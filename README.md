@@ -11,11 +11,7 @@ About 7digital
 WHAT IS THIS?
 =============
 
-It is:
-
-* A library for wrapping 3rd party RESTful APIs based on a JSON schema file in 
-nodejs.
-* A serverside javascript wrapper round the 7digital API
+A serverside javascript wrapper round the 7digital API with the ability to return XML or JSON responses.
 
 INSTALLATION
 ============
@@ -49,11 +45,12 @@ your dependencies in the package.json file, you can use the like so:
         console.dir(data);
     });
 
-If you need to supply your own config, you do so like this:
+If you need to supply your own config or want JSON, you do so like this:
 
-    var	api, artists;
+    var api, artists;
 
     api = require('7digital-api').with({
+        format: 'JSON',
         oauthkey: 'MY_KEY_HERE',
         oauthsecret: 'MY_SECRET_HERE',
     });
