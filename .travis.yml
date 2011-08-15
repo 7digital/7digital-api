@@ -1,2 +1,4 @@
-before_script: "npm install --dev"
+before_script: 
+	- "npm install --dev"
+	- "git submodule update --init --recursive"
 script: "npm test"
