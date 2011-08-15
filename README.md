@@ -45,12 +45,12 @@ your dependencies in the package.json file, you can use the like so:
         console.dir(data);
     });
 
-If you need to supply your own config or want JSON, you do so like this:
+If you need to supply your own config or want XML, you do so like this:
 
     var api, artists;
 
     api = require('7digital-api').configure({
-        format: 'JSON',
+        format: 'XML',
         oauthkey: 'MY_KEY_HERE',
         oauthsecret: 'MY_SECRET_HERE',
     });
@@ -65,19 +65,8 @@ WHAT DOES THIS SUPPORT?
 =======================
 
 The 7digital wrapper currently only supports the portions of the API which
-do not require OAUTH authentication.
+do not require OAUTH authentication. I.E. The catalogue API
 
 To run the tests:
 
-    cd spec && node specs.js
-
-To run the json proxy and API explorer:
-
-    node server.js
-    curl http://localhost:3000/artist/details?artistid=1
-    
-Please note, This has only really been tested with recent versions of node (>=0.3.1).
-If you have problems with older versions of node, please try upgrading.  You may want
-to try [n](https://github.com/visionmedia/n) if you want to manage multiple versions
-of node.
-
+    node test
