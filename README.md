@@ -73,4 +73,4 @@ do not require OAUTH authentication. I.E. The catalogue API
 
 To run the tests:
 
-    node test
+    npm test
