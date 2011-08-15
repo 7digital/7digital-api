@@ -30,7 +30,6 @@ describe('API.build', function() {
 	
 	it('should create an API constructor for each resource', function() {
 		expect(api.Test).toBeDefined();
-		expect(api.Test).toHavePrototypeOf(APIBase);
 	});
 	
 	it('should supply oauth key and secret when provided', function() {
