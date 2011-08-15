@@ -1,5 +1,5 @@
 require('../../helpers/Matchers.js');
-var api = require('../../../main');
+var api = require('../../../index');
 const API_TIMEOUT_MS = 5000;
 
 describe('Releases Integration Tests', function() {

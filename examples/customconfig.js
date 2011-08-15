@@ -8,7 +8,7 @@ config = {
 	//format: 'xml' //uncomment to receive responses in XML
 };
 
-api = require('../main').configure(config);
+api = require('../index').configure(config);
 artists = new api.Artists();
 
 artists.getReleases({ artistid: 1 }, function(err, data) {

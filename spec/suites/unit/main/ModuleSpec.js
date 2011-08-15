@@ -1,5 +1,5 @@
 require('../../../helpers/Matchers.js');
-var sevendigital = require("../../../../main");
+var sevendigital = require("../../../../index");
 
 describe('Module entry point', function() {
 
