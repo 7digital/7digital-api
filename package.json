@@ -22,7 +22,7 @@
     "node >= 0.4.1"
   ],
   "scripts": {
-    "test": "spec/specs.js"
+    "test": "jessie spec/"
   },
   "main": "main.js",
   "dependencies": {
