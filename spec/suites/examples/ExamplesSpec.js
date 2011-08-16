@@ -20,3 +20,26 @@ describe('CustomConfig example', function() {
 	});
 
 });
+
+describe('SimpleClient example', function() {
+
+	var exec = require('child_process').exec;
+
+	it('should return return some releases', function() {
+		var processReturned = false;
+		exec('node ' + __dirname + '/../../../examples/simpleclient.js',
+			function assertOutput(err, stdout, stderr) {
+				var result;
+
+				expect(err).toBeFalsy();
+				expect(stderr).toBeFalsy();
+				expect(stdout).toMatch('releases');
+				processReturned = true;
+		});
+
+		waitsFor(function () {
+			return processReturned;
+		}, "Timed out waiting for process to return", 5000);
+	});
+
+});
