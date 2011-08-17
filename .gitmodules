@@ -3,4 +3,4 @@
 	url = git://github.com/raoulmillais/node-xml2js
 [submodule "support/oauth"]
 	path = support/oauth
-	url = git://github.com/raoulmillais/node-oauth.git
+	url = git://github.com/ciaranj/node-oauth.git
