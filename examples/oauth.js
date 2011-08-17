@@ -1,94 +1,96 @@
-var OAuth = require('oauth').OAuth,
+var
+	/**
+	 * Module dependencies
+	 */
 	Step = require('step'),
 	readline = require('readline'),
-	config = require('../config').Config,
-	tokenPattern = /\<oauth_token\>([^<]*)\<\/oauth_token\>/,
-	secretPattern = /\<oauth_token_secret\>([^<]*)\<\/oauth_token_secret\>/,
-	consumerKey = config.oauthkey,
-	oAuth = new OAuth('http://api.7digital.com/1.2/oauth/requesttoken',
-		'http://api.7digital.com/1.2/oauth/accesstoken',
-		consumerKey, config.oauthsecret, '1.0', null, 'HMAC-SHA1');
+	oauthHelper = require('../lib/oauth-helper'),
+	/**
+	 * Create a readline interface for prompting the user
+	 */
+	consoleInterface = readline.createInterface(process.stdin, process.stdout),
+	/*
+	 * Consumer key and secret
+	 */
+	consumerkey = 'YOUR_KEY_HERE',
+	consumersecret = 'YOUR_SECRET_HERE';
 
-/*
- * Generating your access token after the user has authorised the request token. You
- * will use this token for signing requests to the 3-legged OAuth secured API endpoints.
- */
 Step(
 	function getRequestToken() {
-		oAuth.setClientOptions({
-			requestTokenHttpMethod: "GET",
-			accessTokenHttpMethod: "GET"
-		});
-		oAuth.getOAuthRequestToken(this);
+		/**
+		 * Get a request token using the oauth helper
+		 */
+		oauthHelper.getRequestToken({
+			oauthkey: consumerkey,
+			oauthsecret: consumersecret,
+			callbackUrl: ''
+			}, this);
 	},
-	function parseResponse(err, oauth_token, oauth_token_secret, results) {
-		var mangledResponse, requestToken, requestSecret, authoriseUrl, 
-			returnUrl, consoleInterface;
-
+	function authorise(err, requestToken, requestSecret, authoriseUrl) {
+		/**
+		 * Throw the error if there is one
+		 */
 		if (err) {
-			throw err;
+			throw new Error(err);
 		}
 
-		mangledResponse = results['<?xml version'];
+		/**
+		 * Show the authorise url
+		 */
+		console.log('Authorise here: %s', authoriseUrl);
 
-		// The OAuth endpoints on the 7digital API return XML instead of an encoded
-		// parameter response so we need to parse the token and secret from the XML
-		requestToken = tokenPattern.exec(mangledResponse)[1];
-		requestSecret  = secretPattern.exec(mangledResponse)[1];
+		/**
+		 * Remember the token and secret so we can access it after the
+		 * user presses enter
+		 */
+		 this.requestToken = requestToken;
+		 this.requestSecret = requestSecret;
 
-		console.log('Request token: %s', requestToken);
-		console.log('Request secret: %s', requestSecret);
-
-		// If you are integrating your project into a web application you may want
-		// to provide a return url so that 7digital can notify the application when
-		// the token authorisation has completed.
-		returnUrl = '';
-		authoriseUrl = 'https://account.7digital.com/' + consumerKey + '/oauth/authorise?' +
-					'oauth_token=' + requestToken + '&oauth_callback=' +
-					encodeURIComponent(returnUrl);
-
-		console.log('Authorise Token URL: %s', authoriseUrl);
-
-		// Tell the user to visit the authorise url
-		consoleInterface = readline.createInterface(process.stdin, process.stdout);
+		/**
+		 * Tell the user to visit the authorise url
+		 */
 		consoleInterface.question('Visit the link to authorise this application to' +
 									' access your 7digital account.  Press enter to' +
-									' continue',
-			function continueAfterAuthorisation() {
-				generateAccessToken(requestToken, requestSecret);
+									' continue', this);
+	},
+	function continueAfterAuthorisation() {
+		/**
+		 * Get an access token using the oauth helper using the authorised
+		 * request token and secret
+		 */
+		oauthHelper.getAccessToken({
+				oauthkey: consumerkey,
+				oauthsecret: consumersecret,
+				requesttoken: this.requestToken,
+				requestsecret: this.requestSecret
+			}, this);
+	},
+	function logTheAccessToken(err, accesstoken, accesssecret) {
+		/**
+		 * Log any error
+		 */
+		if (err) {
+			console.log(err);
+			/**
+			 * Close the readline interface properly so that the process
+			 * ends cleanly otherwise it will hang.
+			 */
+			consoleInterface.close();
+			process.stdin.destroy();
+			return;
+		}
 
-				// All done
-				consoleInterface.close();
-				process.stdin.destroy();
-			});
+		/**
+		 * Write the token and secret out to the commandline
+		 */
+		console.log('Access Token: %s', accesstoken);
+		console.log('Access Secret: %s', accesssecret);
+
+		/**
+		 * Close the readline interface properly so that the process
+		 * ends cleanly otherwise it will hang.
+		 */
+		consoleInterface.close();
+		process.stdin.destroy();
 	}
 );
-
-/*
- * Generating your access token after the user has authorised the request token. You
- * must use this token for signing requests to the 3-legged OAuth secured API endpoints.
- */
-function generateAccessToken(requestToken, requestSecret) {
-	Step(
-		function getAccessToken() {
-			oAuth.getOAuthAccessToken(requestToken, requestSecret, this);
-		},
-		function parseResponse(err, oauth_access_token, oauth_access_token_secret, results) {
-			var mangledResponse, accessToken, accessSecret;
-
-			if (err) {
-				throw new Error(err);
-			}
-
-			mangledResponse = results['<?xml version'];
-
-			// The OAuth endpoints on the 7digital API return XML instead of an encoded
-			// parameter response so we need to parse the token and secret from the XML
-			accessToken = /\<oauth_token\>([^<]*)\<\/oauth_token\>/.exec(mangledResponse)[1];
-			accessSecret  = /\<oauth_token_secret\>([^<]*)\<\/oauth_token_secret\>/.exec(mangledResponse)[1];
-
-			console.log('Access Token: %s', accessToken);
-			console.log('Access Secret: %s', accessSecret);
-		}
-	);
-}

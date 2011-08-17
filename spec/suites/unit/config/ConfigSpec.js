@@ -6,7 +6,7 @@ describe('config', function() {
 	});	
 
 	it('should have an empty oauthsecret', function() {
-		expect(config.oauthsecret).toEqual('');
+		expect(config.oauthsecret).toEqual('YOUR_SECRET_HERE');
 	});
 
 	it('should have the path to the schema json', function() {

@@ -18,7 +18,7 @@ exports.Config = {
 	*
 	* @type string
 	*/
-	oauthsecret: '',
+	oauthsecret: 'YOUR_SECRET_HERE',
 	/**
 	* Enables verbose logging to the console of all api requests and responses when set to true
 	*
