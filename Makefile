@@ -7,8 +7,7 @@ check: docs
 	readyjs readyjs.conf.js
 
 docs:
-	docco lib/*.js
-	docco examples/oauth.js
+	docco {lib,examples}/*.js
 
 .PHONY: test check docs
 
