@@ -1,3 +1,5 @@
+var path = require('path');
+
 exports.Config = {
 	/**
 	* Path to the json file defining the remote api actions and their mappings
@@ -5,7 +7,7 @@ exports.Config = {
 	*
 	* @type string
 	*/
-	schemapath: 'lib/api.json',
+	schemapath: path.join(__dirname, 'lib/api.json'),
 	/**
 	* Your API consumer key for accessing oauth secured endpoints
 	* see http://api.7digital.com/1.2/static/documentation/7digitalpublicapi.html#Introduction

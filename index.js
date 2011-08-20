@@ -1,8 +1,6 @@
 var config = require('./config').Config,
 	prop;
 
-config.schemapath = __dirname + '/' + config.schemapath;
-
 module.exports = require('./lib/api').Api.buildFromFile(config);
 
 module.exports.configure = function(options) {
