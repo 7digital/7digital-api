@@ -1,11 +1,11 @@
-var	config,
+var config,
 	api,
 	artists;
 
 config = {
 	oauthkey: 'YOUR_KEY_HERE',
-	oauthsecret: '',
-	//format: 'xml' //uncomment to receive responses in XML
+	oauthsecret: 'YOUR_SECRET_HERE',
+	format: 'json'
 };
 
 api = require('../index').configure(config);
