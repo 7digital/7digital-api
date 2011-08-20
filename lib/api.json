@@ -1,7 +1,7 @@
 {
 	"host": "api.7digital.com",
 	"version": "1.2",
-	"resources": 
+	"resources":
 		{
 		"Releases":
 			{
@@ -34,10 +34,10 @@
 						{ "apiCall": "bytag/top", "methodName": "getTopByTags"}
 					]
 			},
-		"Tracks": 
+		"Tracks":
 			{
 				"resource": "track",
-				"actions": 
+				"actions":
 					[ 
 						{ "apiCall": "chart", "methodName": "getChart" },
 						{ "apiCall": "details", "methodName": "getDetails" },
@@ -45,7 +45,7 @@
 						{ "apiCall": "search", "methodName": "search" }
 					]
 			},
-		"Tags": 
+		"Tags":
 			{
 				"resource": "tag",
 				"actions": 
@@ -53,16 +53,16 @@
 						{ "apiCall": "", "methodName": "all" }
 					]
 			},
-		"Basket": 
+		"Basket":
 			{
 				"resource": "basket",
-				"actions": 		
+				"actions":
 				[
-					{ "apiCall": "", "methodName": "get" }, 
-					{ "apiCall": "addItem", "methodName": "addItem" }, 
-					{ "apiCall": "removeItem", "methodName": "removeItem" }, 
+					{ "apiCall": "", "methodName": "get" },
+					{ "apiCall": "addItem", "methodName": "addItem" },
+					{ "apiCall": "removeItem", "methodName": "removeItem" },
 					{ "apiCall": "create", "methodName": "create" }
-				]	
+				]
 			}
 		}
 }
