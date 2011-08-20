@@ -1,5 +1,5 @@
 require('../../../helpers/Matchers.js');
-var api = require('../../../../lib/api').Api.buildFromFile(__dirname + '/../../../../lib/api.json');
+var api = require('../../../../index');
 
 describe("Releases actions", function() {
 

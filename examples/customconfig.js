@@ -3,8 +3,8 @@ var config,
 	artists;
 
 config = {
-	oauthkey: 'YOUR_KEY_HERE',
-	oauthsecret: 'YOUR_SECRET_HERE',
+	consumerkey: 'YOUR_KEY_HERE',
+	consumersecret: 'YOUR_SECRET_HERE',
 	format: 'json'
 };
 

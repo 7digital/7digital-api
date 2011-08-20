@@ -21,7 +21,7 @@ describe('API.getActionMethodName', function() {
 		}, api, testApi;
 		
 	beforeEach(function() {
-		api = Api.build(schema),
+		api = Api.build({ schema: schema }),
 		testApi = new api.Test();
 	});
 	

@@ -12,13 +12,13 @@ exports.Config = {
 	*
 	* @type string
 	*/
-	oauthkey: 'YOUR_KEY_HERE',
+	consumerkey: 'YOUR_KEY_HERE',
 	/**
 	* Your oauth consumer secret for signing oauth secured request urls.
 	*
 	* @type string
 	*/
-	oauthsecret: 'YOUR_SECRET_HERE',
+	consumersecret: 'YOUR_SECRET_HERE',
 	/**
 	* Enables verbose logging to the console of all api requests and responses when set to true
 	*

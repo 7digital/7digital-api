@@ -1,4 +1,5 @@
-var api = require('../../../../lib/api').Api.buildFromFile(__dirname + '/../../../../lib/api.json');
+var api = require('../../../../index');
+
 require('../../../helpers/Matchers.js');
 
 describe("Artists actions", function() {

@@ -1,10 +1,9 @@
- var config = require('./config').Config,
-	api = require('./lib/api').Api.buildFromFile(__dirname + '/' + config.schemapath, 
-				config.oauthkey, config.oauthsecret, 'json', config.logger),
+var config = require('./config').Config,
 	prop;
 
+config.schemapath = __dirname + '/' + config.schemapath;
 
-module.exports = api;
+module.exports = require('./lib/api').Api.buildFromFile(config);
 
 module.exports.configure = function(options) {
 	var prop;
@@ -19,6 +18,5 @@ module.exports.configure = function(options) {
 		}
 	}
 	
-	return require('./lib/api').Api.buildFromFile(__dirname + '/' + options.schemapath, 
-				options.oauthkey, options.oauthsecret, options.format, options.logger);
+	return require('./lib/api').Api.buildFromFile(options);
 };

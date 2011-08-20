@@ -20,7 +20,7 @@ describe('API.build', function() {
 		}, api, testApi;
 		
 	beforeEach(function() {
-		api = Api.build(schema),
+		api = Api.build({ schema: schema }),
 		testApi = new api.Test();
 	});
 	
@@ -33,11 +33,14 @@ describe('API.build', function() {
 	});
 	
 	it('should supply oauth key and secret when provided', function() {
-		// This is a bit smelly, we're essentially setting up the API
-		// twice which suggests we need a new fixture really.
-		api = Api.build(schema, 'testkey', 'testsecret');
-		testApi = new api.Test(); 
-		
+		api = Api.build({
+			schema: schema, 
+			consumerkey: 'testkey', 
+			consumersecret: 'testsecret'
+		});
+
+		testApi = new api.Test();
+
 		expect(testApi.oauth_consumer_key).toEqual('testkey');
 		expect(testApi.oauth_consumer_secret).toEqual('testsecret');
 	});
