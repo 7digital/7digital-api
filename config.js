@@ -15,7 +15,8 @@ exports.Config = {
 	// 
 	// @type string
 	consumersecret: 'YOUR_SECRET_HERE',
-	// Enables verbose logging to the console of all api requests and responses when set to true
+	// Enables verbose logging to the console of all api requests and responses
+	// when set to true.
 	// 
 	// @type boolean
 	debug: true,
@@ -24,8 +25,9 @@ exports.Config = {
 	// 
 	// @type string
 	format: 'json',
-	// A logger object for outputting messages. This should be an obect, which has function
-	// properties for each of the npm loglevels. Winston provides a default implementation.
+	// A logger object for outputting messages. This should be an obect, which
+	// has function properties for each of the npm loglevels. Winston provides
+	// a default implementation.
 	// 
 	// @type {Winston.Logger} or any object which defines methods for each of
 	// the npm loglevels.
