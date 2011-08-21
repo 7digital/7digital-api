@@ -1,6 +1,6 @@
-require('../../../helpers/Matchers.js');
+var Api = require('../lib/api').Api;
 
-var Api = require('../../../../lib/api').Api;
+require('./Matchers.js');
 
 describe('API.build', function() {
 	var schema = {

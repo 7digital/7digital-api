@@ -1,6 +1,6 @@
-var api = require('../../../../index');
+var api = require('../index');
 
-require('../../../helpers/Matchers.js');
+require('./Matchers.js');
 
 describe("Artists actions", function() {
 

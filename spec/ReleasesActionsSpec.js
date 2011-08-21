@@ -1,5 +1,6 @@
-require('../../../helpers/Matchers.js');
-var api = require('../../../../index');
+var api = require('../index');
+
+require('./Matchers.js');
 
 describe("Releases actions", function() {
 

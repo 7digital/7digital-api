@@ -1,6 +1,7 @@
-require('../../helpers/Matchers.js');
-var api = require('../../../index');
-const API_TIMEOUT_MS = 5000;
+var api = require('../index'),
+	API_TIMEOUT_MS = 5000;
+
+require('./Matchers.js');
 
 describe('Basket Integration Tests', function() {
 	var basket;

@@ -1,6 +1,7 @@
-require('../../helpers/Matchers.js');
-var api = require('../../../index');
-const API_TIMEOUT_MS = 5000;
+var api = require('../index'),
+	API_TIMEOUT_MS = 5000;
+
+require('./Matchers.js');
 
 describe('Releases Integration Tests', function() {
 	var releases;
@@ -15,7 +16,7 @@ describe('Releases Integration Tests', function() {
 	});
 	
 	it("should return release from getDetails", function() {
-    pending()
+		pending()
 		var errorData,
 			successData;
 			
@@ -32,11 +33,12 @@ describe('Releases Integration Tests', function() {
 			expect(errorData).toBeFalsy();
 			expect(successData).not.toBeFalsy();
 			expect(successData).toHaveOkStatus();
-		});		
+		});
 	});
 	
-	it("should return return an error from getDetails when given no releaseId", function() {
-    pending()
+	it("should return return an error from getDetails when given no releaseId",
+		function() {
+		pending()
 		var errorData,
 			successData;
 			
@@ -52,7 +54,7 @@ describe('Releases Integration Tests', function() {
 		runs(function() {
 			expect(successData).toBeFalsy();
 			expect(errorData).not.toBeFalsy();
-		});		
+		});
 	});
 
 });

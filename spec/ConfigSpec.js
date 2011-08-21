@@ -1,5 +1,5 @@
 describe('config', function() {
-	var config = require('../../../../config').Config
+	var config = require('../config').Config
 
 	it('should have the default consumer key', function() {
 		expect(config.consumerkey).toEqual('YOUR_KEY_HERE');
@@ -16,8 +16,8 @@ describe('config', function() {
 	it('should have debug', function() {
 		expect(config.debug).toEqual(true);
 	});
-  
-  it('should have the response format set to JSON by default', function() {
-    expect(config.format).toEqual('json');
-  });
+
+	it('should have the response format set to JSON by default', function() {
+		expect(config.format).toEqual('json');
+	});
 });
