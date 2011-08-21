@@ -1,18 +1,13 @@
 var api = require('../index'),
 	API_TIMEOUT_MS = 5000;
 
-require('./Matchers.js');
+require('./custom-matchers.js');
 
 describe('Releases Integration Tests', function() {
 	var releases;
 
 	beforeEach(function() {
 		releases = new api.Releases();
-		this.addMatchers({
-			toHaveOkStatus: function() {
-				return this.actual['@'].status === 'ok';
-			}
-		});
 	});
 	
 	it("should return release from getDetails", function() {

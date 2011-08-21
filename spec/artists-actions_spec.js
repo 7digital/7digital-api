@@ -1,6 +1,6 @@
 var api = require('../index');
 
-require('./Matchers.js');
+require('./custom-matchers.js');
 
 describe("Artists actions", function() {
 

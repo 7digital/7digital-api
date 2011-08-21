@@ -1,6 +1,6 @@
 var Api = require('../lib/api').Api;
 
-require('./Matchers.js');
+require('./custom-matchers.js');
 
 describe('url translation', function() {
 	var schema = {

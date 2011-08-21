@@ -1,18 +1,13 @@
 var api = require('../index'),
 	API_TIMEOUT_MS = 5000;
 
-require('./Matchers.js');
+require('./custom-matchers.js');
 
 describe('Basket Integration Tests', function() {
 	var basket;
 
 	beforeEach(function() {
 		basket = new api.Basket();
-		this.addMatchers({
-			toHaveOkStatus: function() {
-				return this.actual['@'].status === 'ok';
-			}
-		});
 	});
 	
 	it("should return new basket from get after creating one", function() {

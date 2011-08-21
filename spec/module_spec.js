@@ -1,6 +1,6 @@
 var sevendigital = require("../index");
 
-require('./Matchers.js');
+require('./custom-matchers.js');
 
 describe('Module entry point', function() {
 
