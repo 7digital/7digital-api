@@ -22,7 +22,7 @@
     "node >= 0.4.1"
   ],
   "scripts": {
-    "test": "jessie spec/"
+    "test": "jessie -f nested spec/"
   },
   "main": "index.js",
   "dependencies": {
