@@ -41,8 +41,8 @@ describe('API.build', function() {
 
 		testApi = new api.Test();
 
-		expect(testApi.oauth_consumer_key).toEqual('testkey');
-		expect(testApi.oauth_consumer_secret).toEqual('testsecret');
+		expect(testApi.consumerkey).toEqual('testkey');
+		expect(testApi.consumersecret).toEqual('testsecret');
 	});
 	
 	it('should supply the API with host, version and resource name', function() {
