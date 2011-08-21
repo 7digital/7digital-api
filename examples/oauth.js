@@ -1,6 +1,6 @@
 // Module dependencies
 var
-	Step = require('step'),
+	step = require('step'),
 	readline = require('readline'),
 	oauthHelper = require('../lib/oauth-helper'),
 	// Create a readline interface for prompting the user
@@ -9,14 +9,14 @@ var
 	consumerkey = 'YOUR_KEY_HERE',
 	consumersecret = 'YOUR_SECRET_HERE';
 
-Step(
+step(
 	function getRequestToken() {
 		// Get a request token using the oauth helper
 		oauthHelper.getRequestToken({
 			oauthkey: consumerkey,
 			oauthsecret: consumersecret,
 			callbackUrl: ''
-			}, this);
+		}, this);
 	},
 	function authorise(err, requestToken, requestSecret, authoriseUrl) {
 		// Throw the error if there is one
@@ -25,17 +25,17 @@ Step(
 		}
 
 		// Show the authorise url
-		console.log('Authorise here: %s', authoriseUrl);
+		console.info('Authorise here: %s', authoriseUrl);
 
 		// Remember the token and secret so we can access it after the
 		// user presses enter
-		 this.requestToken = requestToken;
-		 this.requestSecret = requestSecret;
+		this.requestToken = requestToken;
+		this.requestSecret = requestSecret;
 
 		// Tell the user to visit the authorise url
-		consoleInterface.question('Visit the link to authorise this application to' +
-									' access your 7digital account.  Press enter to' +
-									' continue', this);
+		consoleInterface.question('Visit the link to authorise this' +
+									' application to access your 7digital' +
+									'account.  Press enter to continue', this);
 	},
 	function continueAfterAuthorisation() {
 		// Get an access token using the oauth helper using the authorised
@@ -50,7 +50,7 @@ Step(
 	function logTheAccessToken(err, accesstoken, accesssecret) {
 		// Log any error
 		if (err) {
-			console.log(err);
+			console.error(err);
 			// Close the readline interface properly so that the process
 			// ends cleanly otherwise it will hang.
 			consoleInterface.close();
@@ -59,8 +59,8 @@ Step(
 		}
 
 		// Write the token and secret out to the commandline
-		console.log('Access Token: %s', accesstoken);
-		console.log('Access Secret: %s', accesssecret);
+		console.info('Access Token: %s', accesstoken);
+		console.info('Access Secret: %s', accesssecret);
 
 		// Close the readline interface properly so that the process
 		// ends cleanly otherwise it will hang.

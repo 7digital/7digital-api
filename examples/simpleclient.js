@@ -1,6 +1,6 @@
-var	api = require('../index'),
+var api = require('../index'),
 	artists = new api.Artists();
-	
-artists.getReleases({ artistid: 1 }, function(err, data) {
+
+artists.getReleases({ artistid: 1 }, function (err, data) {
 	console.dir(data);
-});	
+});

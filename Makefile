@@ -4,7 +4,7 @@ test: check
 	jessie spec/
 
 check: docs
-	readyjs readyjs.conf.js
+	jshint lib/*.js examples/*.js
 
 docs:
 	docco {lib,examples}/*.js

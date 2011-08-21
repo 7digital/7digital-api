@@ -1,0 +1,111 @@
+{
+	// *Settings*
+	// Stop on first error
+	"passfail"      : false,
+	// Maximum error before stopping.
+	"maxerr"        : 100,
+
+
+	// *Predefined globals whom JSHint will ignore.*
+	// Standard browser globals e.g. `window`, `document`.
+	"browser"       : false,
+	"node"          : true,
+	"rhino"         : false,
+	"couch"         : false,
+	// Windows Scripting Host.
+	"wsh"           : false,
+	"jquery"        : false,
+	"prototypejs"   : false,
+	"mootools"      : false,
+	"dojo"          : false,
+
+	"predef"        : [  // Custom globals.
+		//"exampleVar",
+		//"anotherCoolGlobal",
+		//"iLoveDouglas"
+		],
+
+
+	// *Development.*
+	// Allow debugger statements e.g. browser breakpoints.
+	"debug"         : false,
+	// Allow developments statements e.g. `console.log();`.
+	"devel"         : true,
+
+
+	// *EcmaScript 5*
+	// Allow EcmaScript 5 syntax.
+	"es5"           : true,
+	// Require `use strict` pragma  in every file.
+	"strict"        : false,
+	// Allow global "use strict" (also enables 'strict').
+	"globalstrict"  : false,
+
+
+	// *The Good Parts*
+	// Tolerate Automatic Semicolon Insertion (no semicolons).
+	"asi"           : false,
+	// Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
+	"laxbreak"      : false,
+	// Prohibit bitwise operators (&, |, ^, etc.).
+	"bitwise"       : true,
+	// Tolerate assignments inside if, for & while. Usually conditions & loops
+	// are for comparison, not assignments.
+	"boss"          : false,
+	// Require {} for every new block or scope.
+	"curly"         : true,
+	// Require triple equals i.e. `===`.
+	"eqeqeq"        : true,
+	// Tolerate use of `== null`.
+	"eqnull"        : false,
+	// Tolerate use of `eval`.
+	"evil"          : false,
+	// Tolerate `ExpressionStatement` as Programs.
+	"expr"          : false,  
+	// Tolerate `for in` loops without `hasOwnPrototype`.
+	"forin"         : false,
+	// Require immediate invocations to be wrapped in parens e.g. 
+	//     `( function(){}() );`
+	"immed"         : true,
+	// Prohipit variable use before definition.
+	"latedef"       : true,
+	// Allow functions to be defined within loops.
+	"loopfunc"      : false,
+	// Prohibit use of `arguments.caller` and `arguments.callee`.
+	"noarg"         : true,
+	// Prohibit `.` and `[^...]` in regular expressions.
+	"regexp"        : false,
+	// Tolerate unescaped last dash i.e. `[-...]`.
+	"regexdash"     : false,
+	// Tolerate script-targeted URLs.
+	"scripturl"     : true, 
+	// Allows re-define variables later in code e.g. `var x=1; x=2;`.
+	"shadow"        : false,
+	// Tolerate `new function () { ... };` and `new Object;`.
+	"supernew"      : false,
+	// Require all non-global variables be declared before they are used.
+	"undef"         : true,
+
+
+	// *Personal styling prefrences*
+	// Require capitalization of all constructor functions e.g. `new F()`.
+	"newcap"        : true,
+	// Prohipit use of empty blocks.
+	"noempty"       : true,
+	// Prohibit use of constructors for side-effects.
+	"nonew"         : true,
+	// Prohibit use of initial or trailing underbars in names.
+	"nomen"         : true,
+	// Allow only one `var` statement per function.
+	"onevar"        : true,
+	// Prohibit use of `++` & `--`.
+	"plusplus"      : false,
+	// Tolerate all forms of subscript notation besides dot notation e.g. 
+	// `dict['key']` instead of `dict.key`.
+	"sub"           : false,
+	// Prohibit trailing whitespaces.
+	"trailing"      : true,
+	// Check against strict whitespace and indentation rules.
+	"white"         : true
+}
+
