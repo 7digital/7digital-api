@@ -12,7 +12,7 @@ describe("Artists actions", function() {
 	
 	it("should generate a browse method for the browse action", function() {
 		expect(artists.browse).toBeDefined();
-    expect(artists.browse).toBeDefined();
+		expect(artists.browse).toBeDefined();
 	});
 		
 	it("should generate a getChart method for the chart action", function() {

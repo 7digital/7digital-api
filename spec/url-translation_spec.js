@@ -2,7 +2,7 @@ var Api = require('../lib/api').Api;
 
 require('./Matchers.js');
 
-describe('API.getActionMethodName', function() {
+describe('url translation', function() {
 	var schema = {
 		"host": "api.example.com",
 		"version": "1.0",
