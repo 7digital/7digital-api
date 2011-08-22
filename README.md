@@ -65,6 +65,9 @@ If you need to supply your own config or want XML, you do so like this:
 	    console.dir(data);
     });	
 
+	See [developer.7digital.net](http://developer.7digital.net/) for full details of the API
+	endpoints and the parameters they accept.
+
 WHAT DOES THIS SUPPORT?
 =======================
 
