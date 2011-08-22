@@ -19,7 +19,13 @@ describe('API.build', function() {
 		}, api, testApi;
 		
 	beforeEach(function() {
-		api = Api.build({ schema: schema }),
+		api = Api.build({
+			schema: schema,
+			consumerkey: 'YOUR_KEY_HERE',
+			consumersecret: 'YOUR_SECRET_HERE',
+			format: 'json',
+			logger: require('../lib/logger')
+		}),
 		testApi = new api.Test();
 	});
 	
@@ -33,9 +39,11 @@ describe('API.build', function() {
 	
 	it('should supply oauth key and secret when provided', function() {
 		api = Api.build({
-			schema: schema, 
-			consumerkey: 'testkey', 
-			consumersecret: 'testsecret'
+			schema: schema,
+			consumerkey: 'testkey',
+			consumersecret: 'testsecret',
+			format: 'json',
+			logger: require('../lib/logger')
 		});
 
 		testApi = new api.Test();
@@ -45,9 +53,8 @@ describe('API.build', function() {
 	});
 	
 	it('should supply the API with host, version and resource name', function() {
-		expect(testApi.host).toEqual('api.example.com');
-		expect(testApi.version).toEqual('1.0');
-		expect(testApi.version).toEqual('1.0');
+		expect(testApi.request.host).toEqual('api.example.com');
+		expect(testApi.request.version).toEqual('1.0');
 	});
 	
 	it('should create a method for each action', function() {

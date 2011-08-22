@@ -20,7 +20,11 @@ describe('url translation', function() {
 		}, api, testApi;
 
 	beforeEach(function() {
-		api = Api.build({ schema: schema }),
+		api = Api.build({
+			schema: schema,
+			format: 'json',
+			logger: require('../lib/logger')
+		}),
 		testApi = new api.Test();
 	});
 
