@@ -1,0 +1,152 @@
+<!DOCTYPE html>  <html> <head>   <title>apibase.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="apibase.html">                 apibase.js               </a>                                           <a class="source" href="dateutils.html">                 dateutils.js               </a>                                           <a class="source" href="fnutils.html">                 fnutils.js               </a>                                           <a class="source" href="logger.html">                 logger.js               </a>                                           <a class="source" href="oauth-helper.html">                 oauth-helper.js               </a>                                           <a class="source" href="stringutils.html">                 stringutils.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               apibase.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">),</span>
+	<span class="nx">querystring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;querystring&#39;</span><span class="p">),</span>
+	<span class="nx">sys</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sys&#39;</span><span class="p">),</span>
+	<span class="nx">xml2js</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../vendor/node-xml2js/lib/xml2js&#39;</span><span class="p">),</span>
+	<span class="nx">FnUtils</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./fnutils&#39;</span><span class="p">).</span><span class="nx">FnUtils</span><span class="p">,</span>
+	<span class="nx">DateUtils</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./dateutils&#39;</span><span class="p">).</span><span class="nx">DateUtils</span><span class="p">,</span>
+	<span class="nx">StringUtils</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./stringutils&#39;</span><span class="p">).</span><span class="nx">StringUtils</span><span class="p">,</span>
+	<span class="nx">config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;../config&quot;</span><span class="p">).</span><span class="nx">Config</span><span class="p">,</span>
+	<span class="nx">USER_AGENT</span> <span class="o">=</span> <span class="s1">&#39;Node.js HTTP Client&#39;</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>APIBase</p>
+
+<p>Creates a new RESTful API base class for accessing a resource at the given 
+host with optional predefined oauth credentials.</p>
+
+<ul>
+<li>@constructor</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">APIBase</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">host</span><span class="p">,</span> <span class="nx">version</span><span class="p">,</span> <span class="nx">oauthkey</span> <span class="cm">/* optional */</span><span class="p">,</span> <span class="nx">oauthsecret</span> <span class="cm">/* optional */</span><span class="p">,</span>
+						<span class="nx">logger</span> <span class="cm">/* optional */</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">host</span> <span class="o">=</span> <span class="nx">host</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">version</span> <span class="o">=</span> <span class="nx">version</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span> <span class="o">=</span> <span class="nx">logger</span><span class="p">;</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="nx">oauthkey</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">oauth_consumer_key</span> <span class="o">=</span> <span class="nx">oauthkey</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="nx">oauthsecret</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">oauth_consumer_secret</span> <span class="o">=</span> <span class="nx">oauthsecret</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Callback for parsing the XML response return from the API
+and converting it to JSON and handing control back to the
+caller.</p>
+
+<ul>
+<li>@param {Function} callback - the caller's callback</li>
+<li>@param {String} response - the XML response from the API</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">APIBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">parseResponse</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">xml2js</span><span class="p">.</span><span class="nx">Parser</span><span class="p">(),</span>
+		<span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
+	<span class="nx">parser</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">format</span> <span class="o">===</span> <span class="s1">&#39;json&#39;</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>removing the xml namespaces manually</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">delete</span> <span class="nx">result</span><span class="p">.</span><span class="nx">status</span><span class="p">;</span>
+      <span class="k">delete</span> <span class="nx">result</span><span class="p">.</span><span class="nx">version</span><span class="p">;</span>
+      <span class="k">delete</span> <span class="nx">result</span><span class="p">[</span><span class="s1">&#39;xmlns:xsi&#39;</span><span class="p">];</span>
+      <span class="k">delete</span> <span class="nx">result</span><span class="p">[</span><span class="s1">&#39;xsi:noNamespaceSchemaLocation&#39;</span><span class="p">];</span>
+
+			<span class="nx">response</span><span class="p">.</span><span class="nx">json</span> <span class="o">=</span> <span class="nx">result</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">callback</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="k">else</span> <span class="p">{</span>
+				<span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">xml</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">});</span>
+
+	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;parsing raw response&#39;</span><span class="p">);</span>
+	<span class="nx">parser</span><span class="p">.</span><span class="nx">parseString</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">xml</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Dispatches GET requests to the API.  Serializes the data into a
+querystring including date serialisation in keeping with the API
+specification for the caller and applies approriate HTTP headers.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">APIBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">doGetRequest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">action</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">requestUrl</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">version</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">resourceUrlSlug</span><span class="p">,</span>
+		<span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">requestUrl</span> <span class="o">+=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nx">action</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="nx">data</span> <span class="o">=</span> <span class="nx">data</span> <span class="o">||</span> <span class="p">{};</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">prop</span> <span class="k">in</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">prop</span><span class="p">))</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nx">DateUtils</span><span class="p">.</span><span class="nx">isDate</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="nx">prop</span><span class="p">]))</span> <span class="p">{</span>
+				<span class="nx">data</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">DateUtils</span><span class="p">.</span><span class="nx">toYYYYMMDD</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="nx">prop</span><span class="p">]);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Default the oauth credentials if not supplied and we have them</p>             </td>             <td class="code">               <div class="highlight"><pre>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">.</span><span class="nx">oauth_consumer_key</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">oauth_consumer_key</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">data</span><span class="p">.</span><span class="nx">oauth_consumer_key</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">oauth_consumer_key</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">.</span><span class="nx">oauth_consumer_secret</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">oauth_consumer_secret</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">data</span><span class="p">.</span><span class="nx">oauth_consumer_secret</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">oauth_consumer_secret</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">format</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">format</span><span class="p">};</span>
+
+	<span class="kd">var</span> <span class="nx">qs</span> <span class="o">=</span> <span class="nx">querystring</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+	<span class="nx">requestUrl</span> <span class="o">+=</span> <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="nx">qs</span><span class="p">;</span>
+
+	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;GET: &#39;</span> <span class="o">+</span> <span class="nx">requestUrl</span><span class="p">);</span>
+	<span class="kd">var</span> <span class="nx">host</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span>
+		<span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="s1">&#39;host&#39;</span><span class="o">:</span> <span class="nx">host</span><span class="p">,</span>
+			<span class="s1">&#39;User-Agent&#39;</span> <span class="o">:</span> <span class="nx">USER_AGENT</span>
+		<span class="p">},</span>
+		<span class="nx">httpClient</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="nx">host</span><span class="p">),</span>
+		<span class="nx">apiRequest</span> <span class="o">=</span> <span class="nx">httpClient</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nx">requestUrl</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
+	
+	<span class="nx">apiRequest</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">handleResponse</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">responseBody</span> <span class="o">=</span> <span class="p">{</span>
+				<span class="nx">xml</span><span class="o">:</span> <span class="s2">&quot;&quot;</span>
+		<span class="p">};</span>
+
+		<span class="nx">response</span><span class="p">.</span><span class="nx">setEncoding</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">);</span>
+
+		<span class="nx">response</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">bufferData</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">responseBody</span><span class="p">.</span><span class="nx">xml</span> <span class="o">+=</span> <span class="nx">chunk</span><span class="p">;</span>
+		<span class="p">});</span>
+
+		<span class="nx">response</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">endResponse</span><span class="p">()</span> <span class="p">{</span>
+			<span class="nx">FnUtils</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">));</span>
+		<span class="p">});</span>
+	<span class="p">});</span>
+
+	<span class="nx">apiRequest</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">logError</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">self</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Error fetching [&#39;</span> <span class="o">+</span> <span class="nx">url</span> <span class="o">+</span> <span class="s1">&#39;]. Body:\n&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">);</span>
+	<span class="p">});</span>
+
+	<span class="nx">apiRequest</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Utility method for creating the necessary methods on the 
+resource class for calling through to the API.</p>
+
+<ul>
+<li>@param {Mixed} apiCallDefinition - Either a string if the 
+action method name is the same as the action path component
+on the underlying API call or a hash if they differ.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">APIBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">buildApiCall</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">apiCallDefinition</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">fnName</span><span class="p">;</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">apiCallDefinition</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">fnName</span> <span class="o">=</span> <span class="s1">&#39;get&#39;</span> <span class="o">+</span> <span class="nx">StringUtils</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">apiCallDefinition</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">fnName</span> <span class="o">=</span> <span class="nx">apiCallDefinition</span><span class="p">.</span><span class="nx">methodName</span><span class="p">;</span>
+		<span class="nx">apiCallDefinition</span> <span class="o">=</span> <span class="nx">apiCallDefinition</span><span class="p">.</span><span class="nx">apiCall</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">this</span><span class="p">.</span><span class="nx">prototype</span><span class="p">[</span><span class="nx">fnName</span><span class="p">]</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+	
+		<span class="k">this</span><span class="p">.</span><span class="nx">doGetRequest</span><span class="p">(</span><span class="nx">apiCallDefinition</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span>
+                      <span class="nx">FnUtils</span><span class="p">.</span><span class="nx">curry</span><span class="p">(</span><span class="nx">FnUtils</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">parseResponse</span><span class="p">),</span>
+                                    <span class="nx">callback</span><span class="p">));</span>
+	<span class="p">};</span>
+<span class="p">};</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">APIBase</span> <span class="o">=</span> <span class="nx">APIBase</span><span class="p">;</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

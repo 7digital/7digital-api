@@ -1,0 +1,35 @@
+<!DOCTYPE html>  <html> <head>   <title>dateutils.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="apibase.html">                 apibase.js               </a>                                           <a class="source" href="dateutils.html">                 dateutils.js               </a>                                           <a class="source" href="fnutils.html">                 fnutils.js               </a>                                           <a class="source" href="logger.html">                 logger.js               </a>                                           <a class="source" href="oauth-helper.html">                 oauth-helper.js               </a>                                           <a class="source" href="stringutils.html">                 stringutils.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               dateutils.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
+
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">DateUtils</span> <span class="o">=</span> <span class="p">{</span>
+
+	<span class="nx">padComponent</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">component</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">component</span> <span class="o">&lt;=</span> <span class="mi">9</span> <span class="o">?</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">component</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="o">+</span> <span class="nx">component</span><span class="p">;</span>
+	<span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Converts a date to a string in YYYYMMDD format</p>
+
+<ul>
+<li>@param {Date} theDate</li>
+<li>@return {String} the formatte date</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>	<span class="nx">toYYYYMMDD</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">theDate</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">month</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">padComponent</span><span class="p">(</span><span class="nx">theDate</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+		
+		<span class="k">return</span> <span class="nx">theDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()</span>	<span class="o">+</span> 
+				<span class="nx">month</span> <span class="o">+</span> 
+				<span class="k">this</span><span class="p">.</span><span class="nx">padComponent</span><span class="p">(</span><span class="nx">theDate</span><span class="p">.</span><span class="nx">getDate</span><span class="p">())</span> <span class="o">+</span> 
+				<span class="s1">&#39;&#39;</span><span class="p">;</span>
+	<span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Tests whether the passed argument is a date or not</p>
+
+<ul>
+<li>@param {Object} - the object to test</li>
+<li>@return {Boolean}</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>	<span class="nx">isDate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;date&#39;</span><span class="p">)</span>	<span class="o">?</span> 
+				<span class="kc">true</span> <span class="o">:</span> 
+				<span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="o">?</span> 
+					<span class="nx">obj</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">match</span><span class="p">(</span><span class="sr">/date/i</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">:</span> 
+					<span class="kc">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="p">};</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

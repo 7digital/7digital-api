@@ -1,0 +1,45 @@
+<!DOCTYPE html>  <html> <head>   <title>responseparser.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="customconfig.html">                 customconfig.js               </a>                                           <a class="source" href="oauth.html">                 oauth.js               </a>                                           <a class="source" href="simpleclient.html">                 simpleclient.js               </a>                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="apirequest.html">                 apirequest.js               </a>                                           <a class="source" href="helpers.html">                 helpers.js               </a>                                           <a class="source" href="logger.html">                 logger.js               </a>                                           <a class="source" href="oauth-helper.html">                 oauth-helper.js               </a>                                           <a class="source" href="resource.html">                 resource.js               </a>                                           <a class="source" href="responseparser.html">                 responseparser.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               responseparser.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">xml2js</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../vendor/node-xml2js/lib/xml2js&#39;</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Tidies up and optionally parses the XML API response</p>
+
+<p>The <code>options</code> argument should contain the following properties:</p>
+
+<ul>
+<li><em>format</em> - The desired response format</li>
+<li><p><em>logger</em> - An instance of {Winston.Logger} for output</p></li>
+<li><p>@param {Object} options</p></li>
+<li>@constructor</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">ResponseParser</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">format</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">logger</span><span class="p">;</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Callback for parsing the XML response return from the API
+and converting it to JSON and handing control back to the
+caller.</p>
+
+<ul>
+<li>@param {Function} callback - the caller's callback</li>
+<li>@param {String} response - the XML response from the API</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">ResponseParser</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">parse</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">callback</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">xml2js</span><span class="p">.</span><span class="nx">Parser</span><span class="p">();</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">format</span> <span class="o">===</span> <span class="s1">&#39;XML&#39;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">response</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Parsing XML response from API&#39;</span><span class="p">);</span>
+	<span class="nx">parser</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Manually remove the xml namespace bits</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="k">delete</span> <span class="nx">result</span><span class="p">[</span><span class="s1">&#39;xmlns:xsi&#39;</span><span class="p">];</span>
+		<span class="k">delete</span> <span class="nx">result</span><span class="p">[</span><span class="s1">&#39;xsi:noNamespaceSchemaLocation&#39;</span><span class="p">];</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">callback</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">});</span>
+
+	<span class="nx">parser</span><span class="p">.</span><span class="nx">parseString</span><span class="p">(</span><span class="nx">response</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">ResponseParser</span><span class="p">;</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
