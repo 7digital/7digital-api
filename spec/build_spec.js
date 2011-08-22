@@ -52,7 +52,8 @@ describe('API.build', function() {
 		expect(testApi.consumersecret).toEqual('testsecret');
 	});
 
-	it('should supply the API with host, version and resource name', function() {
+	it('should supply the API with host, version and resource name',
+		function() {
 		expect(testApi.host).toEqual('api.example.com');
 		expect(testApi.version).toEqual('1.0');
 		expect(testApi.resourceName).toEqual('testresource');
