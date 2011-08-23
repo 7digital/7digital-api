@@ -1,6 +1,6 @@
 var path = require('path');
 
-exports.Config = {
+module.exports = {
 	// Path to the json file defining the remote api resources and actions
 	// and how they map to classes and methods on the API wrapper.
 	//

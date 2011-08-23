@@ -1,4 +1,4 @@
-var config = require('./config').Config,
+var config = require('./config'),
 	_ = require('underscore');
 
 module.exports = require('./lib/api').Api.buildFromFile(config);

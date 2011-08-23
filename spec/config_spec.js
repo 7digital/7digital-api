@@ -1,9 +1,9 @@
 describe('config', function() {
-	var config = require('../config').Config
+	var config = require('../config');
 
 	it('should have the default consumer key', function() {
 		expect(config.consumerkey).toEqual('YOUR_KEY_HERE');
-	});	
+	});
 
 	it('should have an empty oauthsecret', function() {
 		expect(config.consumersecret).toEqual('YOUR_SECRET_HERE');
