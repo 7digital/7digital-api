@@ -61,7 +61,12 @@
 					{ "apiCall": "", "methodName": "get" },
 					{ "apiCall": "addItem", "methodName": "addItem" },
 					{ "apiCall": "removeItem", "methodName": "removeItem" },
-					{ "apiCall": "create", "methodName": "create" }
+					{ "apiCall": "create", "methodName": "create" },
+					{
+						"apiCall": "applyVoucher",
+						"methodName": "applyVoucher",
+						"oauth": "2-legged"
+					}
 				]
 			}
 		}
