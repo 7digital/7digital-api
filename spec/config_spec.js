@@ -10,7 +10,7 @@ describe('config', function() {
 	});
 
 	it('should have the path to the schema json', function() {
-		expect(config.schemapath).toMatch(/lib\/api.json$/);
+		expect(config.schemapath).toMatch(/assets\/7digital-api-schema.json$/);
 	});
 
 	it('should have debug', function() {

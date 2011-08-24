@@ -5,7 +5,7 @@ module.exports = {
 	// and how they map to classes and methods on the API wrapper.
 	//
 	// @type string
-	schemapath: path.join(__dirname, 'lib/api.json'),
+	schemapath: path.join(__dirname, 'assets/7digital-api-schema.json'),
 	// Your API consumer key for accessing oauth secured endpoints
 	// see http://api.7digital.com/1.2/static/documentation/7digitalpublicapi.html#Introduction
 	//
