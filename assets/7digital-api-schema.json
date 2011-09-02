@@ -65,7 +65,8 @@
 					{
 						"apiCall": "applyVoucher",
 						"methodName": "applyVoucher",
-						"oauth": "2-legged"
+						"oauth": "2-legged",
+						"method": "POST"
 					}
 				]
 			}
