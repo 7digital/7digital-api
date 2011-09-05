@@ -1,7 +1,7 @@
 notifications:
   recipients:
       - tony.to@7digital.com
-      - william.munn@7digital.com
+      - raoul.millais@7digital.com
 
 before_script:
   - "git submodule init"
