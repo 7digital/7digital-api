@@ -69,6 +69,19 @@
 						"method": "POST"
 					}
 				]
+			},
+		"User":
+			{
+				"resource": "user",
+				"actions":
+				[
+					{
+						"apiCall": "locker",
+						"methodName": "getLocker",
+						"oauth": "3-legged",
+						"method": "GET"
+					}
+				]
 			}
 		}
 }
