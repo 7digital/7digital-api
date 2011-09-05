@@ -67,6 +67,12 @@
 						"methodName": "applyVoucher",
 						"oauth": "2-legged",
 						"method": "POST"
+					},
+					{
+						"apiCall": "addpriceditem",
+						"methodName": "addPricedItem",
+						"oauth": "2-legged",
+						"method": "GET"
 					}
 				]
 			},
@@ -78,6 +84,36 @@
 					{
 						"apiCall": "locker",
 						"methodName": "getLocker",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
+						"apiCall": "purchase/item",
+						"methodName": "purchaseItem",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
+						"apiCall": "purchase/rrpitem",
+						"methodName": "purchaseRrpItem",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
+						"apiCall": "purchase/basket",
+						"methodName": "purchaseBasket",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
+						"apiCall": "purchase/priceditem",
+						"methodName": "purchasePricedItem",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
+						"apiCall": "deliveritem",
+						"methodName": "deliverItem",
 						"oauth": "3-legged",
 						"method": "GET"
 					}
