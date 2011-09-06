@@ -21,6 +21,7 @@ step(
 	function authorise(err, requestToken, requestSecret, authoriseUrl) {
 		// Throw the error if there is one
 		if (err) {
+			console.error('Error getting the request token');
 			throw new Error(err);
 		}
 
@@ -48,19 +49,38 @@ step(
 			}, this);
 	},
 	function logTheAccessToken(err, accesstoken, accesssecret) {
+		var api, user;
+
 		// Log any error
 		if (err) {
-			console.error(err);
+			console.error('Error getting the access token');
+			console.log(JSON.stringify(err));
 			// Close the readline interface properly so that the process
 			// ends cleanly otherwise it will hang.
 			consoleInterface.close();
 			process.stdin.destroy();
-			return;
+			throw new Error(err);
 		}
+
+		api = require('../index').configure({
+			consumerkey: consumerkey,
+			consumersecret: consumersecret
+		});
 
 		// Write the token and secret out to the commandline
 		console.info('Access Token: %s', accesstoken);
 		console.info('Access Secret: %s', accesssecret);
+		user = new api.User();
+		user.getLocker({
+			accesstoken: accesstoken,
+			accesssecret: accesssecret
+		}, function (err, result) {
+			console.log('!!!ERROR!!!');
+			console.log(err);
+			console.log('!!!RESULT!!!');
+			console.log(result);
+		});
+
 
 		// Close the readline interface properly so that the process
 		// ends cleanly otherwise it will hang.

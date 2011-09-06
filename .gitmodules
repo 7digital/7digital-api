@@ -1,3 +1,6 @@
 [submodule "vendor/node-xml2js"]
 	path = vendor/node-xml2js
 	url = git://github.com/raoulmillais/node-xml2js
+[submodule "support/node-oauth"]
+	path = support/node-oauth
+	url = git@github.com:raoulmillais/node-oauth.git
