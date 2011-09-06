@@ -1,6 +1,6 @@
 {
   "name": "7digital-api",
-  "version": "0.2.1",
+  "version": "0.3.0-alpha",
   "description": "Simple 7digital API wrapper for nodeJS",
   "homepage": [
     "https://github.com/raoulmillais/node-7digital-api"
