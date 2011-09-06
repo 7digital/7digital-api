@@ -11,9 +11,10 @@ describe('url translation', function() {
 				"Test": {
 					"resource": "testresource",
 					"actions":
-					[ 
+					[
 						"byDate",
-						{ "apiCall": "test", "methodName": "expectedName" }
+						{ "apiCall": "test", "methodName": "expectedName" },
+						{ "apiCall": "", "methodName": "get" }
 					]
 				}
 			}
@@ -55,5 +56,12 @@ describe('url translation', function() {
 		'case', function() {
 		var methodName = api.getActionMethodName('Test', 'TEST');
 		expect(methodName).toEqual('expectedName');
+	});
+
+	it('should return specified methodName when action is empty string',
+		function() {
+		var methodName = api.getActionMethodName('Test',
+												'');
+		expect(methodName).toEqual('get');
 	});
 });
