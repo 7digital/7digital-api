@@ -9,6 +9,15 @@ describe('responseparser', function() {
 		logger: new winston.Logger({ transports: [] })
 	});
 
+	beforeEach(function() {
+		this.addMatchers({
+			toBeAnArray: function() {
+				return this.actual
+					.constructor.toString().indexOf('Array') !== -1;
+			}
+		})
+	});
+
 	it('should return xml when format is xml', function() {
 		var callbackSpy = jasmine.createSpy(),
 			xml = fs.readFileSync(
@@ -44,5 +53,19 @@ describe('responseparser', function() {
 		parser.parse(callbackSpy, null, xml);
 		expect(callbackSpy).toHaveBeenCalled();
 		expect(typeof callbackSpy.mostRecentCall.args[1]).toEqual('object');
+	});
+
+	it('should normalise single resource responses into an array', function() {
+		var callbackSpy = jasmine.createSpy(),
+			xml = fs.readFileSync(
+				path.join(__dirname +
+					'/responses/release-tracks-singletrack.xml'),
+					'utf8');
+
+		parser.format = 'js';
+		parser.parse(callbackSpy, null, xml);
+		expect(callbackSpy).toHaveBeenCalled();
+		var response = callbackSpy.mostRecentCall.args[1];
+		expect(response.tracks.track).toBeAnArray();
 	});
 });
