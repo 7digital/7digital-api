@@ -32,4 +32,17 @@ describe('responseparser', function() {
 		expect(callbackSpy).toHaveBeenCalled();
 		expect(callbackSpy).toHaveBeenCalledWith(null, xml);
 	});
+
+	it('should return javascript object when format is not xml', function() {
+		var callbackSpy = jasmine.createSpy(),
+			xml = fs.readFileSync(
+				path.join(__dirname +
+					'/responses/release-tracks-singletrack.xml'),
+					'utf8');
+
+		parser.format = 'js';
+		parser.parse(callbackSpy, null, xml);
+		expect(callbackSpy).toHaveBeenCalled();
+		expect(typeof callbackSpy.mostRecentCall.args[1]).toEqual('object');
+	});
 });
