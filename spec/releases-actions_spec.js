@@ -1,30 +1,33 @@
-var api = require('../index');
+var winston = require('winston'),
+	api = require('../index').configure({
+		logger: new winston.Logger({ transports: [] })
+	});
 
 require('./custom-matchers.js');
 
 describe("Releases actions", function() {
 
 	var releases;
-	
+
 	beforeEach(function() {
 		releases = new api.Releases();
 	});
-	
+
 	it("should generate a getByDate method for the byDate action", function() {
 		expect(releases.getByDate).toBeDefined();
 		expect(releases.getByDate).toBeAFunction();
 	});
-		
+
 	it("should generate a getDetails method for the details action", function() {
 		expect(releases.getDetails).toBeDefined();
 		expect(releases.getDetails).toBeAFunction();
 	});
-	
+
 	it("should generate a getChart method for the chart action", function() {
 		expect(releases.getChart).toBeDefined();
 		expect(releases.getChart).toBeAFunction();
 	});
-	
+
 	it("should generate a getRecommendations method for the recommend action", function() {
 		expect(releases.getRecommendations).toBeDefined();
 		expect(releases.getRecommendations).toBeAFunction();

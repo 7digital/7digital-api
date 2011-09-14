@@ -1,4 +1,5 @@
-var Api = require('../lib/api').Api;
+var Api = require('../lib/api').Api,
+	winston = require('winston');
 
 require('./custom-matchers.js');
 
@@ -24,7 +25,7 @@ describe('API.build', function() {
 			consumerkey: 'YOUR_KEY_HERE',
 			consumersecret: 'YOUR_SECRET_HERE',
 			format: 'json',
-			logger: require('../lib/logger')
+			logger: new winston.Logger({ transports: [] })
 		}),
 		testApi = new api.Test();
 	});
@@ -43,7 +44,7 @@ describe('API.build', function() {
 			consumerkey: 'testkey',
 			consumersecret: 'testsecret',
 			format: 'json',
-			logger: require('../lib/logger')
+			logger: new winston.Logger({ transports: [] })
 		});
 
 		testApi = new api.Test();

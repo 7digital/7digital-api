@@ -1,4 +1,7 @@
-var api = require('../index');
+var winston = require('winston'),
+	api = require('../index').configure({
+		logger: new winston.Logger({ transports: [] })
+	});
 
 require('./custom-matchers.js');
 

@@ -1,20 +1,23 @@
-var api = require('../index');
+var winston = require('winston'),
+	api = require('../index').configure({
+		logger: new winston.Logger({ transports: [] })
+	});
 
 require('./custom-matchers.js');
 
 describe("Artists actions", function() {
 
 	var artists;
-	
+
 	beforeEach(function() {
 		artists = new api.Artists();
 	});
-	
+
 	it("should generate a browse method for the browse action", function() {
 		expect(artists.browse).toBeDefined();
 		expect(artists.browse).toBeDefined();
 	});
-		
+
 	it("should generate a getChart method for the chart action", function() {
 		expect(artists.getChart).toBeDefined();
 		expect(artists.getChart).toBeAFunction();
