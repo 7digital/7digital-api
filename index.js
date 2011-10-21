@@ -10,3 +10,5 @@ module.exports.configure = function(options) {
 
 	return require('./lib/api').Api.buildFromFile(options);
 };
+
+module.exports.oauth = require('./lib/oauth-helper');
