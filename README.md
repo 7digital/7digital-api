@@ -15,7 +15,8 @@ About 7digital
 WHAT IS THIS?
 =============
 
-A serverside javascript wrapper round the 7digital API with the ability to return XML or JSON responses.
+A serverside javascript wrapper round the 7digital API which returns the responses parsed
+into.
 
 INSTALLATION
 ============
@@ -26,7 +27,7 @@ The easiest way to use this wrapper is to install it via [npm](http://npmjs.org/
 
 or globally
 
-    sudo npm install -g 7digital-api 
+    sudo npm install -g 7digital-api
 
 If you have a clean checkout of the code, you must update the git submodules before installing:
 
@@ -34,7 +35,7 @@ If you have a clean checkout of the code, you must update the git submodules bef
 
 Then you can install via npm as usual (for npm >=1.0)
 
-    npm install  ../path/to/checkout
+    npm install
 
 USAGE
 =====
@@ -49,7 +50,7 @@ your dependencies in the package.json file, you can use the like so:
         console.dir(data);
     });
 
-If you need to supply your own config or want XML, you do so like this:
+If you need to supply your own config or want XML responses, you do so like this:
 
     var api, artists;
 
@@ -65,14 +66,17 @@ If you need to supply your own config or want XML, you do so like this:
 	    console.dir(data);
     });	
 
-	See [developer.7digital.net](http://developer.7digital.net/) for full details of the API
-	endpoints and the parameters they accept.
+See oauth.js in the examples folder for an example of how to acquire an oauth
+access token to access any of the protected endpoints.
 
-WHAT DOES THIS SUPPORT?
-=======================
 
-The 7digital wrapper currently only supports the portions of the API which
-do not require OAUTH authentication. I.E. The catalogue API
+*The bundled OAuth module must be used in place of a standard OAuth wrapper* 
+    require('7digital-api').oauth,
+
+This is to ensure the tokens are correctly parsed from the XML response.
+
+See [developer.7digital.net](http://developer.7digital.net/) for full details of the API
+endpoints and the parameters they accept.
 
 To run the tests:
 
