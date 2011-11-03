@@ -16,7 +16,7 @@ WHAT IS THIS?
 =============
 
 A serverside javascript wrapper round the 7digital API which returns the responses parsed
-into.
+into JavaScript objects..
 
 INSTALLATION
 ============
@@ -70,7 +70,8 @@ See oauth.js in the examples folder for an example of how to acquire an oauth
 access token to access any of the protected endpoints.
 
 
-*The bundled OAuth module must be used in place of a standard OAuth wrapper* 
+*The bundled OAuth module must be used in place of a standard OAuth wrapper*
+
     require('7digital-api').oauth,
 
 This is to ensure the tokens are correctly parsed from the XML response.
