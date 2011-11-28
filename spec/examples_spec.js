@@ -12,7 +12,6 @@ describe('Examples', function() {
 					var result;
 
 					expect(err).toBeFalsy();
-					expect(stderr).toBeFalsy();
 					expect(stdout).toMatch('releases');
 					processReturned = true;
 			});
@@ -36,7 +35,6 @@ describe('Examples', function() {
 					var result;
 
 					expect(err).toBeFalsy();
-					expect(stderr).toBeFalsy();
 					expect(stdout).toMatch('releases');
 					processReturned = true;
 			});
@@ -60,7 +58,6 @@ describe('Examples', function() {
 					var result;
 
 					expect(err).toBeFalsy();
-					expect(stderr).toBeFalsy();
 					expect(stdout).toMatch('tags');
 					processReturned = true;
 			});
