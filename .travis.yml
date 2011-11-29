@@ -9,6 +9,4 @@ notifications:
       - raoul.millais@7digital.com
 
 before_script:
-  - "git submodule init"
-  - "git submodule update"
-  - "npm install --dev"
+  - "git submodule update --init --recursive"
