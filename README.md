@@ -29,10 +29,6 @@ or globally
 
     sudo npm install -g 7digital-api
 
-If you have a clean checkout of the code, you must update the git submodules before installing:
-
-    git submodule update --init --recursive
-
 Then you can install via npm as usual (for npm >=1.0)
 
     npm install
