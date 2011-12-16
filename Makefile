@@ -1,7 +1,7 @@
 SHELL = bash
 
 test: check
-	jessie spec/
+	jessie -f nested spec/
 
 check: docs
 	jshint lib/*.js examples/*.js
