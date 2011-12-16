@@ -16,7 +16,7 @@ WHAT IS THIS?
 =============
 
 A serverside javascript wrapper round the 7digital API which returns the responses parsed
-into JavaScript objects..
+into JavaScript objects.  Full code documentation can be found [here](http://raoulmillais.github.com/node-7digital-api/api.html)
 
 INSTALLATION
 ============
