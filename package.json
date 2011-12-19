@@ -35,6 +35,7 @@
     "underscore": "1.1.7"
   },
   "devDependencies": {
+    "coffee-script": ">=1.2.0",
     "docco": "0.3.0",
     "jessie": "git://github.com/rodzyn/jessie.git",
     "jshint": "0.3.0"
