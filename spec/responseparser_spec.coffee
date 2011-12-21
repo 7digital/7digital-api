@@ -50,3 +50,14 @@ describe "responseparser", ->
     expect(callbackSpy).toHaveBeenCalled()
     response = callbackSpy.mostRecentCall.args[1]
     expect(response.tracks.track).toBeAnArray()
+
+  # Note that basket items are one level deeper than other arrays, hence
+  # the separate test.
+  it "should normalise basket items into an array", ->
+    callbackSpy = jasmine.createSpy()
+    xml = fs.readFileSync(path.join(__dirname + "/responses/basket-additem.xml"), "utf8")
+    parser.format = "js"
+    parser.parse callbackSpy, null, xml
+    expect(callbackSpy).toHaveBeenCalled()
+    response = callbackSpy.mostRecentCall.args[1]
+    expect(response.basket.basketItems).toBeAnArray()

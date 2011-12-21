@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?><response status="ok" version="1.2">
+	<basket id="00000000-0000-0000-0000-000000000000">
+		<itemCount>1</itemCount>
+		<price>
+			<currency code="EUR">€</currency>
+			<value>0.99</value>
+			<formattedPrice>0,99€</formattedPrice>
+		</price>
+		<amountDue>
+			<currency code="EUR">€</currency>
+			<amount>0.99</amount>
+			<formattedAmount>0,99€</formattedAmount>
+		</amountDue>
+		<basketItems>
+			<basketItem id="15284882">
+				<type>track</type>
+				<itemName>Test</itemName>
+				<artistName>Ghetto</artistName>
+				<trackId>2458384</trackId>
+				<releaseId>224820</releaseId>
+				<price>
+					<value>0.99</value>
+					<formattedPrice>0,99€</formattedPrice>
+				</price>
+				<amountDue>
+					<amount>0.99</amount>
+					<formattedAmount>0,99€</formattedAmount>
+				</amountDue>
+			</basketItem>
+		</basketItems>
+	</basket>
+</response>
+
