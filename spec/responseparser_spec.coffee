@@ -35,6 +35,13 @@ describe "responseparser", ->
     expect(callbackSpy).toHaveBeenCalled()
     expect(typeof callbackSpy.mostRecentCall.args[1]).toEqual "object"
 
+  it "should merge the attributes of the response", ->
+    callbackSpy = jasmine.createSpy()
+    xml = fs.readFileSync(path.join(__dirname + "/responses/release-tracks-singletrack.xml"), "utf8")
+    parser.format = "js"
+    parser.parse callbackSpy, null, xml
+    expect(callbackSpy.mostRecentCall.args[1]['@']).not.toBeDefined
+
   it "should normalise single resource responses into an array", ->
     callbackSpy = jasmine.createSpy()
     xml = fs.readFileSync(path.join(__dirname + "/responses/release-tracks-singletrack.xml"), "utf8")
