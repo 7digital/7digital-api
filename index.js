@@ -1,12 +1,12 @@
 var config = require('./config'),
-	_ = require('underscore');
+	underscore = require('underscore');
 
 module.exports = require('./lib/api').Api.buildFromFile(config);
 
-module.exports.configure = function(options) {
+module.exports.configure = function (options) {
 	options = options || {};
 
-	_.defaults(options, config);
+	underscore.defaults(options, config);
 
 	return require('./lib/api').Api.buildFromFile(options);
 };
