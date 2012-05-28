@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "docco": "0.3.0",
-    "jasmine-node": "1.0.14",
+    "jasmine-node": "1.0.26",
     "jshint": "0.3.0"
   },
   "contributors": [
