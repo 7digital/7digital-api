@@ -22,7 +22,7 @@
     "node >= 0.4.1"
   ],
   "scripts": {
-    "test": "./node_modules/.bin/jasmine-node --verbose spec/"
+    "test": "jasmine-node --verbose spec/"
   },
   "main": "index.js",
   "dependencies": {

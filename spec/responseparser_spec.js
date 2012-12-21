@@ -12,8 +12,7 @@ describe('responseparser', function() {
 	beforeEach(function() {
 		this.addMatchers({
 			toBeAnArray: function() {
-				return this.actual
-					.constructor.toString().indexOf('Array') !== -1;
+				return this.actual.constructor.toString().indexOf('Array') !== -1;
 			}
 		})
 	});
@@ -65,8 +64,9 @@ describe('responseparser', function() {
 		parser.format = 'js';
 		parser.parse(callbackSpy, null, xml);
 		expect(callbackSpy).toHaveBeenCalled();
-		var response = callbackSpy.mostRecentCall.args[1];
-		expect(response.tracks.track).toBeAnArray();
+		var response = callbackSpy.mostRecentCall.args[1].response;
+		console.log(response);
+		expect(response.tracks[0].track).toBeAnArray();
 	});
   //  Note that basket items are one level deeper than other arrays, hence
   //  the separate test.
@@ -77,7 +77,8 @@ describe('responseparser', function() {
 		parser.format = "js";
 		parser.parse(callbackSpy, null, xml);
 		expect(callbackSpy).toHaveBeenCalled();
-		response = callbackSpy.mostRecentCall.args[1];
-		expect(response.basket.basketItems).toBeAnArray();
+		response = callbackSpy.mostRecentCall.args[1].response;
+		console.log(response);
+		expect(response.basket[0].basketItems).toBeAnArray();
 	});
 });
