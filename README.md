@@ -52,8 +52,8 @@ If you need to supply your own config or want XML responses, you do so like this
 
     api = require('7digital-api').configure({
         format: 'XML',
-        oauthkey: 'MY_KEY_HERE',
-        oauthsecret: 'MY_SECRET_HERE',
+        consumerkey: 'MY_KEY_HERE',
+        consumersecret: 'MY_SECRET_HERE',
     });
     
     artists = new api.Artists();
