@@ -118,6 +118,17 @@
 						"method": "GET"
 					}
 				]
+			},
+		"Territories":
+			{
+				"resource" : "countries",
+				"actions":
+				[
+					{
+						"apiCall" : "",
+						"methodName" : "getCountries"
+					}
+				]
 			}
 		}
 }
