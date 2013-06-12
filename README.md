@@ -1,8 +1,6 @@
+![7digital](http://i.imgur.com/StUnvCy.png?1)
 Node.js API Wrapper
 ===================
-
-![7digital](http://cdn.7static.com/static/img/logo/7digital-GB.gif)
-
 Current head build status:
 
 [![Build Status](http://travis-ci.org/raoulmillais/node-7digital-api.png)](http://travis-ci.org/raoulmillais/node-7digital-api)
