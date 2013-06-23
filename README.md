@@ -1,6 +1,6 @@
 ![7digital](http://i.imgur.com/StUnvCy.png?1)
-Node.js API Wrapper
-===================
+Node.js API Client
+==================
 Current head build status:
 
 [![Build Status](https://travis-ci.org/raoulmillais/node-7digital-api.png?branch=master)](http://travis-ci.org/raoulmillais/node-7digital-api)
@@ -19,7 +19,7 @@ into JavaScript objects.  Full code documentation can be found [here](http://rao
 INSTALLATION
 ============
 
-The easiest way to use this wrapper is to install it via [npm](http://npmjs.org/)
+The easiest way to use the API client is to install it via [npm](http://npmjs.org/)
 
     npm install 7digital-api
 
@@ -64,7 +64,7 @@ See oauth.js in the examples folder for an example of how to acquire an oauth
 access token to access any of the protected endpoints.
 
 
-*The bundled OAuth module must be used in place of a standard OAuth wrapper*
+*The bundled OAuth module must be used in place of a standard OAuth client*
 
     require('7digital-api').oauth,
 
