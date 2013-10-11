@@ -19,17 +19,11 @@ into JavaScript objects.  Full code documentation can be found [here](http://rao
 INSTALLATION
 ============
 
-The easiest way to use the API client is to install it via [npm](http://npmjs.org/)
+[![NPM](https://nodei.co/npm/7digital-api.png?downloads=true)](https://nodei.co/npm/7digital-api/)
 
-    npm install 7digital-api
+Install it via [npm](http://npmjs.org/)
 
-or globally
-
-    sudo npm install -g 7digital-api
-
-Then you can install via npm as usual (for npm >=1.0)
-
-    npm install
+    npm install --save 7digital-api
 
 USAGE
 =====
