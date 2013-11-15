@@ -12,3 +12,4 @@ module.exports.configure = function (options) {
 };
 
 module.exports.oauth = require('./lib/oauth-helper');
+module.exports.schema = require('./assets/7digital-api-schema');

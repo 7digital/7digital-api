@@ -9,4 +9,8 @@ describe('Module entry point', function() {
 		expect(sevendigital.Artists).toBeAFunction();
 	});
 
+	it('should expose the schema', function() {
+		expect(sevendigital.schema.host).toBeDefined();
+	});
+
 });
