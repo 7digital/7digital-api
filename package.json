@@ -1,7 +1,7 @@
 {
   "name": "7digital-api",
   "version": "0.5.0-alpha1",
-  "description": "Simple 7digital API wrapper for nodeJS",
+  "description": "7digital API client for nodeJS",
   "homepage": [
     "https://github.com/raoulmillais/node-7digital-api"
   ],
@@ -16,10 +16,10 @@
   ],
   "author": "Raoul Millais <raoul@raoulmillais.com> (http://www.raoulmillais.com/)",
   "licenses": [
-    "MIT"
+    "BSD"
   ],
   "engines": [
-    "node >= 0.4.1"
+    "node >= 0.6.0"
   ],
   "scripts": {
     "test": "jasmine-node --verbose spec/"
@@ -28,9 +28,9 @@
   "dependencies": {
     "xml2js": "~0.2.8",
     "oauth": "0.9.5",
-    "step": ">=0.0.3",
-    "eyes": ">=0.1.6",
-    "winston": "0.5.7",
+    "step": "~0.0.5",
+    "eyes": "~0.1.8",
+    "winston": "~0.7.0",
     "underscore": "1.1.7"
   },
   "devDependencies": {
