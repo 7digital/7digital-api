@@ -129,6 +129,17 @@
 						"methodName" : "getCountries"
 					}
 				]
+			},
+		"IpLookup":
+			{
+				"resource" : "country",
+				"actions":
+				[
+					{
+						"apiCall" : "resolve",
+						"methodName" : "getCountryForIp"
+					}
+				]
 			}
 		}
 }
