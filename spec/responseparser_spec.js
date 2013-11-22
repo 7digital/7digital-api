@@ -54,6 +54,23 @@ describe('responseparser', function() {
 		expect(typeof callbackSpy.mostRecentCall.args[1]).toEqual('object');
 	});
 
+	it('should callback with the error when the status is error', function () {
+		var callbackSpy = jasmine.createSpy(),
+			xml = fs.readFileSync(
+				path.join(__dirname, 'responses', 'release-not-found.xml'), 
+				'utf-8');
+
+		parser.format = 'js';
+		parser.parse(callbackSpy, null, xml)
+		expect(callbackSpy).toHaveBeenCalled();
+		var error = callbackSpy.mostRecentCall.args[0];
+		var response = callbackSpy.mostRecentCall.args[1];
+		expect(error).toBeDefined();
+		expect(response).not.toBeDefined();
+		expect(error.code).toEqual('2001');
+		expect(error.errorMessage).toEqual("Release not found");
+	});
+
 	it('should normalise single resource responses into an array', function() {
 		var callbackSpy = jasmine.createSpy(),
 			xml = fs.readFileSync(
@@ -64,12 +81,12 @@ describe('responseparser', function() {
 		parser.format = 'js';
 		parser.parse(callbackSpy, null, xml);
 		expect(callbackSpy).toHaveBeenCalled();
-		var response = callbackSpy.mostRecentCall.args[1].response;
-		console.log(response);
-		expect(response.tracks[0].track).toBeAnArray();
+		var response = callbackSpy.mostRecentCall.args[1];
+		expect(response.tracks.track).toBeAnArray();
 	});
-  //  Note that basket items are one level deeper than other arrays, hence
-  //  the separate test.
+
+	//  Note that basket items are one level deeper than other arrays, hence
+	//  the separate test.
 	it("should normalise basket items into an array", function () {
 		var callbackSpy = jasmine.createSpy()
 		xml = fs.readFileSync(path.join(__dirname + 
@@ -77,8 +94,7 @@ describe('responseparser', function() {
 		parser.format = "js";
 		parser.parse(callbackSpy, null, xml);
 		expect(callbackSpy).toHaveBeenCalled();
-		response = callbackSpy.mostRecentCall.args[1].response;
-		console.log(response);
-		expect(response.basket[0].basketItems).toBeAnArray();
+		response = callbackSpy.mostRecentCall.args[1];
+		expect(response.basket.basketItems).toBeAnArray();
 	});
 });
