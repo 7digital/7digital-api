@@ -140,6 +140,17 @@
 						"methodName" : "getCountryForIp"
 					}
 				]
+			},
+		"Editorial":
+			{
+				"resource" : "editorial",
+				"actions":
+				[
+					{
+						"apiCall" : "list",
+						"methodName" : "getList"
+					}
+				]
 			}
 		}
 }
