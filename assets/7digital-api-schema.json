@@ -10,6 +10,7 @@
 				[ 
 					{ "apiCall": "byDate", "methodName": "getByDate" },
 					{ "apiCall": "details", "methodName": "getDetails" },
+					{ "apiCall": "editorial", "methodName": "getEditorial" },
 					{ "apiCall": "chart", "methodName": "getChart" },
 					{ "apiCall": "recommend", "methodName": "getRecommendations" },
 					{ "apiCall": "search", "methodName": "search" },
@@ -127,6 +128,17 @@
 					{
 						"apiCall" : "",
 						"methodName" : "getCountries"
+					}
+				]
+			},
+		"Translations":
+			{
+				"resource" : "translations",
+				"actions":
+				[
+					{
+						"apiCall" : "",
+						"methodName" : "get"
 					}
 				]
 			},
