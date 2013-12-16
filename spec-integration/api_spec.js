@@ -37,4 +37,13 @@ describe('api', function () {
 			done();
 		});
 	});
+
+	it('should handle missing resources from the api', function (done) {
+		var releases = new api.Releases();
+		releases.getDetails({ releaseId: 'missing' }, function (err, data) {
+			expect(err).to.not.equal(undefined);
+			expect(err.code).to.equal('2001');
+			done();
+		});
+	});
 });
