@@ -27,4 +27,14 @@ describe('api', function () {
 			done();
 		});
 	});
+
+	it('should handle bad xml from the api', function (done) {
+		var releases = new api.Releases();
+		releases.getDetails({ releaseId: 'error' }, function (err, data) {
+			//Currently dies because xml2js never calls back..
+			//https://github.com/Leonidas-from-XIV/node-xml2js/issues/51
+			expect(err).to.not.equal(undefined);
+			done();
+		});
+	});
 });
