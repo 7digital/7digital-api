@@ -33,7 +33,7 @@ describe('api', function () {
 		releases.getDetails({ releaseId: 'error' }, function (err, data) {
 			//Currently dies because xml2js never calls back..
 			//https://github.com/Leonidas-from-XIV/node-xml2js/issues/51
-			expect(err).to.not.equal(undefined);
+			expect(err).to.be.ok;
 			done();
 		});
 	});
@@ -41,8 +41,26 @@ describe('api', function () {
 	it('should handle missing resources from the api', function (done) {
 		var releases = new api.Releases();
 		releases.getDetails({ releaseId: 'missing' }, function (err, data) {
-			expect(err).to.not.equal(undefined);
+			expect(err).to.be.ok;
 			expect(err.code).to.equal('2001');
+			done();
+		});
+	});
+
+	it('should handle unexpected but valid xml from the api', function (done) {
+		var releases = new api.Releases();
+		releases.getDetails({ releaseId: 'strangeResponse' }, function (err, data) {
+			expect(err).to.be.ok;
+			expect(err.message).to.equal('unexpected response returned by api');
+			done();
+		});
+	});
+
+	it('should handle unrecognised statuses from the api', function (done) {
+		var releases = new api.Releases();
+		releases.getDetails({ releaseId: 'unrecognisedStatus' }, function (err, data) {
+			expect(err).to.be.ok;
+			expect(err.message).to.match(/^unrecognised response status/);
 			done();
 		});
 	});
