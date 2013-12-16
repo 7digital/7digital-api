@@ -70,3 +70,8 @@ endpoints and the parameters they accept.
 To run the unit tests:
 
     npm test
+
+To run the integration tests:
+
+    npm install git+ssh://git@github.com:7digital/api-stub.git
+    mocha spec-integration/
