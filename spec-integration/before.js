@@ -3,20 +3,26 @@ var serverProcess;
 var processStarted;
 
 before(function (done) {
-	var nodeProcessPath = require.resolve('api-stub');
-	console.log('spawning node api-stub process : ', nodeProcessPath, '\n');
-	serverProcess = childProcess.spawn('node', [nodeProcessPath], {});
+	var nodeProcessPath;
+	try {
+		nodeProcessPath = require.resolve('api-stub');
+		console.log('spawning node api-stub process : ', nodeProcessPath, '\n');
 
-	serverProcess.stdout.on('data', function (data) {
-		if (!processStarted) {
-			processStarted = true;
-			done();
-		}
-	});
+		serverProcess = childProcess.spawn('node', [nodeProcessPath], {});
 
-	serverProcess.stderr.on('data', function (data) {
-		console.log('' + data);
-	});
+		serverProcess.stdout.on('data', function (data) {
+			if (!processStarted) {
+				processStarted = true;
+				done();
+			}
+		});
+
+		serverProcess.stderr.on('data', function (data) {
+			console.log('' + data);
+		});
+	} catch (e) {
+		console.log('Make sure api-stub module is installed!');
+	}
 });
 
 after(function () {
