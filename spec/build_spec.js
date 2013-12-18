@@ -1,7 +1,7 @@
+var expect = require('chai').expect;
+
 var Api = require('../lib/api').Api,
 	winston = require('winston');
-
-require('./custom-matchers.js');
 
 describe('API.build', function() {
 	var schema = {
@@ -31,11 +31,11 @@ describe('API.build', function() {
 	});
 
 	it('should return a wrapper', function() {
-		expect(api).not.toBeNull();
+		expect(api).not.to.be.null;
 	});
 
 	it('should create an API constructor for each resource', function() {
-		expect(api.Test).toBeDefined();
+		expect(api.Test).to.exist;
 	});
 
 	it('should supply oauth key and secret when provided', function() {
@@ -49,20 +49,20 @@ describe('API.build', function() {
 
 		testApi = new api.Test();
 
-		expect(testApi.consumerkey).toEqual('testkey');
-		expect(testApi.consumersecret).toEqual('testsecret');
+		expect(testApi.consumerkey).to.equal('testkey');
+		expect(testApi.consumersecret).to.equal('testsecret');
 	});
 
 	it('should supply the API with host, version and resource name',
 		function() {
-		expect(testApi.host).toEqual('api.example.com');
-		expect(testApi.version).toEqual('1.0');
-		expect(testApi.resourceName).toEqual('testresource');
+		expect(testApi.host).to.equal('api.example.com');
+		expect(testApi.version).to.equal('1.0');
+		expect(testApi.resourceName).to.equal('testresource');
 	});
 
 	it('should create a method for each action', function() {
-		expect(testApi.getByDate).toBeDefined();
-		expect(testApi.getByDate).toBeAFunction();
+		expect(testApi.getByDate).to.exist;
+		expect(testApi.getByDate).to.be.a('function');
 	});
 
 });

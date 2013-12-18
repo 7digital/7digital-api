@@ -1,3 +1,5 @@
+var expect = require('chai').expect;
+
 describe('Examples', function() {
 
 	describe('CustomConfig example', function() {
@@ -5,20 +7,13 @@ describe('Examples', function() {
 		var exec = require('child_process').exec,
 			path = require('path');
 
-		it('should return return some releases', function() {
-			var processReturned = false;
+		it('should return return some releases', function(done) {
 			exec('node ' + path.join(__dirname, '../examples/customconfig.js'),
 				function assertOutput(err, stdout, stderr) {
-					var result;
-
-					expect(err).toBeFalsy();
-					expect(stdout).toMatch('releases');
-					processReturned = true;
+					expect(err).to.equal(null);
+					expect(stdout).to.match(/releases/);
+					done();
 			});
-
-			waitsFor(function () {
-				return processReturned;
-			}, "Timed out waiting for process to return", 5000);
 		});
 
 	});
@@ -28,20 +23,13 @@ describe('Examples', function() {
 		var exec = require('child_process').exec,
 			path = require('path');
 
-		it('should return return some releases', function() {
-			var processReturned = false;
+		it('should return return some releases', function(done) {
 			exec('node ' + path.join(__dirname, '../examples/simpleclient.js'),
 				function assertOutput(err, stdout, stderr) {
-					var result;
-
-					expect(err).toBeFalsy();
-					expect(stdout).toMatch('releases');
-					processReturned = true;
+					expect(err).to.be.null;
+					expect(stdout).to.match(/releases/);
+					done()
 			});
-
-			waitsFor(function () {
-				return processReturned;
-			}, "Timed out waiting for process to return", 5000);
 		});
 
 	});
@@ -51,20 +39,13 @@ describe('Examples', function() {
 		var exec = require('child_process').exec,
 			path = require('path');
 
-		it('should return return some tags', function() {
-			var processReturned = false;
+		it('should return return some tags', function(done) {
 			exec('node ' + path.join(__dirname, '../examples/default-action.js'),
 				function assertOutput(err, stdout, stderr) {
-					var result;
-
-					expect(err).toBeFalsy();
-					expect(stdout).toMatch('tags');
-					processReturned = true;
+					expect(err).to.be.null;
+					expect(stdout).to.match(/tags/);
+					done();
 			});
-
-			waitsFor(function () {
-				return processReturned;
-			}, "Timed out waiting for process to return", 5000);
 		});
 
 	});

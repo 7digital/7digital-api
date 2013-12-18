@@ -1,9 +1,8 @@
+var expect = require('chai').expect;
 var winston = require('winston'),
 	api = require('../index').configure({
 		logger: new winston.Logger({ transports: [] })
 	});
-
-require('./custom-matchers.js');
 
 describe("Territories actions", function() {
 
@@ -14,7 +13,7 @@ describe("Territories actions", function() {
 	});
 
 	it("should generate a getCountries method for the default action", function() {
-		expect(territories.getCountries).toBeDefined();
-		expect(territories.getCountries).toBeAFunction();
+		expect(territories.getCountries).to.exist;
+		expect(territories.getCountries).to.be.a('function');
 	});
 });

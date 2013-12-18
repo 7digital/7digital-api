@@ -1,9 +1,8 @@
+var expect = require('chai').expect;
 var winston = require('winston'),
 	api = require('../index').configure({
 		logger: new winston.Logger({ transports: [] })
 	});
-
-require('./custom-matchers.js');
 
 describe("Tracks actions", function() {
 
@@ -14,22 +13,22 @@ describe("Tracks actions", function() {
 	});
 	
 	it("should generate a getChart method for the chart action", function() {
-		expect(tracks.getChart).toBeDefined();
-		expect(tracks.getChart).toBeAFunction();
+		expect(tracks.getChart).to.exist;
+		expect(tracks.getChart).to.be.a('function');
 	});
 		
 	it("should generate a getDetails method for the details action", function() {
-		expect(tracks.getDetails).toBeDefined();
-		expect(tracks.getDetails).toBeAFunction();
+		expect(tracks.getDetails).to.exist;
+		expect(tracks.getDetails).to.be.a('function');
 	});
 
 	it("should generate a getPreview method for the preview action", function() {
-		expect(tracks.getPreview).toBeDefined();
-		expect(tracks.getPreview).toBeAFunction();
+		expect(tracks.getPreview).to.exist;
+		expect(tracks.getPreview).to.be.a('function');
 	});
 
 	it("should generate a search method for the search action", function() {
-		expect(tracks.search).toBeDefined();
-		expect(tracks.search).toBeAFunction();
+		expect(tracks.search).to.exist;
+		expect(tracks.search).to.be.a('function');
 	});
 });

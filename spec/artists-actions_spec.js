@@ -1,9 +1,9 @@
+var expect = require('chai').expect;
+
 var winston = require('winston'),
 	api = require('../index').configure({
 		logger: new winston.Logger({ transports: [] })
 	});
-
-require('./custom-matchers.js');
 
 describe("Artists actions", function() {
 
@@ -14,42 +14,42 @@ describe("Artists actions", function() {
 	});
 
 	it("should generate a browse method for the browse action", function() {
-		expect(artists.browse).toBeDefined();
-		expect(artists.browse).toBeDefined();
+		expect(artists.browse).to.exist;
+		expect(artists.browse).to.exist;
 	});
 
 	it("should generate a getChart method for the chart action", function() {
-		expect(artists.getChart).toBeDefined();
-		expect(artists.getChart).toBeAFunction();
+		expect(artists.getChart).to.exist;
+		expect(artists.getChart).to.be.a('function');
 	});
 
 	it("should generate a getDetails method for the details action", function() {
-		expect(artists.getDetails).toBeDefined();
-		expect(artists.getDetails).toBeAFunction();
+		expect(artists.getDetails).to.exist;
+		expect(artists.getDetails).to.be.a('function');
 	});
 
 	it("should generate a getReleases method for the releases action", function() {
-		expect(artists.getReleases).toBeDefined();
-		expect(artists.getReleases).toBeAFunction();
+		expect(artists.getReleases).to.exist;
+		expect(artists.getReleases).to.be.a('function');
 	});
 
 	it("should generate a search method for the search action", function() {
-		expect(artists.search).toBeDefined();
-		expect(artists.search).toBeAFunction();
+		expect(artists.search).to.exist;
+		expect(artists.search).to.be.a('function');
 	});
 
 	it("should generate a getTopTracks method for the toptracks action", function() {
-		expect(artists.getTopTracks).toBeDefined();
-		expect(artists.getTopTracks).toBeAFunction();
+		expect(artists.getTopTracks).to.exist;
+		expect(artists.getTopTracks).to.be.a('function');
 	});
 
 	it("should generate a getTags method for the tags action", function() {
-		expect(artists.getTags).toBeDefined();
-		expect(artists.getTags).toBeAFunction();
+		expect(artists.getTags).to.exist;
+		expect(artists.getTags).to.be.a('function');
 	});
 
 	it("should generate a getTopByTags method for the bytag/top action", function() {
-		expect(artists.getTopByTags).toBeDefined();
-		expect(artists.getTopByTags).toBeAFunction();
+		expect(artists.getTopByTags).to.exist;
+		expect(artists.getTopByTags).to.be.a('function');
 	});
 });

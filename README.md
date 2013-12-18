@@ -67,6 +67,6 @@ This is to ensure the tokens are correctly parsed from the XML response.
 See [developer.7digital.net](http://developer.7digital.net/) for full details of the API
 endpoints and the parameters they accept.
 
-To run the tests:
+To run the unit tests:
 
     npm test
