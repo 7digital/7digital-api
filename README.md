@@ -67,14 +67,42 @@ This is to ensure the tokens are correctly parsed from the XML response.
 See [developer.7digital.net](http://developer.7digital.net/) for full details of the API
 endpoints and the parameters they accept.
 
+TESTS
+=====
+
 To run the unit tests:
 
     npm test
 
-To run the integration tests:
+There are also integration tests. Tests for various error handling scenarios
+are run against a stub 7d api. Currently this is in a private repo, but there
+are plans to make this public soon. If access is available, it can be installed
+with:
 
     npm install git+ssh://git@github.com:7digital/api-stub.git
-    mocha spec-integration/
 
-the oauth tests require `NODE_API_CLIENT_TESTS_CONSUMER_KEY`, `NODE_API_CLIENT_TESTS_CONSUMER_SECRET` and
-`NODE_API_CLIENT_TESTS_VOUCHER_CODE`, `NODE_API_CLIENT_TESTS_USER_TOKEN` `NODE_API_CLIENT_TESTS_USER_SECRET` to be set.
+Some of the integration tests (around the client's handling of OAuth) run
+against the real 7d api. In order for these tests to work, several environment
+variables need to be set:
+
+- `NODE_API_CLIENT_TESTS_CONSUMER_KEY`
+- `NODE_API_CLIENT_TESTS_CONSUMER_SECRET`
+
+Your 7d api key and secret, which can be obtained from
+http://access.7digital.com/partnerprogram
+
+- `NODE_API_CLIENT_TESTS_VOUCHER_CODE`
+
+The code for a voucher which can be applied to a basket containing an item of
+1p, used for a two-legged OAuth test.
+
+- `NODE_API_CLIENT_TESTS_USER_TOKEN`
+- `NODE_API_CLIENT_TESTS_USER_SECRET`
+
+A token and secret for access to any user's resources for a given consumer key
+and secret. These are used for 3-legged OAuth tests, and can be obtained by
+running `node ./examples/oauth.js` and following the prompts.
+
+If these vars are set, the tests can then be run with:
+
+    mocha spec-integration/
