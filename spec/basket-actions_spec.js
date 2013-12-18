@@ -1,9 +1,9 @@
+var expect = require('chai').expect;
+
 var winston = require('winston'),
 	api = require('../index').configure({
 		logger: new winston.Logger({ transports: [] })
 	});
-
-require('./custom-matchers.js');
 
 describe("Basket actions", function() {
 
@@ -14,22 +14,22 @@ describe("Basket actions", function() {
 	});
 
 	it("should generate a create method for the create action", function() {
-		expect(basket.create).toBeDefined();
-		expect(basket.create).toBeAFunction();
+		expect(basket.create).to.exist;
+		expect(basket.create).to.be.a('function');
 	});
 
 	it("should generate a get method for the default action", function() {
-		expect(basket.get).toBeDefined();
-		expect(basket.get).toBeAFunction();
+		expect(basket.get).to.exist;
+		expect(basket.get).to.be.a('function');
 	});
 
 	it("should generate an addItem method for the addItem action", function() {
-		expect(basket.addItem).toBeDefined();
-		expect(basket.addItem).toBeAFunction();
+		expect(basket.addItem).to.exist;
+		expect(basket.addItem).to.be.a('function');
 	});
 
 	it("should generate a removeItem method for the removeItem action", function() {
-		expect(basket.removeItem).toBeDefined();
-		expect(basket.removeItem).toBeAFunction();
+		expect(basket.removeItem).to.exist;
+		expect(basket.removeItem).to.be.a('function');
 	});
 });

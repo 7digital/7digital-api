@@ -1,9 +1,8 @@
+var expect = require('chai').expect;
 var winston = require('winston'),
 	api = require('../index').configure({
 		logger: new winston.Logger({ transports: [] })
 	});
-
-require('./custom-matchers.js');
 
 describe("Tags actions", function() {
 
@@ -14,8 +13,8 @@ describe("Tags actions", function() {
 	});
 
 	it("should generate an all method for the default action", function() {
-		expect(tags.all).toBeDefined();
-		expect(tags.all).toBeAFunction();
+		expect(tags.all).to.exist;
+		expect(tags.all).to.be.a('function');
 	});
 
 });
