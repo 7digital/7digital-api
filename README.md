@@ -77,4 +77,4 @@ To run the integration tests:
     mocha spec-integration/
 
 the oauth tests require `_7D_CONSUMER_KEY`, `_7D_CONSUMER_SECRET` and
-`_7D_VOUCHER_CODE` to be set.
+`_7D_VOUCHER_CODE`, `_7D_USER_TOKEN` `_7D_USER_SECRET` to be set.

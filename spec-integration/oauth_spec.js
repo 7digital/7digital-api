@@ -4,18 +4,23 @@ function die(msg) {
 	throw new Error(msg);
 }
 
-var consumerKey = process.env['_7D_CONSUMER_KEY'] || die('no _7D_CONSUMER_KEY set');
-var consumerSecret = process.env['_7D_CONSUMER_SECRET'] || die('no _7D_CONSUMER_SECRET set');
-var voucherCode = process.env['_7D_VOUCHER_CODE'] || die('no _7D_VOUCHER_CODE set');
-
-var authenticatedApi = require('../index').configure({
-	consumerkey: process.env['_7D_CONSUMER_KEY'],
-	consumersecret: process.env['_7D_CONSUMER_SECRET']
-});
-
 describe('api when oauth is required', function () {
+	var consumerKey, consumerSecret, voucherCode, preOAuthedToken, api;
 
-	it('should propagate errors correctly when unauthorised', function (done) {
+	before(function () {
+		consumerKey = process.env['_7D_CONSUMER_KEY'] || die('no _7D_CONSUMER_KEY set');
+		consumerSecret = process.env['_7D_CONSUMER_SECRET'] || die('no _7D_CONSUMER_SECRET set');
+		voucherCode = process.env['_7D_VOUCHER_CODE'] || die('no _7D_VOUCHER_CODE set');
+		userToken = process.env['_7D_USER_TOKEN'] || die('no _7D_USER_TOKEN set');
+		userSecret = process.env['_7D_USER_SECRET'] || die('no _7D_USER_SECRET set');
+
+		api = require('../index').configure({
+			consumerkey: consumerKey,
+			consumersecret: consumerSecret
+		});
+	});
+
+	it('should propagate errors correctly when unauthorised (two-legged oauth)', function (done) {
 		var unauthedApi = require('../index');
 		var basketApi = new unauthedApi.Basket();
 
@@ -28,7 +33,7 @@ describe('api when oauth is required', function () {
 
 	it('should be able apply a voucher (two-legged oauth)', function (done) {
 		//create a basket
-		var basketApi = new authenticatedApi.Basket();
+		var basketApi = new api.Basket();
 
 		basketApi.create({}, function (err, rs) {
 			assert.notOk(err, 'error after basket/create: ' + err);
@@ -67,5 +72,31 @@ describe('api when oauth is required', function () {
 				});
 			});
 		});
+	});
+
+	it('should propagate errors correctly when unauthorised (three-legged oauth)', function (done) {
+		var user = new api.User();
+
+		user.getLocker({}, function (err, res) {
+			assert.ok(err, 'expected an error');
+			assert.match(err.data, /oauth.*token/i, 'error message did not mention oauth or tokens'); 
+			done();
+		});
+	});
+
+	it('should be able to fetch a pre-authorised user\'s locker (three-legged oauth)', function (done) {
+		this.timeout(30000);
+
+		var user = new api.User();
+
+		user.getLocker({
+			accesstoken: userToken,
+			accesssecret: userSecret
+		}, function (err, res) {
+			var errMsg = err ? err.data : '';
+			assert.notOk(err, 'unexpected error: ' + errMsg);
+			done();
+		});
+
 	});
 });
