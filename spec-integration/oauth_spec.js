@@ -8,11 +8,11 @@ describe('api when oauth is required', function () {
 	var consumerKey, consumerSecret, voucherCode, preOAuthedToken, api;
 
 	before(function () {
-		consumerKey = process.env['_7D_CONSUMER_KEY'] || die('no _7D_CONSUMER_KEY set');
-		consumerSecret = process.env['_7D_CONSUMER_SECRET'] || die('no _7D_CONSUMER_SECRET set');
-		voucherCode = process.env['_7D_VOUCHER_CODE'] || die('no _7D_VOUCHER_CODE set');
-		userToken = process.env['_7D_USER_TOKEN'] || die('no _7D_USER_TOKEN set');
-		userSecret = process.env['_7D_USER_SECRET'] || die('no _7D_USER_SECRET set');
+		consumerKey = process.env['NODE_API_CLIENT_TESTS_CONSUMER_KEY'] || die('no NODE_API_CLIENT_TESTS_CONSUMER_KEY set');
+		consumerSecret = process.env['NODE_API_CLIENT_TESTS_CONSUMER_SECRET'] || die('no NODE_API_CLIENT_TESTS_CONSUMER_SECRET set');
+		voucherCode = process.env['NODE_API_CLIENT_TESTS_VOUCHER_CODE'] || die('no NODE_API_CLIENT_TESTS_VOUCHER_CODE set');
+		userToken = process.env['NODE_API_CLIENT_TESTS_USER_TOKEN'] || die('no NODE_API_CLIENT_TESTS_USER_TOKEN set');
+		userSecret = process.env['NODE_API_CLIENT_TESTS_USER_SECRET'] || die('no NODE_API_CLIENT_TESTS_USER_SECRET set');
 
 		api = require('../index').configure({
 			consumerkey: consumerKey,

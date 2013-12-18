@@ -76,5 +76,5 @@ To run the integration tests:
     npm install git+ssh://git@github.com:7digital/api-stub.git
     mocha spec-integration/
 
-the oauth tests require `_7D_CONSUMER_KEY`, `_7D_CONSUMER_SECRET` and
-`_7D_VOUCHER_CODE`, `_7D_USER_TOKEN` `_7D_USER_SECRET` to be set.
+the oauth tests require `NODE_API_CLIENT_TESTS_CONSUMER_KEY`, `NODE_API_CLIENT_TESTS_CONSUMER_SECRET` and
+`NODE_API_CLIENT_TESTS_VOUCHER_CODE`, `NODE_API_CLIENT_TESTS_USER_TOKEN` `NODE_API_CLIENT_TESTS_USER_SECRET` to be set.
