@@ -75,11 +75,10 @@ To run the unit tests:
     npm test
 
 There are also integration tests. Tests for various error handling scenarios
-are run against a stub 7d api. Currently this is in a private repo, but there
-are plans to make this public soon. If access is available, it can be installed
+are run against a stub 7d api. It can be installed
 with:
 
-    npm install git+ssh://git@github.com:7digital/api-stub.git
+    npm install git://github.com/7digital/api-stub.git
 
 Some of the integration tests (around the client's handling of OAuth) run
 against the real 7d api. In order for these tests to work, several environment
