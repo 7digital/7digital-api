@@ -7,6 +7,9 @@ module.exports.configure = function (options) {
 	options = options || {};
 
 	underscore.defaults(options, config);
+	if (options.schema) {
+		return require('./lib/api').Api.build(options);
+	}
 
 	return require('./lib/api').Api.buildFromFile(options);
 };
