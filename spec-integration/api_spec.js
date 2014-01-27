@@ -51,6 +51,23 @@ describe('api', function () {
 		serverProcess.kill('SIGKILL');
 	});
 
+	it('should ensure empty basketItems is an array', function (done) {
+		var basket = new api.Basket();
+		basket.create({ }, function (err, data) {
+			expect(data.basket.basketItems).to.be.instanceOf(Array);
+			done();
+		});
+	});
+
+	it('should ensure search results searchResult is an array', function (done) {
+		var tracks = new api.Tracks();
+		tracks.search({ q: 'timbalake' }, function (err, data) {
+			expect(data.searchResults.searchResult).to.be.instanceOf(Array);
+			done();
+		});
+
+	});
+
 	it('should get a release by id', function (done) {
 		var releases = new api.Releases();
 		releases.getDetails({ releaseId: 1192901 }, function (err, data) {
