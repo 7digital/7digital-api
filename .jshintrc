@@ -19,23 +19,16 @@
 	"mootools"      : false,
 	"dojo"          : false,
 
-	"predef"        : [  // Custom globals.
-		//"exampleVar",
-		//"anotherCoolGlobal",
-		//"iLoveDouglas"
-		],
+	"predef"        : [ ],
 
 
 	// *Development.*
 	// Allow debugger statements e.g. browser breakpoints.
 	"debug"         : false,
 	// Allow developments statements e.g. `console.log();`.
-	"devel"         : true,
+	"devel"         : false,
 
 
-	// *EcmaScript 5*
-	// Allow EcmaScript 5 syntax.
-	"es5"           : true,
 	// Require `use strict` pragma  in every file.
 	"strict"        : false,
 	// Allow global "use strict" (also enables 'strict').
@@ -46,14 +39,14 @@
 	// Tolerate Automatic Semicolon Insertion (no semicolons).
 	"asi"           : false,
 	// Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
-	"laxbreak"      : false,
+	"laxbreak"      : true,
 	// Prohibit bitwise operators (&, |, ^, etc.).
 	"bitwise"       : true,
 	// Tolerate assignments inside if, for & while. Usually conditions & loops
 	// are for comparison, not assignments.
 	"boss"          : false,
 	// Require {} for every new block or scope.
-	"curly"         : true,
+	"curly"         : false,
 	// Require triple equals i.e. `===`.
 	"eqeqeq"        : true,
 	// Tolerate use of `== null`.
@@ -68,7 +61,7 @@
 	//     `( function(){}() );`
 	"immed"         : true,
 	// Prohipit variable use before definition.
-	"latedef"       : true,
+	"latedef"       : "nofunc",
 	// Allow functions to be defined within loops.
 	"loopfunc"      : false,
 	// Prohibit use of `arguments.caller` and `arguments.callee`.
@@ -97,15 +90,15 @@
 	// Prohibit use of initial or trailing underbars in names.
 	"nomen"         : true,
 	// Allow only one `var` statement per function.
-	"onevar"        : true,
+	"onevar"        : false,
 	// Prohibit use of `++` & `--`.
 	"plusplus"      : false,
 	// Tolerate all forms of subscript notation besides dot notation e.g. 
 	// `dict['key']` instead of `dict.key`.
-	"sub"           : false,
+	"sub"           : true,
 	// Prohibit trailing whitespaces.
 	"trailing"      : true,
 	// Check against strict whitespace and indentation rules.
-	"white"         : true
+	"white"         : false
 }
 
