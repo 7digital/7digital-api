@@ -59,6 +59,14 @@ describe('api', function () {
 		});
 	});
 
+	it('should ensure release formats is an array', function (done) {
+		var release = new api.Releases();
+		release.getDetails({ releaseId: 2431 }, function (err, data) {
+			expect(data.release.formats.format).to.be.instanceOf(Array);
+			done();
+		});
+	});
+
 	it('should ensure search results searchResult is an array', function (done) {
 		var tracks = new api.Tracks();
 		tracks.search({ q: 'timbalake' }, function (err, data) {
