@@ -2,9 +2,7 @@
   "name": "7digital-api",
   "version": "0.8.1",
   "description": "7digital API client for nodeJS",
-  "homepage": [
-    "https://github.com/raoulmillais/node-7digital-api"
-  ],
+  "homepage": "https://github.com/raoulmillais/node-7digital-api",
   "repository": {
     "type": "git",
     "url": "git://github.com/raoulmillais/node-7digital-api.git"
@@ -43,6 +41,8 @@
   "contributors": [
     "Raoul Millais <raoul.millais@7digital.com> (http://github.com/raoulmillais)",
     "Tony To <tony.to@7digital.com> (http://tonyto.es)",
-    "Dan Haller <dan.haller@7digital.com> (http://github.com/raoulmillais)"
+    "Dan Haller <dan.haller@7digital.com> (http://github.com/raoulmillais)",
+    "Dave Aitken <dave.aitken@7digital.com> (http://github.com/actionshrimp)",
+    "Chris Watson <chris.watson@7digital.com> (http://github.com/c24w)"
   ]
 }
