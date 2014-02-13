@@ -20,7 +20,7 @@ describe('responseparser', function() {
 				path.join(__dirname +
 					'/responses/release-tracks-singletrack.xml'),
 					'utf8');
-		parser.parse(callbackSpy, null, xml, createOptsWithFormat('XML'));
+		parser.parse(xml, createOptsWithFormat('XML'), callbackSpy);
 		expect(callbackSpy.calledOnce);
 		expect(callbackSpy.calledWith(null, xml));
 	});
@@ -32,18 +32,33 @@ describe('responseparser', function() {
 					'/responses/release-tracks-singletrack.xml'),
 					'utf8');
 
-		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		expect(callbackSpy.calledOnce);
 		expect(typeof callbackSpy.lastCall.args[1]).to.equal('object');
 	});
 
+	it('should remove xml cruft', function() {
+		var parsed, callbackSpy = sinon.spy(),
+			xml = fs.readFileSync(
+				path.join(__dirname +
+					'/responses/release-tracks-singletrack.xml'),
+					'utf8');
+
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
+		expect(callbackSpy.calledOnce);
+		parsed = callbackSpy.lastCall.args[1];
+		expect(typeof callbackSpy.lastCall.args[1]).to.equal('object');
+		expect(parsed['xmlns:xsi']).to.be.undefined;
+		expect(parsed['xmlns:xsd']).to.be.undefined;
+		expect(parsed['xsi:noNamespaceSchemaLocation:']).to.be.undefined;
+	});
 	it('should callback with the error when the status is error', function () {
 		var callbackSpy = sinon.spy(),
 			xml = fs.readFileSync(
 				path.join(__dirname, 'responses', 'release-not-found.xml'),
 				'utf-8');
 
-		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		expect(callbackSpy.calledOnce);
 		var error = callbackSpy.lastCall.args[0];
 		var response = callbackSpy.lastCall.args[1];
@@ -60,7 +75,7 @@ describe('responseparser', function() {
 					'/responses/release-tracks-singletrack.xml'),
 					'utf8');
 
-		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		expect(callbackSpy.calledOnce);
 		var response = callbackSpy.lastCall.args[1];
 		expect(response.tracks.track).to.be.instanceOf(Array);
@@ -73,7 +88,7 @@ describe('responseparser', function() {
 		var callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(path.join(__dirname +
 								"/responses/basket-additem.xml"), "utf8");
-		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		expect(callbackSpy.calledOnce);
 		response = callbackSpy.lastCall.args[1];
 		expect(response.basket.basketItems).to.be.instanceOf(Array);
