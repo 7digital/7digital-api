@@ -28,7 +28,7 @@ describe('Examples', function() {
 				function assertOutput(err, stdout, stderr) {
 					expect(err).to.be.null;
 					expect(stdout).to.match(/releases/);
-					done()
+					done();
 			});
 		});
 

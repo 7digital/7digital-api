@@ -1,15 +1,18 @@
-var expect = require('chai').expect;
-var ResponseParser = require('../lib/responseparser'),
+var expect = require('chai').expect,
+	parser = require('../lib/responseparser'),
 	winston = require('winston'),
 	fs = require('fs'),
 	path = require('path'),
 	sinon = require('sinon');
 
 describe('responseparser', function() {
-	var parser = new ResponseParser({
-		format: 'xml',
-		logger: new winston.Logger({ transports: [] })
-	});
+
+	function createOptsWithFormat(format) {
+		return {
+			format: format,
+			logger: new winston.Logger({ transports: [] })
+		};
+	}
 
 	it('should return xml when format is xml', function() {
 		var callbackSpy = sinon.spy(),
@@ -17,20 +20,7 @@ describe('responseparser', function() {
 				path.join(__dirname +
 					'/responses/release-tracks-singletrack.xml'),
 					'utf8');
-		parser.parse(callbackSpy, null, xml);
-		expect(callbackSpy.calledOnce);
-		expect(callbackSpy.calledWith(null, xml));
-	});
-
-	it('should return xml when format is XML', function() {
-		var callbackSpy = sinon.spy(),
-			xml = fs.readFileSync(
-				path.join(__dirname +
-					'/responses/release-tracks-singletrack.xml'),
-					'utf8');
-
-		parser.format = 'XML';
-		parser.parse(callbackSpy, null, xml);
+		parser.parse(callbackSpy, null, xml, createOptsWithFormat('XML'));
 		expect(callbackSpy.calledOnce);
 		expect(callbackSpy.calledWith(null, xml));
 	});
@@ -42,8 +32,7 @@ describe('responseparser', function() {
 					'/responses/release-tracks-singletrack.xml'),
 					'utf8');
 
-		parser.format = 'js';
-		parser.parse(callbackSpy, null, xml);
+		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
 		expect(callbackSpy.calledOnce);
 		expect(typeof callbackSpy.lastCall.args[1]).to.equal('object');
 	});
@@ -51,12 +40,11 @@ describe('responseparser', function() {
 	it('should callback with the error when the status is error', function () {
 		var callbackSpy = sinon.spy(),
 			xml = fs.readFileSync(
-				path.join(__dirname, 'responses', 'release-not-found.xml'), 
+				path.join(__dirname, 'responses', 'release-not-found.xml'),
 				'utf-8');
 
-		parser.format = 'js';
-		parser.parse(callbackSpy, null, xml)
-		expect(callbackSpy.calledOnce)
+		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
+		expect(callbackSpy.calledOnce);
 		var error = callbackSpy.lastCall.args[0];
 		var response = callbackSpy.lastCall.args[1];
 		expect(error).to.not.equal(undefined);
@@ -72,9 +60,8 @@ describe('responseparser', function() {
 					'/responses/release-tracks-singletrack.xml'),
 					'utf8');
 
-		parser.format = 'js';
-		parser.parse(callbackSpy, null, xml);
-		expect(callbackSpy.calledOnce)
+		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
+		expect(callbackSpy.calledOnce);
 		var response = callbackSpy.lastCall.args[1];
 		expect(response.tracks.track).to.be.instanceOf(Array);
 	});
@@ -82,12 +69,12 @@ describe('responseparser', function() {
 	//  Note that basket items are one level deeper than other arrays, hence
 	//  the separate test.
 	it("should normalise basket items into an array", function () {
-		var callbackSpy = sinon.spy()
-		xml = fs.readFileSync(path.join(__dirname + 
+		var response;
+		var callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(path.join(__dirname +
 								"/responses/basket-additem.xml"), "utf8");
-		parser.format = "js";
-		parser.parse(callbackSpy, null, xml);
-		expect(callbackSpy.calledOnce)
+		parser.parse(callbackSpy, null, xml, createOptsWithFormat('js'));
+		expect(callbackSpy.calledOnce);
 		response = callbackSpy.lastCall.args[1];
 		expect(response.basket.basketItems).to.be.instanceOf(Array);
 	});
