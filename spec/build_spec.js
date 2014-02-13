@@ -49,14 +49,14 @@ describe('API.build', function() {
 
 		testApi = new api.Test();
 
-		expect(testApi.consumerkey).to.equal('testkey');
-		expect(testApi.consumersecret).to.equal('testsecret');
+		expect(testApi.clientOptions.consumerkey).to.equal('testkey');
+		expect(testApi.clientOptions.consumersecret).to.equal('testsecret');
 	});
 
 	it('should supply the API with host, version and resource name',
 		function() {
-		expect(testApi.host).to.equal('api.example.com');
-		expect(testApi.version).to.equal('1.0');
+		expect(testApi.apiDetails.host).to.equal('api.example.com');
+		expect(testApi.apiDetails.version).to.equal('1.0');
 		expect(testApi.resourceName).to.equal('testresource');
 	});
 
