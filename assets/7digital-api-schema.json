@@ -7,7 +7,7 @@
 			{
 				"resource": "release",
 				"actions":
-				[ 
+				[
 					{ "apiCall": "byDate", "methodName": "getByDate" },
 					{ "apiCall": "details", "methodName": "getDetails" },
 					{ "apiCall": "editorial", "methodName": "getEditorial" },
@@ -20,15 +20,16 @@
 					{ "apiCall": "bytag/top", "methodName": "getTopByTags" }
 				]
 			},
-		"Artists": 
+		"Artists":
 			{
 				"resource": "artist",
 				"actions":
-					[ 
-						{ "apiCall": "browse", "methodName": "browse" }, 
+					[
+						{ "apiCall": "browse", "methodName": "browse" },
 						{ "apiCall": "chart", "methodName": "getChart" },
 						{ "apiCall": "details", "methodName": "getDetails" },
 						{ "apiCall": "releases", "methodName": "getReleases" },
+						{ "apiCall": "similar", "methodName": "getSimilar" },
 						{ "apiCall": "search", "methodName": "search" },
 						{ "apiCall": "topTracks", "methodName": "getTopTracks" },
 						{ "apiCall": "tags", "methodName": "getTags" },
@@ -39,7 +40,7 @@
 			{
 				"resource": "track",
 				"actions":
-					[ 
+					[
 						{ "apiCall": "chart", "methodName": "getChart" },
 						{ "apiCall": "details", "methodName": "getDetails" },
 						{ "apiCall": "preview", "methodName": "getPreview" },
@@ -49,8 +50,8 @@
 		"Tags":
 			{
 				"resource": "tag",
-				"actions": 
-					[ 
+				"actions":
+					[
 						{ "apiCall": "", "methodName": "all" }
 					]
 			},
