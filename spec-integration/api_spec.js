@@ -67,6 +67,16 @@ describe('api', function () {
 		});
 	});
 
+	it('should ensure editorial list items is an array', function (done) {
+		var editorial = new api.Editorial();
+		editorial.getList({ key: 'home2', shopId: 34 },
+			function (err, data) {
+
+			expect(data.list.listItems.listItem).to.be.instanceOf(Array);
+			done();
+		});
+	});
+
 	it('should ensure search results searchResult is an array', function (done) {
 		var tracks = new api.Tracks();
 		tracks.search({ q: 'timbalake' }, function (err, data) {
