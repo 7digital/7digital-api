@@ -164,6 +164,21 @@
 						"methodName" : "getList"
 					}
 				]
-			}
+			},
+		"Catalogue":
+			{
+			"resource": "catalogue",
+			"actions":
+			[
+				{
+					"apiCall": "artist-byurl",
+					"methodName": "getArtistIdByUrl"
+				},
+				{
+					"apiCall": "release-byurl",
+					"methodName": "getReleaseIdByUrl"
+				}
+			]
 		}
+	}
 }
