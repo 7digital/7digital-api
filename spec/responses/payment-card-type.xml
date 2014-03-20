@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" status="ok" version="1.2" xsi:noNamespaceSchemaLocation="http://api.7digital.com/1.2/static/7digitalAPI.xsd">
+	<cardTypes>
+		<cardType id="MASTERCARD">Mastercard</cardType>
+	</cardTypes>
+</response>
