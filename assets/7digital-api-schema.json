@@ -179,6 +179,17 @@
 					"methodName": "getReleaseIdByUrl"
 				}
 			]
+		},
+		"Payment":
+			{
+			"resource": "payment",
+			"actions":
+			[
+				{
+					"apiCall": "card/type",
+					"methodName": "getCardTypes"
+				}
+			]
 		}
 	}
 }
