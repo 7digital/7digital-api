@@ -1,8 +1,5 @@
 var expect = require('chai').expect;
-var winston = require('winston'),
-	api = require('../index').configure({
-		logger: new winston.Logger({ transports: [] })
-	});
+var api = require('../index');
 
 describe("Tracks actions", function() {
 
