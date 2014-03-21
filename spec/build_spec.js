@@ -1,7 +1,6 @@
 var expect = require('chai').expect;
 
-var Api = require('../lib/api').Api,
-	winston = require('winston');
+var Api = require('../lib/api').Api;
 
 describe('API.build', function() {
 	var schema = {
@@ -25,7 +24,7 @@ describe('API.build', function() {
 			consumerkey: 'YOUR_KEY_HERE',
 			consumersecret: 'YOUR_SECRET_HERE',
 			format: 'json',
-			logger: new winston.Logger({ transports: [] })
+			logger: { silly: function () {} }
 		}),
 		testApi = new api.Test();
 	});
@@ -44,7 +43,7 @@ describe('API.build', function() {
 			consumerkey: 'testkey',
 			consumersecret: 'testsecret',
 			format: 'json',
-			logger: new winston.Logger({ transports: [] })
+			logger: { silly: function () {} }
 		});
 
 		testApi = new api.Test();
