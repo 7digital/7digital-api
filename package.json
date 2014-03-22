@@ -35,7 +35,8 @@
     "jshint": "~2.4.0",
     "mocha": "~1.15.1",
     "chai": "~1.8.1",
-    "sinon": "~1.7.3"
+    "sinon": "~1.7.3",
+    "browserify": "^3.33.0"
   },
   "contributors": [
     "Raoul Millais <raoul.millais@7digital.com> (http://github.com/raoulmillais)",
