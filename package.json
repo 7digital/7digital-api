@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "docco": "0.3.0",
-    "jshint": "0.3.0",
+    "jshint": "~2.4.0",
     "mocha": "~1.15.1",
     "chai": "~1.8.1",
     "sinon": "~1.7.3"
