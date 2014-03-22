@@ -1,7 +1,7 @@
 var config = require('./config'),
 	underscore = require('underscore');
 
-module.exports = require('./lib/api').Api.buildFromFile(config);
+module.exports = require('./lib/api').Api.buildDefault();
 
 module.exports.configure = function (options) {
 	options = options || {};
