@@ -1,13 +1,13 @@
 SHELL = bash
 
 test: check
-	jessie -f nested spec/
+	npm test
 
-check: docs
-	jshint lib/*.js examples/*.js
+check:
+	./node_modules/.bin/jshint lib/*.js examples/*.js
 
 docs:
-	docco {lib,examples}/*.js
+	./node_modules/.bin/docco {lib,examples}/*.js
 
 .PHONY: test check docs
 
