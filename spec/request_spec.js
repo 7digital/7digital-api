@@ -6,7 +6,7 @@ describe('request', function () {
 
 	describe('createHeaders', function () {
 
-		it('adds the user adent and host headers', function () {
+		it('adds the user agent and host headers', function () {
 			var headers  = request.createHeaders('api.7digital.com');
 			expect(headers.host).to.equal('api.7digital.com');
 			expect(headers['User-Agent']).to.equal('Node.js HTTP Client');

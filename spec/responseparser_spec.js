@@ -1,6 +1,5 @@
 var expect = require('chai').expect,
 	parser = require('../lib/responseparser'),
-	winston = require('winston'),
 	fs = require('fs'),
 	path = require('path'),
 	sinon = require('sinon');
@@ -10,7 +9,7 @@ describe('responseparser', function() {
 	function createOptsWithFormat(format) {
 		return {
 			format: format,
-			logger: new winston.Logger({ transports: [] })
+			logger: { silly: function () {} }
 		};
 	}
 

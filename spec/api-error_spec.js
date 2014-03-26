@@ -1,7 +1,5 @@
 var expect = require('chai').expect;
-
-var ApiError = require('../lib/apierror'),
-	winston = require('winston');
+var ApiError = require('../lib/apierror');
 
 describe('API Error', function() {
 

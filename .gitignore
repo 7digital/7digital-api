@@ -4,8 +4,9 @@
 *.css
 *.gz
 *.swp
-/build/
+/build/7digital.js
 tags
 npm-debug.log
 /lib/compiled/
 docs
+7digital.js
