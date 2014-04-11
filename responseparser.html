@@ -1,17 +1,9 @@
-<!DOCTYPE html>  <html> <head>   <title>responseparser.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="customconfig.html">                 customconfig.js               </a>                                           <a class="source" href="default-action.html">                 default-action.js               </a>                                           <a class="source" href="oauth.html">                 oauth.js               </a>                                           <a class="source" href="simpleclient.html">                 simpleclient.js               </a>                                           <a class="source" href="trackpreview.html">                 trackpreview.js               </a>                                           <a class="source" href="two-legged.html">                 two-legged.js               </a>                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="helpers.html">                 helpers.js               </a>                                           <a class="source" href="logger.html">                 logger.js               </a>                                           <a class="source" href="oauth-helper.html">                 oauth-helper.js               </a>                                           <a class="source" href="request.html">                 request.js               </a>                                           <a class="source" href="resource.html">                 resource.js               </a>                                           <a class="source" href="responseparser.html">                 responseparser.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               responseparser.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">xml2js</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;xml2js&#39;</span><span class="p">),</span>
-	<span class="nx">underscore</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Tidies up and optionally parses the XML API response</p>
+<!DOCTYPE html>  <html> <head>   <title>responseparser.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="customconfig.html">                 customconfig.js               </a>                                           <a class="source" href="default-action.html">                 default-action.js               </a>                                           <a class="source" href="oauth.html">                 oauth.js               </a>                                           <a class="source" href="simpleclient.html">                 simpleclient.js               </a>                                           <a class="source" href="trackpreview.html">                 trackpreview.js               </a>                                           <a class="source" href="two-legged.html">                 two-legged.js               </a>                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="apierror.html">                 apierror.js               </a>                                           <a class="source" href="cache.html">                 cache.js               </a>                                           <a class="source" href="helpers.html">                 helpers.js               </a>                                           <a class="source" href="logger.html">                 logger.js               </a>                                           <a class="source" href="noop-cache.html">                 noop-cache.js               </a>                                           <a class="source" href="oauth-helper.html">                 oauth-helper.js               </a>                                           <a class="source" href="request.html">                 request.js               </a>                                           <a class="source" href="resource.html">                 resource.js               </a>                                           <a class="source" href="responseparser.html">                 responseparser.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               responseparser.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">xml2js</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;xml2js&#39;</span><span class="p">),</span>
+	<span class="nx">underscore</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
 
-<p>The <code>options</code> argument should contain the following properties:</p>
-
-<ul>
-<li><em>format</em> - The desired response format</li>
-<li><p><em>logger</em> - An instance of {Winston.Logger} for output</p></li>
-<li><p>@param {Object} options</p></li>
-<li>@constructor</li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">ResponseParser</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">format</span><span class="p">;</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">logger</span><span class="p">;</span>
-<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>The API returns resources as either a single object or an array.
+<span class="kd">function</span> <span class="nx">arrayify</span><span class="p">(</span><span class="nx">items</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">items</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span> <span class="nx">items</span> <span class="o">:</span> <span class="p">[</span><span class="nx">items</span><span class="p">];</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>The API returns resources as either a single object or an array.
 This makes responses fiddly to deal with for consumers as they
 manually check whether the resource has a length an access the
 property appropriately.  This method checks for an object and
@@ -20,73 +12,133 @@ wraps it in an array if it is.</p>
 <ul>
 <li>@param {Object} response</li>
 <li>@return {Object} the normalised response</li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">ResponseParser</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">normaliseResourceArrays</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">normaliseResourceArrays</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">items</span><span class="p">,</span> <span class="nx">formats</span><span class="p">,</span> <span class="nx">listItems</span><span class="p">;</span>
+
 	<span class="nx">underscore</span><span class="p">([</span>
 			<span class="s1">&#39;tracks.track&#39;</span><span class="p">,</span>
 			<span class="s1">&#39;artists.artist&#39;</span><span class="p">,</span>
 			<span class="s1">&#39;chart.chartItem&#39;</span><span class="p">,</span>
 			<span class="s1">&#39;releases.release&#39;</span><span class="p">,</span>
-			<span class="s1">&#39;searchResult.artist&#39;</span><span class="p">,</span>
+			<span class="s1">&#39;searchResults.searchResult&#39;</span><span class="p">,</span>
 			<span class="s1">&#39;recommendations.recommendedItem&#39;</span><span class="p">,</span>
-			<span class="s1">&#39;searchResult.release&#39;</span><span class="p">,</span>
 			<span class="s1">&#39;tags.tag&#39;</span><span class="p">,</span>
 			<span class="s1">&#39;taggedResults.taggedItem&#39;</span><span class="p">,</span>
-			<span class="s1">&#39;basketItems.basketItem&#39;</span>
+			<span class="s1">&#39;cardTypes.cardType&#39;</span>
 		<span class="p">]).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="nx">checkLength</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
 			<span class="kd">var</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">),</span>
 				<span class="nx">parent</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-				<span class="nx">child</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-
-			<span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">][</span><span class="nx">child</span><span class="p">]</span> <span class="o">&amp;&amp;</span>
+				<span class="nx">child</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>e.g. an artist/byTag/top with only one result then:
+ typeof response.taggedResults.taggedItem === 'object'
+but when there are many then:
+ typeof response.taggedResults.taggedItem === 'array'
+We want these to always be arrays for convenience</p>             </td>             <td class="code">               <div class="highlight"><pre>			<span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">][</span><span class="nx">child</span><span class="p">]</span> <span class="o">&amp;&amp;</span>
 				<span class="o">!</span><span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">][</span><span class="nx">child</span><span class="p">].</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
 				<span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">][</span><span class="nx">child</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">][</span><span class="nx">child</span><span class="p">]];</span>
 			<span class="p">}</span>
 		<span class="p">});</span>
 
+	<span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">release</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">release</span><span class="p">.</span><span class="nx">formats</span>
+		<span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">release</span><span class="p">.</span><span class="nx">formats</span><span class="p">.</span><span class="nx">format</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">formats</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">release</span><span class="p">.</span><span class="nx">formats</span><span class="p">.</span><span class="nx">format</span><span class="p">;</span>
+			<span class="nx">response</span><span class="p">.</span><span class="nx">release</span><span class="p">.</span><span class="nx">formats</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="nx">arrayify</span><span class="p">(</span><span class="nx">formats</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">list</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">listItems</span>
+		<span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">listItems</span><span class="p">.</span><span class="nx">listItem</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">listItems</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">listItems</span><span class="p">.</span><span class="nx">listItem</span><span class="p">;</span>
+			<span class="nx">response</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">listItems</span><span class="p">.</span><span class="nx">listItem</span> <span class="o">=</span> <span class="nx">arrayify</span><span class="p">(</span><span class="nx">listItems</span><span class="p">);</span>
+	<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>basket is a special case: we want to fold basketItem into basketItems
+which is a redundant wrapper.</p>             </td>             <td class="code">               <div class="highlight"><pre>	<span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">basket</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">basket</span><span class="p">.</span><span class="nx">basketItems</span> <span class="o">&amp;&amp;</span>
+		<span class="nx">response</span><span class="p">.</span><span class="nx">basket</span><span class="p">.</span><span class="nx">basketItems</span><span class="p">.</span><span class="nx">basketItem</span><span class="p">)</span> <span class="p">{</span>
+
+		<span class="nx">items</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">basket</span><span class="p">.</span><span class="nx">basketItems</span><span class="p">.</span><span class="nx">basketItem</span><span class="p">;</span>
+		<span class="nx">items</span> <span class="o">=</span> <span class="nx">arrayify</span><span class="p">(</span><span class="nx">items</span><span class="p">);</span>
+		<span class="nx">response</span><span class="p">.</span><span class="nx">basket</span><span class="p">.</span><span class="nx">basketItems</span> <span class="o">=</span> <span class="nx">items</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">basket</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">basket</span><span class="p">.</span><span class="nx">basketItems</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span>
+			<span class="o">!</span><span class="nx">underscore</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">basket</span><span class="p">.</span><span class="nx">basketItems</span><span class="p">))</span> <span class="p">{</span>
+		<span class="nx">response</span><span class="p">.</span><span class="nx">basket</span><span class="p">.</span><span class="nx">basketItems</span> <span class="o">=</span> <span class="p">[];</span>
+	<span class="p">}</span>
+
 	<span class="k">return</span> <span class="nx">response</span><span class="p">;</span>
-<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Callback for parsing the XML response return from the API
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">renameTextNodes</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">underscore</span><span class="p">({</span>
+		<span class="s1">&#39;cardTypes.cardType&#39;</span> <span class="o">:</span> <span class="s1">&#39;name&#39;</span>
+	<span class="p">}).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="nx">renameTextNode</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">),</span>
+			<span class="nx">parent</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+			<span class="nx">child</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Text nodes are given the key '_' if there are attributes present on
+the node</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="kd">function</span> <span class="nx">doRename</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">_</span><span class="p">;</span>
+			<span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">_</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">][</span><span class="nx">child</span><span class="p">])</span> <span class="p">{</span>
+
+			<span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">response</span><span class="p">[</span><span class="nx">parent</span><span class="p">][</span><span class="nx">child</span><span class="p">];</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">length</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">underscore</span><span class="p">(</span><span class="nx">node</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">subNode</span><span class="p">)</span> <span class="p">{</span>
+					<span class="nx">doRename</span><span class="p">(</span><span class="nx">subNode</span><span class="p">);</span>
+				<span class="p">});</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="nx">doRename</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+			<span class="p">}</span>
+
+		<span class="p">}</span>
+	<span class="p">});</span>
+
+	<span class="k">return</span> <span class="nx">response</span><span class="p">;</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Callback for parsing the XML response return from the API
 and converting it to JSON and handing control back to the
 caller.</p>
 
 <ul>
 <li>@param {Function} callback - the caller's callback</li>
 <li>@param {String} response - the XML response from the API</li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">ResponseParser</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">parse</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">callback</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">parser</span><span class="p">,</span>
-		<span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+<li>@parma {Object} opts - an options hash with the desired format and logger</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">parse</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">parser</span><span class="p">;</span>
 
-	<span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
-		<span class="k">return</span><span class="p">;</span>
-	<span class="p">}</span>
-
-	<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">format</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">===</span> <span class="s1">&#39;XML&#39;</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nx">opts</span><span class="p">.</span><span class="nx">format</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">===</span> <span class="s1">&#39;XML&#39;</span><span class="p">)</span> <span class="p">{</span>
 		<span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">response</span><span class="p">);</span>
 		<span class="k">return</span><span class="p">;</span>
 	<span class="p">}</span>
 
-	<span class="nx">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">xml2js</span><span class="p">.</span><span class="nx">Parser</span><span class="p">();</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Check the request was authorised</p>             </td>             <td class="code">               <div class="highlight"><pre>	<span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">===</span> <span class="mi">401</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">callback</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
-		<span class="k">return</span><span class="p">;</span>
+	<span class="nx">opts</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">silly</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+
+	<span class="nx">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">xml2js</span><span class="p">.</span><span class="nx">Parser</span><span class="p">({</span> <span class="nx">mergeAttrs</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">explicitArray</span><span class="o">:</span> <span class="kc">false</span> <span class="p">});</span>
+
+	<span class="nx">parser</span><span class="p">.</span><span class="nx">parseString</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">validateAndCleanResponse</span><span class="p">);</span>
+	<span class="kd">function</span> <span class="nx">validateAndCleanResponse</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">cleanedResult</span><span class="p">;</span>
+		<span class="kd">var</span> <span class="nx">clean</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;unexpected response returned by api&#39;</span><span class="p">));</span>
+		<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Manually remove the xml namespace bits</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="k">delete</span> <span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">[</span><span class="s1">&#39;xmlns:xsi&#39;</span><span class="p">];</span>
+		<span class="k">delete</span> <span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">[</span><span class="s1">&#39;xmlns:xsd&#39;</span><span class="p">];</span>
+		<span class="k">delete</span> <span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">[</span><span class="s1">&#39;xsi:noNamespaceSchemaLocation&#39;</span><span class="p">];</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">!==</span> <span class="s1">&#39;ok&#39;</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;unrecognised response status &quot;&#39;</span> <span class="o">+</span>
+								<span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">+</span> <span class="s1">&#39;&quot; from api&#39;</span><span class="p">));</span>
+		<span class="p">}</span>
+
+		<span class="nx">clean</span> <span class="o">=</span> <span class="nx">underscore</span><span class="p">.</span><span class="nx">compose</span><span class="p">(</span>
+			<span class="nx">renameTextNodes</span><span class="p">,</span>
+			<span class="nx">normaliseResourceArrays</span><span class="p">);</span>
+
+		<span class="nx">cleanedResult</span> <span class="o">=</span> <span class="nx">clean</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">response</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">cleanedResult</span><span class="p">);</span>
 	<span class="p">}</span>
+<span class="p">}</span>
 
-	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">silly</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Parsing XML response from API&#39;</span><span class="p">);</span>
-	<span class="nx">parser</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Manually remove the xml namespace bits</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="k">delete</span> <span class="nx">result</span><span class="p">[</span><span class="s1">&#39;xmlns:xsi&#39;</span><span class="p">];</span>
-		<span class="k">delete</span> <span class="nx">result</span><span class="p">[</span><span class="s1">&#39;xsi:noNamespaceSchemaLocation&#39;</span><span class="p">];</span>
-
-		<span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nx">callback</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
-		<span class="p">}</span>
-		<span class="k">else</span> <span class="p">{</span>
-			<span class="kd">var</span> <span class="nx">normalisedResult</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">normaliseResourceArrays</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
-			<span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">normalisedResult</span><span class="p">);</span>
-		<span class="p">}</span>
-	<span class="p">});</span>
-
-	<span class="nx">parser</span><span class="p">.</span><span class="nx">parseString</span><span class="p">(</span><span class="nx">response</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
-<span class="p">};</span>
-
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">ResponseParser</span><span class="p">;</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">parse</span> <span class="o">=</span> <span class="nx">parse</span><span class="p">;</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">normaliseResourceArrays</span> <span class="o">=</span> <span class="nx">normaliseResourceArrays</span><span class="p">;</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
