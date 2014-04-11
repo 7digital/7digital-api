@@ -20,7 +20,7 @@ define assert_master_branch
 endef
 
 define assert_all_changes_pushed
-	[ -z "`git rev-list @{upstream}.. -n 1`" ] ||                \
+	test -z "`git rev-list @{upstream}.. -n 1`" ||               \
 		(echo "You must push all your changes first" 1>&2 && \
 		exit 1)
 endef
@@ -32,15 +32,6 @@ define assert_is_owner
 		(echo "You must be an owner to publish" 1>&2 && \
 		exit 1)
 endef
-
-# Hack to passing an argument to publish
-# If the first goal is publish
-ifeq (publish,$(firstword $(MAKECMDGOALS)))
-	#store the remaining goals (from 2nd onwards) into PUBLISH_ARGS
-	PUBLISH_ARGS:=$(wordlist 2,$(MAKECMDGOALS)),$(MAKECMDGOALS))
-	#eval them so they are no-op goals to stop make erroring
-	$(eval $(PUBLISH_ARGS):;@:)
-endif
 
 test: check
 	@npm test
@@ -70,13 +61,15 @@ publish-docs: test docs publish-check
 	git checkout master
 
 publish: publish-docs
+	test -n "$(version)" || (echo \
+		"Supply a version: make publish version=x.x.x" && \
+		exit 1)
 	$(assert_is_owner)
-	git tag -a $(PUBLISH_ARGS)
-	npm version $(PUBLISH_ARGS)
+	git tag -a $(version)
+	npm version $(version)
 	git push origin master --tags
 	npm publish
 
 
 
 .PHONY: test check docs build publish-docs publish
-
