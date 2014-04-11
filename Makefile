@@ -7,14 +7,14 @@ define assert_no_local_changes
 	@git --no-pager diff --exit-code --quiet ||                         \
 		(echo "You must commit or stash your changes first" 1>&2 && \
 		exit 1)
-	@git --no-pager diff --exit-code --quiet --cached ||              \
-		(echo "You must commit your staged changes first" 1>&2 && \
+	@git --no-pager diff --exit-code --quiet --cached ||                \
+		(echo "You must commit your staged changes first" 1>&2 &&   \
 		exit 1)
 endef
 
 define assert_master_branch
 	@git rev-parse --abbrev-ref HEAD                         \
-		| grep -P '^master$' > /dev/null 2>&1 ||         \
+		| grep 'master' > /dev/null 2>&1 ||              \
 		(echo "You must be on the master branch" 1>&2 && \
 		exit 1)
 endef
@@ -26,9 +26,9 @@ define assert_all_changes_pushed
 endef
 
 define assert_is_owner
-	npm --loglevel=warn owner ls | \
-	awk '{print $1}' |             \
-	grep "`npm whoami`" > /dev/null 2>&1 || \
+	npm --loglevel=warn owner ls |                          \
+	awk '{print $1}' |                                      \
+	grep "`npm whoami`" > /dev/null 2>&1 ||                 \
 		(echo "You must be an owner to publish" 1>&2 && \
 		exit 1)
 endef
