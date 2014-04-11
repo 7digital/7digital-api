@@ -65,7 +65,7 @@ publish: publish-docs
 		"Supply a version: make publish version=x.x.x" && \
 		exit 1)
 	$(assert_is_owner)
-	git tag -a $(version)
+	git tag -a $(version) -m "v$(version)"
 	npm version $(version)
 	git push origin master --tags
 	npm publish

@@ -20,6 +20,7 @@
     "node >= 0.6.0"
   ],
   "scripts": {
+    "prepublish": "echo 'run make publish' && exit 1",
     "test": "./node_modules/.bin/mocha spec/"
   },
   "main": "index.js",
