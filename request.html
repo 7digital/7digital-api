@@ -38,12 +38,14 @@
 	<span class="p">};</span>
 <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Makes a GET request to the API.</p>
 
-<p>@param {Object} endpointInfo - Generic metadata about the endpoint to hit.
-@param {Object} requestData - Parameters for this specific request.
-@param {Object} credentials - OAuth consumerkey and consumersecret.
-@param {Object} logger - An object implementing the npm log levels.
-@param {Object} theCache - A response cache.
-@param {Function} callback - The callback to call with the response.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">get</span><span class="p">(</span><span class="nx">endpointInfo</span><span class="p">,</span> <span class="nx">requestData</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span> <span class="nx">theCache</span><span class="p">,</span>
+<ul>
+<li>@param {Object} endpointInfo - Generic metadata about the endpoint to hit.</li>
+<li>@param {Object} requestData - Parameters for this specific request.</li>
+<li>@param {Object} credentials - OAuth consumerkey and consumersecret.</li>
+<li>@param {Object} logger - An object implementing the npm log levels.</li>
+<li>@param {Object} theCache - A response cache.</li>
+<li>@param {Function} callback - The callback to call with the response.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">get</span><span class="p">(</span><span class="nx">endpointInfo</span><span class="p">,</span> <span class="nx">requestData</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span> <span class="nx">theCache</span><span class="p">,</span>
 	<span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 
 	<span class="kd">var</span> <span class="nx">normalisedData</span> <span class="o">=</span> <span class="nx">prepare</span><span class="p">(</span><span class="nx">requestData</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">.</span><span class="nx">consumerkey</span><span class="p">),</span>
@@ -101,11 +103,13 @@
 	<span class="p">});</span>
 <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Makes a POST request to the API.</p>
 
-<p>@param {Object} endpointInfo - Generic metadata about the endpoint to hit.
-@param {Object} requestData - Parameters for this specific request.
-@param {Object} credentials - OAuth consumerkey and consumersecret.
-@param {Object} logger - An object implementing the npm log levels.
-@param {Function} callback - The callback to call with the response.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">post</span><span class="p">(</span><span class="nx">endpointInfo</span><span class="p">,</span> <span class="nx">requestData</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+<ul>
+<li>@param {Object} endpointInfo - Generic metadata about the endpoint to hit.</li>
+<li>@param {Object} requestData - Parameters for this specific request.</li>
+<li>@param {Object} credentials - OAuth consumerkey and consumersecret.</li>
+<li>@param {Object} logger - An object implementing the npm log levels.</li>
+<li>@param {Function} callback - The callback to call with the response.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">post</span><span class="p">(</span><span class="nx">endpointInfo</span><span class="p">,</span> <span class="nx">requestData</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 	<span class="kd">var</span> <span class="nx">hostInfo</span> <span class="o">=</span> <span class="p">{</span>
 		<span class="nx">host</span><span class="o">:</span> <span class="nx">endpointInfo</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span>
 		<span class="nx">port</span><span class="o">:</span> <span class="nx">endpointInfo</span><span class="p">.</span><span class="nx">port</span>
@@ -120,12 +124,14 @@
 	<span class="p">}</span>
 <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Dispatches an oauth signed request to the API</p>
 
-<p>@param {String} url - the path of the API url to request.
-@param {String} httpMethod
-@param {Object} requestData - hash of the parameters for the request.
-@param {String} authType - OAuth request type: '2-legged' or '3-legged'
-@param {Object} hostInfo - API host information
-@param {Function} callback - The callback to call with the response.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">dispatchSecure</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">httpMethod</span><span class="p">,</span> <span class="nx">requestData</span><span class="p">,</span> <span class="nx">authtype</span><span class="p">,</span> <span class="nx">hostInfo</span><span class="p">,</span>
+<ul>
+<li>@param {String} url - the path of the API url to request.</li>
+<li>@param {String} httpMethod</li>
+<li>@param {Object} requestData - hash of the parameters for the request.</li>
+<li>@param {String} authType - OAuth request type: '2-legged' or '3-legged'</li>
+<li>@param {Object} hostInfo - API host information</li>
+<li>@param {Function} callback - The callback to call with the response.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">dispatchSecure</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">httpMethod</span><span class="p">,</span> <span class="nx">requestData</span><span class="p">,</span> <span class="nx">authtype</span><span class="p">,</span> <span class="nx">hostInfo</span><span class="p">,</span>
 		<span class="nx">credentials</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 
 	<span class="kd">var</span> <span class="nx">fullUrl</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="nx">hostInfo</span><span class="p">.</span><span class="nx">host</span> <span class="o">+</span> <span class="nx">url</span><span class="p">,</span>
@@ -177,13 +183,15 @@
 <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Dispatches requests to the API.  Serializes the data in keeping with the API
 specification and applies approriate HTTP headers.</p>
 
-<p>@param {String} url - the URL on the API to make the request to.
-@param {String} httpMethod
-@param {Object} data - hash of the parameters for the request.
-@param {Object} hostInfo - hash of host, port and version
-@param {Object} credentials - hash of oauth consumer key and secret
-@param {Object} logger - an object implementing the npm log levels
-@param {Function} callback</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">dispatch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">httpMethod</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">hostInfo</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span>
+<ul>
+<li>@param {String} url - the URL on the API to make the request to.</li>
+<li>@param {String} httpMethod</li>
+<li>@param {Object} data - hash of the parameters for the request.</li>
+<li>@param {Object} hostInfo - hash of host, port and version</li>
+<li>@param {Object} credentials - hash of oauth consumer key and secret</li>
+<li>@param {Object} logger - an object implementing the npm log levels</li>
+<li>@param {Function} callback</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">dispatch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">httpMethod</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">hostInfo</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span>
 	<span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 
 	<span class="kd">var</span> <span class="nx">apiRequest</span><span class="p">,</span> <span class="nx">headers</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">hasErrored</span><span class="p">;</span>

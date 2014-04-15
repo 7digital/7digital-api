@@ -3,9 +3,11 @@
 <p>Creates a new APIError supplied to callbacks when an error response is
 received.</p>
 
-<p>@constructor
-@param {Number} statusCode - The HTTP status code of the request.
-@param {String} response - (Optional) The response body.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">ApiError</span><span class="p">(</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+<ul>
+<li>@constructor</li>
+<li>@param {Number} statusCode - The HTTP status code of the request.</li>
+<li>@param {String} response - (Optional) The response body.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">ApiError</span><span class="p">(</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;ApiError&quot;</span><span class="p">;</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="nx">statusCode</span><span class="p">;</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">response</span> <span class="o">=</span> <span class="nx">response</span><span class="p">;</span>
