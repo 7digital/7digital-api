@@ -1,5 +1,5 @@
 // Module dependencies
-var
+var util = require('util'),
 	step = require('step'),
 	readline = require('readline'),
 	oauthHelper = require('../lib/oauth-helper'),
@@ -19,11 +19,17 @@ step(
 		}, this);
 	},
 	function authorise(err, requestToken, requestSecret, authoriseUrl) {
-		// Throw the error if there is one
 		if (err) {
+			// Something went wrong, show the user and exit
 			console.error('Error getting the request token');
-			throw new Error(err);
+			console.error(util.inspect(err, { depth: null, colors: true }));
+			process.exit(0);
 		}
+
+		// Log the request token and secret
+		console.info('Received Request Token and Secret');
+		console.info('Request Token: %s', requestToken);
+		console.info('Request Secret: %s', requestSecret);
 
 		// Show the authorise url
 		console.info('Authorise here: %s', authoriseUrl);
@@ -34,9 +40,9 @@ step(
 		this.requestSecret = requestSecret;
 
 		// Tell the user to visit the authorise url
-		consoleInterface.question('Visit the link to authorise this' +
-									' application to access your 7digital' +
-									'account.  Press enter to continue', this);
+		consoleInterface.question('Visit the link to authorise this ' +
+			'application to access your 7digital' +
+			'account.  Press enter to continue', this);
 	},
 	function continueAfterAuthorisation() {
 		// Get an access token using the oauth helper using the authorised
@@ -48,18 +54,19 @@ step(
 				requestsecret: this.requestSecret
 			}, this);
 	},
-	function logTheAccessToken(err, accesstoken, accesssecret) {
+	function logTheAccessToken(err, accessToken, accessSecret) {
 		var api, user;
 
-		// Log any error
+		// Close the readline interface properly so that the process
+		// ends cleanly otherwise it will hang.
+		consoleInterface.close();
+		process.stdin.destroy();
+
 		if (err) {
+			// Something went wrong, show the user and exit
 			console.error('Error getting the access token');
-			console.log(JSON.stringify(err));
-			// Close the readline interface properly so that the process
-			// ends cleanly otherwise it will hang.
-			consoleInterface.close();
-			process.stdin.destroy();
-			throw new Error(err);
+			console.error(util.inspect(err, { depth: null, colors: true }));
+			process.exit(1);
 		}
 
 		api = require('../index').configure({
@@ -67,24 +74,28 @@ step(
 			consumersecret: consumersecret
 		});
 
-		// Write the token and secret out to the commandline
-		console.info('Access Token: %s', accesstoken);
-		console.info('Access Secret: %s', accesssecret);
+		// Log the access token and secret
+		console.info('Received Access Token and Secret');
+		console.info('Access Token: %s', accessToken);
+		console.info('Access Secret: %s', accessSecret);
+
 		user = new api.User();
 		user.getLocker({
-			accesstoken: accesstoken,
-			accesssecret: accesssecret
-		}, function (err, result) {
-			console.log('!!!ERROR!!!');
-			console.log(err);
-			console.log('!!!RESULT!!!');
-			console.log(result);
+			accesstoken: accessToken,
+			accesssecret: accessSecret,
+			pageSize: 1
+		}, function (err, response) {
+			if (err) {
+				// Something went wrong, show the user and exit
+				console.error('An error occurred: ');
+				console.error(util.inspect(err, { depth: null, colors: true }));
+				process.exit(1);
+			}
+
+			console.log('Successfully accessed the user\'s locker: ');
+			console.log(util.inspect(response, { depth: null, colors: true }));
+
+			process.exit(0);
 		});
-
-
-		// Close the readline interface properly so that the process
-		// ends cleanly otherwise it will hang.
-		consoleInterface.close();
-		process.stdin.destroy();
 	}
 );
