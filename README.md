@@ -8,13 +8,19 @@ Current head build status:
 About 7digital
 ==============
 
-7digital.com is an online music store operating in over 16 countries and offering more than 11 million high quality DRM free MP3s (320kbps) from all major labels and wide range of idependent labels and distributors. 7digital API will give you access to the full catalogue including high quality album art, 30s preview clips for all tracks, commissions on sales, integrated purchasing and full length streaming. More details at [developer.7digital.net](http://developer.7digital.net/)
+7digital.com is an online music store operating in over 16 countries and
+offering more than 11 million high quality DRM free MP3s (320kbps) from all
+major labels and wide range of idependent labels and distributors. 7digital
+API will give you access to the full catalogue including high quality album
+art, 30s preview clips for all tracks, commissions on sales, integrated
+purchasing and full length streaming. More details at
+[developer.7digital.net](http://developer.7digital.net/)
 
 WHAT IS THIS?
 =============
 
-A serverside javascript wrapper round the 7digital API which returns the responses parsed
-into JavaScript objects.  Full code documentation can be found [here](http://raoulmillais.github.com/node-7digital-api/api.html)
+A serverside javascript client for the 7digital API .
+Full code documentation for the most recent release can be found [here](http://raoulmillais.github.com/node-7digital-api/api.html)
 
 INSTALLATION
 ============
@@ -23,52 +29,69 @@ INSTALLATION
 
 Install it via [npm](http://npmjs.org/)
 
-    npm install --save 7digital-api
+```bash
+npm install --save 7digital-api
+```
 
 USAGE
 =====
 
-See the examples folder for examples of how to use this.  If you have included 7digital-api in
-your dependencies in the package.json file, you can use the like so:
+See the examples folder for examples of how to use this.  If you have included
+7digital-api in your dependencies in the package.json file, you can use the
+like so:
 
-    var api = require('7digital-api'),
-        artists = new api.Artists();
-    
-    artists.getReleases({ artistid: 1 }, function(err, data) {
-        console.dir(data);
-    });
+```javascript
+var api = require('7digital-api'),
+	artists = new api.Artists();
 
-If you need to supply your own config or want XML responses, you do so like this:
+artists.getReleases({ artistid: 1 }, function(err, data) {
+	console.dir(data);
+});
+```
 
-    var api, artists;
-
-    api = require('7digital-api').configure({
-        format: 'XML',
-        consumerkey: 'MY_KEY_HERE',
-        consumersecret: 'MY_SECRET_HERE',
-    });
-    
-    artists = new api.Artists();
-    
-    artists.getReleases({ artistid: 1 }, function(err, data) {
-	    console.dir(data);
-    });	
-
-See oauth.js in the examples folder for an example of how to acquire an oauth
-access token to access any of the protected endpoints.
+To supply your OAuth credentials or if you want XML responses, you can use the
+configure function.  Here is how you can do so:
 
 
-*The bundled OAuth module must be used in place of a standard OAuth client*
+```javascript
+var api, artists;
 
-    require('7digital-api').oauth,
+api = require('7digital-api').configure({
+	format: 'XML',
+	consumerkey: 'MY_KEY_HERE',
+	consumersecret: 'MY_SECRET_HERE',
+});
 
-This is to ensure the tokens are correctly parsed from the XML response.
+artists = new api.Artists();
 
-See [developer.7digital.net](http://developer.7digital.net/) for full details of the API
-endpoints and the parameters they accept.
+artists.getReleases({ artistid: 1 }, function(err, data) {
+	console.dir(data);
+});
+```
 
-TESTS
-=====
+See [developer.7digital.net](http://developer.7digital.net/) for full details
+of the API endpoints and the parameters they accept.
+
+Making requests on behalf of a user to OAuth protected endpoints
+================================================================
+
+There is a bundled OAuth helper that configures the oauth library with the
+necessary settings for the API and formats the authorise URL appropriately.
+
+```javascript
+require('7digital-api').oauth,
+```
+
+See oauth.js in the examples folder for an example of the OAuth flow for
+acquiring an authorised access token and secret that you will need to access
+any of the protected endpoints on behalf of a user.
+
+```bash
+node examples\oauth.js
+```
+
+Running the tests
+=================
 
 To run the unit tests:
 
