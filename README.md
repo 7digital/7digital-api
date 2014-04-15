@@ -1,12 +1,12 @@
 ![7digital](http://i.imgur.com/StUnvCy.png?1)
-Node.js API Client
-==================
+# Node.js API Client
+
 Current head build status:
 
 [![Build Status](https://travis-ci.org/raoulmillais/node-7digital-api.png?branch=master)](http://travis-ci.org/raoulmillais/node-7digital-api)
 
-About 7digital
-==============
+## About 7digital
+
 
 7digital.com is an online music store operating in over 16 countries and
 offering more than 11 million high quality DRM free MP3s (320kbps) from all
@@ -16,14 +16,14 @@ art, 30s preview clips for all tracks, commissions on sales, integrated
 purchasing and full length streaming. More details at
 [developer.7digital.net](http://developer.7digital.net/)
 
-WHAT IS THIS?
-=============
+### What is this?
+
 
 A serverside javascript client for the 7digital API .
 Full code documentation for the most recent release can be found [here](http://raoulmillais.github.com/node-7digital-api/api.html)
 
-INSTALLATION
-============
+### Installation
+
 
 [![NPM](https://nodei.co/npm/7digital-api.png?downloads=true)](https://nodei.co/npm/7digital-api/)
 
@@ -33,8 +33,8 @@ Install it via [npm](http://npmjs.org/)
 npm install --save 7digital-api
 ```
 
-USAGE
-=====
+### Usage
+
 
 See the examples folder for examples of how to use this.  If you have included
 7digital-api in your dependencies in the package.json file, you can use the
@@ -72,8 +72,8 @@ artists.getReleases({ artistid: 1 }, function(err, data) {
 See [developer.7digital.net](http://developer.7digital.net/) for full details
 of the API endpoints and the parameters they accept.
 
-Making requests on behalf of a user to OAuth protected endpoints
-================================================================
+### Making requests on behalf of a user to OAuth protected endpoints
+
 
 There is a bundled OAuth helper that configures the oauth library with the
 necessary settings for the API and formats the authorise URL appropriately.
@@ -90,8 +90,7 @@ any of the protected endpoints on behalf of a user.
 node examples\oauth.js
 ```
 
-Running the tests
-=================
+### Running the tests
 
 To run the unit tests:
 
