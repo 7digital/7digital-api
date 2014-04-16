@@ -110,7 +110,7 @@ variables need to be set:
 - `NODE_API_CLIENT_TESTS_CONSUMER_SECRET`
 
 Your 7d api key and secret, which can be obtained from
-http://access.7digital.com/partnerprogram
+https://api-signup.7digital.com
 
 - `NODE_API_CLIENT_TESTS_VOUCHER_CODE`
 
