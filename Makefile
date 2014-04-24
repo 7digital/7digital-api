@@ -43,7 +43,7 @@ bundle:
 	$(BUNDLE) build.js > build/7digital.js
 
 docs:
-	$(DOCCO) {lib,examples}/*.js
+	$(DOCCO) --layout linear {lib,examples}/*.js
 
 publish-check:
 	$(assert_master_branch)
