@@ -2,7 +2,8 @@ var expect = require('chai').expect,
 	parser = require('../lib/responseparser'),
 	fs = require('fs'),
 	path = require('path'),
-	sinon = require('sinon');
+	sinon = require('sinon'),
+	ApiParseError = require('../lib/errors').ApiParseError;
 
 describe('responseparser', function() {
 
@@ -36,6 +37,16 @@ describe('responseparser', function() {
 		expect(typeof callbackSpy.lastCall.args[1]).to.equal('object');
 	});
 
+	it('should return parse error when response format is unexpected', function () {
+		var callbackSpy = sinon.spy(),
+		xml = 'some really rubbish xml';
+
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
+		expect(callbackSpy.calledOnce);
+		expect(callbackSpy.lastCall.args[0]).to.be.an.instanceOf(
+			ApiParseError);
+	});
+
 	it('should remove xml cruft', function() {
 		var parsed, callbackSpy = sinon.spy(),
 			xml = fs.readFileSync(
@@ -51,6 +62,7 @@ describe('responseparser', function() {
 		expect(parsed['xmlns:xsd']).to.be.undefined;
 		expect(parsed['xsi:noNamespaceSchemaLocation:']).to.be.undefined;
 	});
+
 	it('should callback with the error when the status is error', function () {
 		var callbackSpy = sinon.spy(),
 			xml = fs.readFileSync(

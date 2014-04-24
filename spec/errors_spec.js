@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var ApiHttpError = require('../lib/errors').ApiHttpError;
+var ApiParseError = require('../lib/errors').ApiParseError;
 
 describe('API HTTP Error', function() {
 
@@ -20,5 +21,20 @@ describe('API HTTP Error', function() {
 		var err = new ApiHttpError(401);
 
 		expect(err.message).to.equal('Unexpected 401 status code');
+	});
+});
+
+describe('API Parse Error', function () {
+
+	it('should use the passed message as the message', function () {
+		var err = new ApiParseError('my message', 'my response');
+
+		expect(err.message).to.equal('my message');
+	});
+
+	it('should set the passed raw response as a property', function () {
+		var err = new ApiParseError('my message', 'my raw response');
+
+		expect(err.response).to.equal('my raw response');
 	});
 });
