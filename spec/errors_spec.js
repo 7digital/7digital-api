@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 var ApiHttpError = require('../lib/errors').ApiHttpError;
 var ApiParseError = require('../lib/errors').ApiParseError;
+var ApiError = require('../lib/errors').ApiError;
 
 describe('API HTTP Error', function() {
 
@@ -38,3 +39,25 @@ describe('API Parse Error', function () {
 		expect(err.response).to.equal('my raw response');
 	});
 });
+
+describe('Api Response Error', function () {
+
+	it('should use the error message returned from the api as the message', function () {
+		var err = new ApiError({
+			errorMessage: 'api error message',
+			code: 1234
+		});
+
+		expect(err.message).to.equal('api error message');
+	});
+
+	it('should set the api response code as a property', function () {
+		var err = new ApiError({
+			errorMessage: 'api error message',
+			code: 1234
+		});
+
+		expect(err.code).to.equal(1234);
+	});
+});
+

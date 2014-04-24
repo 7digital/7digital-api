@@ -3,7 +3,8 @@ var expect = require('chai').expect,
 	fs = require('fs'),
 	path = require('path'),
 	sinon = require('sinon'),
-	ApiParseError = require('../lib/errors').ApiParseError;
+	ApiParseError = require('../lib/errors').ApiParseError,
+	ApiError = require('../lib/errors').ApiError;
 
 describe('responseparser', function() {
 
@@ -75,8 +76,9 @@ describe('responseparser', function() {
 		var response = callbackSpy.lastCall.args[1];
 		expect(error).to.not.equal(undefined);
 		expect(response).to.equal(undefined);
+		expect(error).to.be.instanceOf(ApiError);
 		expect(error.code).to.equal('2001');
-		expect(error.errorMessage).to.equal("Release not found");
+		expect(error.message).to.equal("Release not found");
 	});
 
 	it('should normalise single resource responses into an array', function() {
