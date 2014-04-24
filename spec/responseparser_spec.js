@@ -2,7 +2,9 @@ var expect = require('chai').expect,
 	parser = require('../lib/responseparser'),
 	fs = require('fs'),
 	path = require('path'),
-	sinon = require('sinon');
+	sinon = require('sinon'),
+	ApiParseError = require('../lib/errors').ApiParseError,
+	ApiError = require('../lib/errors').ApiError;
 
 describe('responseparser', function() {
 
@@ -36,6 +38,16 @@ describe('responseparser', function() {
 		expect(typeof callbackSpy.lastCall.args[1]).to.equal('object');
 	});
 
+	it('should return parse error when response format is unexpected', function () {
+		var callbackSpy = sinon.spy(),
+		xml = 'some really rubbish xml';
+
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
+		expect(callbackSpy.calledOnce);
+		expect(callbackSpy.lastCall.args[0]).to.be.an.instanceOf(
+			ApiParseError);
+	});
+
 	it('should remove xml cruft', function() {
 		var parsed, callbackSpy = sinon.spy(),
 			xml = fs.readFileSync(
@@ -51,6 +63,7 @@ describe('responseparser', function() {
 		expect(parsed['xmlns:xsd']).to.be.undefined;
 		expect(parsed['xsi:noNamespaceSchemaLocation:']).to.be.undefined;
 	});
+
 	it('should callback with the error when the status is error', function () {
 		var callbackSpy = sinon.spy(),
 			xml = fs.readFileSync(
@@ -63,8 +76,9 @@ describe('responseparser', function() {
 		var response = callbackSpy.lastCall.args[1];
 		expect(error).to.not.equal(undefined);
 		expect(response).to.equal(undefined);
+		expect(error).to.be.instanceOf(ApiError);
 		expect(error.code).to.equal('2001');
-		expect(error.errorMessage).to.equal("Release not found");
+		expect(error.message).to.equal("Release not found");
 	});
 
 	it('should normalise single resource responses into an array', function() {
