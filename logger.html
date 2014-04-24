@@ -1,34 +1,196 @@
-<!DOCTYPE html>  <html> <head>   <title>logger.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="customconfig.html">                 customconfig.js               </a>                                           <a class="source" href="default-action.html">                 default-action.js               </a>                                           <a class="source" href="oauth.html">                 oauth.js               </a>                                           <a class="source" href="simpleclient.html">                 simpleclient.js               </a>                                           <a class="source" href="trackpreview.html">                 trackpreview.js               </a>                                           <a class="source" href="two-legged.html">                 two-legged.js               </a>                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="cache.html">                 cache.js               </a>                                           <a class="source" href="errors.html">                 errors.js               </a>                                           <a class="source" href="helpers.html">                 helpers.js               </a>                                           <a class="source" href="logger.html">                 logger.js               </a>                                           <a class="source" href="noop-cache.html">                 noop-cache.js               </a>                                           <a class="source" href="oauth-helper.html">                 oauth-helper.js               </a>                                           <a class="source" href="request.html">                 request.js               </a>                                           <a class="source" href="resource.html">                 resource.js               </a>                                           <a class="source" href="responseparser.html">                 responseparser.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               logger.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Makes a logger function that formats messages sensibly and logs to either
-stdout or stderr.</p>
+<!DOCTYPE html>
 
+<html>
+<head>
+  <title>logger.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>logger.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="customconfig.html">
+                    customconfig.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="default-action.html">
+                    default-action.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth.html">
+                    oauth.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="simpleclient.html">
+                    simpleclient.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="trackpreview.html">
+                    trackpreview.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="api.html">
+                    api.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cache.html">
+                    cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="errors.html">
+                    errors.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.html">
+                    helpers.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="logger.html">
+                    logger.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="noop-cache.html">
+                    noop-cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth-helper.html">
+                    oauth-helper.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="request.html">
+                    request.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="resource.html">
+                    resource.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="responseparser.html">
+                    responseparser.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config'</span>);</pre></div>
+        
+      
+        
+        <p>Makes a logger function that formats messages sensibly and logs to either
+stdout or stderr.</p>
 <ul>
 <li>@param {String} level - the log level.</li>
 <li>@param {String} method - the method on the console object to call.</li>
 <li>@return {Function} - the logging function.</li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">makeLogger</span><span class="p">(</span><span class="nx">level</span><span class="p">,</span> <span class="nx">method</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>The logger function to return takes a variable number of arguments
-and formats like console.log</p>             </td>             <td class="code">               <div class="highlight"><pre>	<span class="kd">function</span> <span class="nx">logger</span><span class="p">()</span> <span class="p">{</span>
-		<span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">[].</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
-		<span class="kd">var</span> <span class="nx">format</span> <span class="o">=</span> <span class="nx">level</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;: (api-client) &#39;</span> <span class="o">+</span> <span class="nx">args</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
-		<span class="kd">var</span> <span class="nx">logArgs</span> <span class="o">=</span> <span class="p">[</span><span class="nx">format</span><span class="p">].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">args</span><span class="p">);</span>
-		<span class="k">return</span> <span class="nx">console</span><span class="p">[</span><span class="nx">method</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="nx">console</span><span class="p">,</span> <span class="nx">logArgs</span><span class="p">);</span>
-	<span class="p">}</span>
+</ul>
 
-	<span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">logger</span><span class="p">;</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="p">(</span><span class="nx">level</span> <span class="o">===</span> <span class="s1">&#39;warn&#39;</span> <span class="o">||</span> <span class="nx">level</span> <span class="o">===</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
-			<span class="o">?</span> <span class="nx">logger</span>
-			<span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeLogger</span><span class="hljs-params">(level, method)</span> {</span></pre></div>
+        
+      
+        
+        <p>The logger function to return takes a variable number of arguments
+and formats like console.log</p>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
-	<span class="nx">silly</span><span class="o">:</span> <span class="nx">makeLogger</span><span class="p">(</span><span class="s1">&#39;silly&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">),</span>
-	<span class="nx">verbose</span><span class="o">:</span> <span class="nx">makeLogger</span><span class="p">(</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">),</span>
-	<span class="nx">info</span><span class="o">:</span> <span class="nx">makeLogger</span><span class="p">(</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">),</span>
-	<span class="nx">http</span><span class="o">:</span> <span class="nx">makeLogger</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">),</span>
-	<span class="nx">warn</span><span class="o">:</span> <span class="nx">makeLogger</span><span class="p">(</span><span class="s1">&#39;warn&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">),</span>
-	<span class="nx">error</span><span class="o">:</span> <span class="nx">makeLogger</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
-<span class="p">};</span>
+        
+          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logger</span><span class="hljs-params">()</span> {</span>
+		<span class="hljs-keyword">var</span> args = [].slice.call(<span class="hljs-built_in">arguments</span>);
+		<span class="hljs-keyword">var</span> format = level.toUpperCase() + <span class="hljs-string">': (api-client) '</span> + args.shift();
+		<span class="hljs-keyword">var</span> logArgs = [format].concat(args);
+		<span class="hljs-keyword">return</span> console[method].apply(console, logArgs);
+	}
 
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+	<span class="hljs-keyword">if</span> (config.debug) {
+		<span class="hljs-keyword">return</span> logger;
+	} <span class="hljs-keyword">else</span> {
+		<span class="hljs-keyword">return</span> (level === <span class="hljs-string">'warn'</span> || level === <span class="hljs-string">'error'</span>)
+			? logger
+			: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>};
+	}
+}
+
+module.exports = {
+	silly: makeLogger(<span class="hljs-string">'silly'</span>, <span class="hljs-string">'log'</span>),
+	verbose: makeLogger(<span class="hljs-string">'verbose'</span>, <span class="hljs-string">'log'</span>),
+	info: makeLogger(<span class="hljs-string">'info'</span>, <span class="hljs-string">'log'</span>),
+	http: makeLogger(<span class="hljs-string">'http'</span>, <span class="hljs-string">'log'</span>),
+	warn: makeLogger(<span class="hljs-string">'warn'</span>, <span class="hljs-string">'log'</span>),
+	error: makeLogger(<span class="hljs-string">'error'</span>, <span class="hljs-string">'error'</span>)
+};</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>
