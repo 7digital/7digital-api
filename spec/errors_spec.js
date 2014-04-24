@@ -23,6 +23,12 @@ describe('API HTTP Error', function() {
 
 		expect(err.message).to.equal('Unexpected 401 status code');
 	});
+
+	it('should have a stack trace', function() {
+		var err = new ApiHttpError(401);
+
+		expect(err.stack).to.not.be.undefined;
+	});
 });
 
 describe('API Parse Error', function () {
@@ -37,6 +43,12 @@ describe('API Parse Error', function () {
 		var err = new ApiParseError('my message', 'my raw response');
 
 		expect(err.response).to.equal('my raw response');
+	});
+
+	it('should have a stack trace', function() {
+		var err = new ApiParseError(401);
+
+		expect(err.stack).to.not.be.undefined;
 	});
 });
 
@@ -58,6 +70,12 @@ describe('Api Response Error', function () {
 		});
 
 		expect(err.code).to.equal(1234);
+	});
+
+	it('should have a stack trace', function() {
+		var err = new ApiError(401);
+
+		expect(err.stack).to.not.be.undefined;
 	});
 });
 
