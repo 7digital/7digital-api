@@ -54,7 +54,8 @@ publish-docs: test docs publish-check
 	git checkout gh-pages
 	git pull --rebase origin gh-pages
 	rm *.{html,css}
-	cp docs/* .
+	rm -rf public
+	cp -R docs/* .
 	git add -A
 	git commit -m "Publish docs"
 	git push origin gh-pages
