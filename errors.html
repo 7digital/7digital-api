@@ -162,6 +162,7 @@ received at transport level.</p>
 	<span class="hljs-keyword">this</span>.response = response;
 	<span class="hljs-keyword">this</span>.message = response
 		|| util.format(<span class="hljs-string">'Unexpected %s status code'</span>, statusCode);
+	<span class="hljs-built_in">Error</span>.captureStackTrace(<span class="hljs-keyword">this</span>, ApiHttpError);
 }
 
 util.inherits(ApiHttpError, <span class="hljs-built_in">Error</span>);</pre></div>
@@ -183,6 +184,7 @@ unexpected response is received.</p>
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"ApiParseError"</span>;
 	<span class="hljs-keyword">this</span>.response = response;
 	<span class="hljs-keyword">this</span>.message = parseErrorMessage;
+	<span class="hljs-built_in">Error</span>.captureStackTrace(<span class="hljs-keyword">this</span>, ApiParseError);
 }
 
 util.inherits(ApiParseError, <span class="hljs-built_in">Error</span>);</pre></div>
@@ -203,6 +205,7 @@ received.</p>
 	<span class="hljs-keyword">this</span>.message = errorResponse.errorMessage;
 	<span class="hljs-keyword">this</span>.code = errorResponse.code;
 	<span class="hljs-keyword">this</span>.response = errorResponse;
+	<span class="hljs-built_in">Error</span>.captureStackTrace(<span class="hljs-keyword">this</span>, ApiError);
 }
 
 util.inherits(ApiError, <span class="hljs-built_in">Error</span>);
