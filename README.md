@@ -60,11 +60,28 @@ api = require('7digital-api').configure({
 	format: 'XML',
 	consumerkey: 'MY_KEY_HERE',
 	consumersecret: 'MY_SECRET_HERE',
+	defaultParams: { country: 'fr' }
 });
 
 artists = new api.Artists();
 
 artists.getReleases({ artistid: 1 }, function(err, data) {
+	console.dir(data);
+});
+```
+
+You can specify default parameters on a per resource basis also:
+
+
+```javascript
+var api, artists;
+
+api = require('7digital-api').configure({ country: 'fr' });
+
+artists = new api.Artists({ defaultParams: { pageSize: 15 } });
+
+artists.getReleases({ artistid: 1 }, function(err, data) {
+	// 15 releases in france
 	console.dir(data);
 });
 ```

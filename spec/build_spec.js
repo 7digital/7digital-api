@@ -64,4 +64,22 @@ describe('API.build', function() {
 		expect(testApi.getByDate).to.be.a('function');
 	});
 
+	it('should allow hierarchical default parameters', function() {
+		api = Api.build({
+			schema: schema,
+			consumerkey: 'testkey',
+			consumersecret: 'testsecret',
+			format: 'json',
+			logger: { silly: function () {} },
+			defaultParams: { country: 'fr' }
+		});
+
+		testApi = new api.Test({ defaultParams: { pageSize: 5 }});
+
+		expect(testApi.defaultParams).to.deep.equal({
+			country: 'fr',
+			pageSize: 5
+		});
+	});
+
 });
