@@ -1,4 +1,5 @@
-var path = require('path');
+var path = require('path'),
+	noopCache = require('./lib/noop-cache');
 
 module.exports = {
 	// Path to the json file defining the remote api resources and actions
@@ -31,5 +32,15 @@ module.exports = {
 	//
 	// @type {Winston.Logger} or any object which defines methods for each of
 	// the npm loglevels.
-	logger: require('./lib/logger')
+	logger: require('./lib/logger'),
+
+	// A response cache client
+	//
+	// @type {Object} An object providing get and set functions.
+	cache: require('./lib/noop-cache'),
+
+	// A hash of parameters to provide with every GET request made to the API
+	//
+	// @type {Object} A hash contining querystring parameters
+	defaultParams: {}
 };
