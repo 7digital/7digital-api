@@ -1,3 +1,5 @@
+'use strict';
+
 var expect = require('chai').expect,
 	parser = require('../lib/responseparser'),
 	fs = require('fs'),

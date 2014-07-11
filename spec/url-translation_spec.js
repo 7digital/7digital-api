@@ -1,3 +1,5 @@
+'use strict';
+
 var expect = require('chai').expect;
 var Api = require('../lib/api').Api;
 
@@ -24,7 +26,8 @@ describe('url translation', function() {
 			schema: schema,
 			format: 'json',
 			logger: require('../lib/logger')
-		}),
+		});
+
 		testApi = new api.Test();
 	});
 

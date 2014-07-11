@@ -1,3 +1,5 @@
+'use strict';
+
 var expect = require('chai').expect;
 var ApiHttpError = require('../lib/errors').ApiHttpError;
 var ApiParseError = require('../lib/errors').ApiParseError;
