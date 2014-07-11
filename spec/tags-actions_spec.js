@@ -5,7 +5,7 @@ var api = require('../index');
 
 describe("Tags actions", function() {
 
-	var releases;
+	var tags;
 
 	beforeEach(function() {
 		tags = new api.Tags();

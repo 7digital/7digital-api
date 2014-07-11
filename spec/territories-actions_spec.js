@@ -5,7 +5,7 @@ var api = require('../index');
 
 describe("Territories actions", function() {
 
-	var releases;
+	var territories;
 
 	beforeEach(function() {
 		territories = new api.Territories();

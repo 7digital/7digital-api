@@ -5,7 +5,7 @@ var api = require('../index');
 
 describe("Tracks actions", function() {
 
-	var releases;
+	var tracks;
 	
 	beforeEach(function() {
 		tracks = new api.Tracks();
