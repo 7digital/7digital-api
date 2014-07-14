@@ -7,7 +7,8 @@ function die(msg) {
 }
 
 describe('api when oauth is required', function () {
-	var consumerKey, consumerSecret, voucherCode, preOAuthedToken, api;
+	var consumerKey, consumerSecret, voucherCode, preOAuthedToken, userToken,
+		userSecret, api;
 
 	before(function () {
 		consumerKey = process.env['NODE_API_CLIENT_TESTS_CONSUMER_KEY'] || die('no NODE_API_CLIENT_TESTS_CONSUMER_KEY set');
@@ -81,7 +82,7 @@ describe('api when oauth is required', function () {
 
 		user.getLocker({}, function (err, res) {
 			assert.ok(err, 'expected an error');
-			assert.match(err.data, /oauth.*token/i, 'error message did not mention oauth or tokens'); 
+			assert.match(err.data, /oauth.*token/i, 'error message did not mention oauth or tokens');
 			done();
 		});
 	});
