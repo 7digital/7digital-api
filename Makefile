@@ -26,7 +26,7 @@ define assert_all_changes_pushed
 endef
 
 define assert_is_owner
-	npm --loglevel=warn owner ls |                          \
+npm --registry=http://registry.npmjs.org --loglevel=warn owner ls |          \
 	awk '{print $1}' |                                      \
 	grep "`npm whoami`" > /dev/null 2>&1 ||                 \
 		(echo "You must be an owner to publish" 1>&2 && \
@@ -66,9 +66,9 @@ publish: publish-docs
 		"Supply a version: make publish version=x.x.x" && \
 		exit 1)
 	$(assert_is_owner)
-	npm version $(version)
+	npm version $(version) --registry=http://registry.npmjs.org
 	git push origin master --tags
-	npm publish
+	npm publish --registry=http://registry.npmjs.org
 
 
 
