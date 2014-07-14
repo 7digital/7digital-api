@@ -142,7 +142,9 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
 	http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>),
 	ApiHttpError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiHttpError,
 	cache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cache'</span>),
@@ -219,7 +221,8 @@
 			port: endpointInfo.port
 		};
 
-	theCache.get(cacheKey, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkCacheResult</span><span class="hljs-params">(err, res)</span> {</span>
+	theCache.get(cacheKey, checkCacheResult);
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkCacheResult</span><span class="hljs-params">(err, res)</span> {</span>
 		<span class="hljs-keyword">if</span> (err) {
 			logger.error(<span class="hljs-string">'Error checking cache for %s'</span>, cacheKey);
 			logger.error(err);
@@ -269,7 +272,7 @@
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, requestData, response);
 			}
 		}
-	});
+	}
 }</pre></div>
         
       
@@ -335,31 +338,29 @@
 		logger.info(<span class="hljs-string">'token: '</span> + token + <span class="hljs-string">' secret: '</span> + secret);
 		fullUrl = fullUrl + <span class="hljs-string">'?'</span> + querystring.stringify(requestData);
 
+		oauthClient.get(fullUrl, token, secret, callbackWithDataAndResponse);
+	} <span class="hljs-keyword">else</span> {</pre></div>
+        
+      
+        
+        <p>FIXME: This will not work with the playlist API which expects a
+JSON payload</p>
 
-		oauthClient.get(fullUrl, token, secret, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, data,
-			response)</span> {</span>
-			<span class="hljs-keyword">if</span> (err) {
-				logger.error(<span class="hljs-built_in">JSON</span>.stringify(err));
-				callback(err);
-				<span class="hljs-keyword">return</span>;
-			}
-
-			callback(<span class="hljs-literal">null</span>, data, response);
-		});
-	} <span class="hljs-keyword">else</span> {
-		oauthClient[httpMethod.toLowerCase()](fullUrl, token, secret,
+        
+          <div class='highlight'><pre>		oauthClient[httpMethod.toLowerCase()](fullUrl, token, secret,
 			requestData, <span class="hljs-string">'application/x-www-form-urlencoded'</span>,
-			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, data, response)</span> {</span>
-
-			<span class="hljs-keyword">if</span> (err) {
-				logger.error(err);
-				callback(err);
-				<span class="hljs-keyword">return</span>;
-			}
-
-			callback(<span class="hljs-literal">null</span>, data, response);
-		});
+			callbackWithDataAndResponse);
 	}
+
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> {</span>
+		<span class="hljs-keyword">if</span> (err) {
+			logger.error(err);
+			<span class="hljs-keyword">return</span> callback(err);
+		}
+
+		callback(<span class="hljs-literal">null</span>, data, response);
+	}
+
 	logger.info(<span class="hljs-string">'DATA: '</span> + querystring.stringify(requestData));
 }</pre></div>
         
@@ -449,7 +450,7 @@ currently does not set CORS headers.</p>
 			}
 
 			<span class="hljs-keyword">if</span> (!hasErrored) {
-				callback(<span class="hljs-literal">null</span>, responseBuffer, response);
+				<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, responseBuffer, response);
 			}
 		});
 	});

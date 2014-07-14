@@ -142,7 +142,10 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> Resource = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./resource'</span>),
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> Resource = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./resource'</span>),
+	helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>),
 	config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config'</span>),
 	util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
 	capitalize = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>).capitalize,
@@ -169,7 +172,14 @@
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span><span class="hljs-params">(options)</span> {</span>
-	<span class="hljs-keyword">var</span> prop, resourceOptions, resourceConstructor;
+	<span class="hljs-keyword">var</span> prop, resourceOptions, resourceConstructor, apiRoot = <span class="hljs-keyword">this</span>;</pre></div>
+        
+      
+        
+        <p>Set default options for any unsupplied overrides</p>
+
+        
+          <div class='highlight'><pre>	underscore.defaults(options, config);
 
 	<span class="hljs-keyword">this</span>.schema = options.schema;
 	<span class="hljs-keyword">this</span>.format = options.format;
@@ -182,9 +192,22 @@ this is syntactic sugar to allow callers to new up the resources.</p>
 
         
           <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createResourceConstructor</span><span class="hljs-params">(resourcePrototype)</span> {</span>
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">APIResource</span><span class="hljs-params">(options)</span> {</span>
-			options = options || {};
-			<span class="hljs-keyword">this</span>.cache = options.cache || noopCache;
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">APIResource</span><span class="hljs-params">(resourceOptions)</span> {</span>
+			resourceOptions = resourceOptions || {};</pre></div>
+        
+      
+        
+        <p>Override any default options for all requests on this resource</p>
+
+        
+          <div class='highlight'><pre>			underscore.defaults(resourceOptions.defaultParams,
+				options.defaultParams);
+			underscore.defaults(resourceOptions, options);
+
+			<span class="hljs-keyword">this</span>.cache = resourceOptions.cache;
+			<span class="hljs-keyword">this</span>.format = resourceOptions.format;
+			<span class="hljs-keyword">this</span>.logger = resourceOptions.logger;
+			<span class="hljs-keyword">this</span>.defaultParams = resourceOptions.defaultParams;
 		}
 
 		APIResource.prototype = resourcePrototype;
@@ -329,15 +352,7 @@ browserify can do the right thing for non-node environments.</p>
 
         
           <div class='highlight'><pre>Api.prototype.formatPath = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatPath</span><span class="hljs-params">(resource, action)</span> {</span>
-	<span class="hljs-keyword">var</span> requestPath = <span class="hljs-string">'/'</span> +
-		(<span class="hljs-keyword">this</span>.schema.version ? <span class="hljs-keyword">this</span>.schema.version + <span class="hljs-string">'/'</span> : <span class="hljs-string">''</span>) +
-		resource;
-
-	<span class="hljs-keyword">if</span> (action !== <span class="hljs-string">''</span>) {
-		requestPath += <span class="hljs-string">'/'</span> + action;
-	}
-
-	<span class="hljs-keyword">return</span> requestPath;
+	<span class="hljs-keyword">return</span> helpers.formatPath(<span class="hljs-keyword">this</span>.schema.version, resource, action);
 };
 
 module.exports.Api = Api;</pre></div>

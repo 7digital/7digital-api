@@ -142,7 +142,9 @@
         
         
         
-          <div class='highlight'><pre>exports.padComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(component)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+
+exports.padComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(component)</span> {</span>
 	<span class="hljs-keyword">return</span> component &lt;= <span class="hljs-number">9</span> ? <span class="hljs-string">'0'</span> + component : <span class="hljs-string">''</span> + component;
 };</pre></div>
         
@@ -175,6 +177,24 @@
         
           <div class='highlight'><pre>exports.capitalize = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(str)</span> {</span>
 	<span class="hljs-keyword">return</span> str.charAt(<span class="hljs-number">0</span>).toUpperCase() + str.slice(<span class="hljs-number">1</span>);
+};</pre></div>
+        
+      
+        
+        <p>Determines the path for a given action on a resource</p>
+<p>@param {String} prefix
+@param {String} resource
+@param {String} action</p>
+
+        
+          <div class='highlight'><pre>exports.formatPath = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatPath</span><span class="hljs-params">(prefix, resource, action)</span> {</span>
+	<span class="hljs-keyword">var</span> requestPath = <span class="hljs-string">'/'</span> + (prefix ? prefix + <span class="hljs-string">'/'</span> : <span class="hljs-string">''</span>) + resource;
+
+	<span class="hljs-keyword">if</span> (action !== <span class="hljs-string">''</span>) {
+		requestPath += <span class="hljs-string">'/'</span> + action;
+	}
+
+	<span class="hljs-keyword">return</span> requestPath;
 };</pre></div>
         
       
