@@ -145,7 +145,7 @@
           <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> xml2js = <span class="hljs-built_in">require</span>(<span class="hljs-string">'xml2js'</span>),
-	underscore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'underscore'</span>),
+	_ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>),
 	ApiParseError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiParseError,
 	ApiError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiError;
 
@@ -169,7 +169,7 @@ wraps it in an array if it is.</p>
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">normaliseResourceArrays</span><span class="hljs-params">(response)</span> {</span>
 	<span class="hljs-keyword">var</span> items, formats, listItems;
 
-	underscore([
+	_([
 			<span class="hljs-string">'tracks.track'</span>,
 			<span class="hljs-string">'artists.artist'</span>,
 			<span class="hljs-string">'chart.chartItem'</span>,
@@ -224,7 +224,7 @@ which is a redundant wrapper.</p>
 		items = arrayify(items);
 		response.basket.basketItems = items;
 	} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (response.basket &amp;&amp; response.basket.basketItems !== <span class="hljs-literal">undefined</span> &amp;&amp;
-			!underscore.isArray(response.basket.basketItems)) {
+			!_.isArray(response.basket.basketItems)) {
 		response.basket.basketItems = [];
 	}
 
@@ -232,7 +232,7 @@ which is a redundant wrapper.</p>
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNodes</span><span class="hljs-params">(response)</span> {</span>
-	underscore({
+	_({
 		<span class="hljs-string">'cardTypes.cardType'</span> : <span class="hljs-string">'name'</span>
 	}).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNode</span><span class="hljs-params">(name, item)</span> {</span>
 		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>),
@@ -254,7 +254,7 @@ the node</p>
 
 			<span class="hljs-keyword">var</span> node = response[parent][child];
 			<span class="hljs-keyword">if</span> (node.length !== <span class="hljs-literal">undefined</span>) {
-				underscore(node).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(subNode)</span> {</span>
+				_(node).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(subNode)</span> {</span>
 					doRename(subNode);
 				});
 			} <span class="hljs-keyword">else</span> {
@@ -320,7 +320,7 @@ caller.</p>
 				result.response.status + <span class="hljs-string">'" from api'</span>, response));
 		}
 
-		clean = underscore.compose(
+		clean = _.compose(
 			renameTextNodes,
 			normaliseResourceArrays);
 

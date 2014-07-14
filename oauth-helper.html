@@ -144,7 +144,8 @@
         
           <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
 
-<span class="hljs-keyword">var</span> OAuth = <span class="hljs-built_in">require</span>(<span class="hljs-string">'oauth'</span>).OAuth;</pre></div>
+<span class="hljs-keyword">var</span> OAuth = <span class="hljs-built_in">require</span>(<span class="hljs-string">'oauth'</span>).OAuth;
+<span class="hljs-keyword">var</span> accessTokenUrl = <span class="hljs-string">'http://api.7digital.com/1.2/oauth/accesstoken'</span>;</pre></div>
         
       
         
@@ -165,7 +166,7 @@ secret and the necessary options for authenticating with the
 
 	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OAuth(
 				<span class="hljs-string">'http://api.7digital.com/1.2/oauth/requesttoken'</span>,
-				<span class="hljs-string">'http://api.7digital.com/1.2/oauth/accesstoken'</span>,
+				accessTokenUrl,
 				oauthkey, oauthsecret, <span class="hljs-string">'1.0'</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">'HMAC-SHA1'</span>);
 }</pre></div>
         
@@ -187,6 +188,8 @@ oauthHelper.getRequestToken({
 <ul>
 <li><code>oauthkey</code> your app’s oauth consumer key</li>
 <li><code>oauthsecret</code> your app’s oauth consumer secret</li>
+<li><code>country</code> if your key is restricted to a country, you need to supply the
+country here or you will receive a 401 OAuth authentication error.</li>
 <li><code>callbackUrl</code> (optional) the url to return once the user has authorised<pre><code>          your app
 </code></pre></li>
 </ul>
@@ -199,7 +202,12 @@ oauthHelper.getRequestToken({
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">(options, callback)</span> {</span>
 	<span class="hljs-keyword">var</span> oAuth = createOAuthWrapper(options.oauthkey, options.oauthsecret);
 
-	oAuth.getOAuthRequestToken(buildAuthoriseUrl);
+	<span class="hljs-keyword">if</span> (options.country) {
+		oAuth.getOAuthRequestToken({ country: options.country },
+			buildAuthoriseUrl);
+	} <span class="hljs-keyword">else</span> {
+		oAuth.getOAuthRequestToken(buildAuthoriseUrl);
+	}
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildAuthoriseUrl</span><span class="hljs-params">(err, requestToken, requestSecret, results)</span> {</span>
 		<span class="hljs-keyword">var</span> authoriseUrl;
 
@@ -238,6 +246,8 @@ oauthHelper.getAccessToken({
 <ul>
 <li><code>requesttoken</code> an authorised OAuth request token</li>
 <li><code>requestsecret</code> the corresponding OAuth request secret</li>
+<li><code>country</code> if your key is restricted to a country, you need to supply the
+country here or you will receive a 401 OAuth authentication error.</li>
 </ul>
 <ul>
 <li>@param {Object} options</li>
@@ -249,8 +259,34 @@ oauthHelper.getAccessToken({
 	<span class="hljs-keyword">var</span> wrapperFactory = createOAuthWrapper;
 	<span class="hljs-keyword">var</span> oAuth = wrapperFactory(options.oauthkey, options.oauthsecret);
 
-	oAuth.getOAuthAccessToken(options.requesttoken,
-								options.requestsecret, callback);
+	<span class="hljs-keyword">if</span> (options.country) {</pre></div>
+        
+      
+        
+        <p>This must be done manually rather than using the wrapper as there is
+no means of supplying the extra parameter via getOAuthAccessToken</p>
+
+        
+          <div class='highlight'><pre>		oAuth._performSecureRequest(options.requesttoken, options.requestsecret,
+		<span class="hljs-string">'POST'</span>, accessTokenUrl, { country: options.country }, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>,
+			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(error, data, response)</span> {</span>
+
+			<span class="hljs-keyword">if</span>( error ) <span class="hljs-keyword">return</span> callback(error);
+
+			<span class="hljs-keyword">var</span> results= <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>).parse(data);
+			<span class="hljs-keyword">var</span> oauth_access_token= results[<span class="hljs-string">"oauth_token"</span>];
+			<span class="hljs-keyword">delete</span> results[<span class="hljs-string">"oauth_token"</span>];
+			<span class="hljs-keyword">var</span> oauth_access_token_secret= results[<span class="hljs-string">"oauth_token_secret"</span>];
+			<span class="hljs-keyword">delete</span> results[<span class="hljs-string">"oauth_token_secret"</span>];
+
+			<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, oauth_access_token, oauth_access_token_secret,
+				results);
+   });
+
+	} <span class="hljs-keyword">else</span> {
+		oAuth.getOAuthAccessToken(options.requesttoken, options.requestsecret,
+			callback);
+	}
 }
 
 module.exports = exports = {

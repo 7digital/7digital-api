@@ -149,7 +149,7 @@
 	config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config'</span>),
 	util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
 	capitalize = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>).capitalize,
-	underscore =  <span class="hljs-built_in">require</span>(<span class="hljs-string">'underscore'</span>),
+	_ =  <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>),
 	noopCache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./noop-cache'</span>),
 	api;</pre></div>
         
@@ -179,7 +179,7 @@
         <p>Set default options for any unsupplied overrides</p>
 
         
-          <div class='highlight'><pre>	underscore.defaults(options, config);
+          <div class='highlight'><pre>	_.defaults(options, config);
 
 	<span class="hljs-keyword">this</span>.schema = options.schema;
 	<span class="hljs-keyword">this</span>.format = options.format;
@@ -200,9 +200,9 @@ this is syntactic sugar to allow callers to new up the resources.</p>
         <p>Override any default options for all requests on this resource</p>
 
         
-          <div class='highlight'><pre>			underscore.defaults(resourceOptions.defaultParams,
+          <div class='highlight'><pre>			_.defaults(resourceOptions.defaultParams,
 				options.defaultParams);
-			underscore.defaults(resourceOptions, options);
+			_.defaults(resourceOptions, options);
 
 			<span class="hljs-keyword">this</span>.cache = resourceOptions.cache;
 			<span class="hljs-keyword">this</span>.format = resourceOptions.format;
@@ -281,7 +281,7 @@ See <code>getActionMethodName</code> above for resolving class names.</p>
 	<span class="hljs-keyword">var</span> actionMethodName = <span class="hljs-string">''</span>;
 
 	<span class="hljs-keyword">this</span>.schema.resources[resourceClassName].actions.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(act)</span> {</span>
-		<span class="hljs-keyword">if</span> (underscore.isString(act) &amp;&amp; act.toLowerCase() === action.toLowerCase()) {
+		<span class="hljs-keyword">if</span> (_.isString(act) &amp;&amp; act.toLowerCase() === action.toLowerCase()) {
 			actionMethodName = <span class="hljs-string">'get'</span> + capitalize(act);
 		}
 		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (act.apiCall &amp;&amp; act.apiCall.toLowerCase() ===

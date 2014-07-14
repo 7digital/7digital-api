@@ -149,7 +149,7 @@
 	ApiHttpError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiHttpError,
 	cache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cache'</span>),
 	querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>),
-	underscore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'underscore'</span>),
+	_ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>),
 	helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>),
 	oauthHelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./oauth-helper'</span>),
 	USER_AGENT = <span class="hljs-string">'Node.js HTTP Client'</span>;</pre></div>
@@ -170,7 +170,7 @@
 
 	<span class="hljs-keyword">for</span> (prop <span class="hljs-keyword">in</span> data) {
 		<span class="hljs-keyword">if</span> (data.hasOwnProperty(prop)) {
-			<span class="hljs-keyword">if</span> (underscore.isDate(data[prop])) {
+			<span class="hljs-keyword">if</span> (_.isDate(data[prop])) {
 				data[prop] = helpers.toYYYYMMDD(data[prop]);
 			}
 		}

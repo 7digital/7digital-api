@@ -173,8 +173,15 @@ step(
         
           <div class='highlight'><pre>		oauthHelper.getRequestToken({
 			oauthkey: consumerkey,
-			oauthsecret: consumersecret,
-			callbackUrl: <span class="hljs-string">''</span>
+			oauthsecret: consumersecret,</pre></div>
+        
+      
+        
+        <p>If your key is locked to a country you must add it here:
+country: ‘us’,</p>
+
+        
+          <div class='highlight'><pre>			callbackUrl: <span class="hljs-string">''</span>
 		}, <span class="hljs-keyword">this</span>);
 	},
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span><span class="hljs-params">(err, requestToken, requestSecret, authoriseUrl)</span> {</span>
@@ -234,8 +241,15 @@ request token and secret</p>
         
           <div class='highlight'><pre>		oauthHelper.getAccessToken({
 				oauthkey: consumerkey,
-				oauthsecret: consumersecret,
-				requesttoken: <span class="hljs-keyword">this</span>.requestToken,
+				oauthsecret: consumersecret,</pre></div>
+        
+      
+        
+        <p>If your key is locked to a country you must add it here:
+country: ‘us’,</p>
+
+        
+          <div class='highlight'><pre>				requesttoken: <span class="hljs-keyword">this</span>.requestToken,
 				requestsecret: <span class="hljs-keyword">this</span>.requestSecret
 			}, <span class="hljs-keyword">this</span>);
 	},
@@ -280,8 +294,15 @@ ends cleanly otherwise it will hang.</p>
 		user = <span class="hljs-keyword">new</span> api.User();
 		user.getLocker({
 			accesstoken: accessToken,
-			accesssecret: accessSecret,
-			pageSize: <span class="hljs-number">1</span>
+			accesssecret: accessSecret,</pre></div>
+        
+      
+        
+        <p>If your key is locked to a country you must add it here:
+country: ‘us’,</p>
+
+        
+          <div class='highlight'><pre>			pageSize: <span class="hljs-number">1</span>
 		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, response)</span> {</span>
 			<span class="hljs-keyword">if</span> (err) {</pre></div>
         
