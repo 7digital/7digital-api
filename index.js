@@ -1,14 +1,14 @@
 'use strict';
 
 var config = require('./config'),
-	underscore = require('underscore');
+	_ = require('lodash');
 
 module.exports = require('./lib/api').Api.buildDefault();
 
 module.exports.configure = function (options) {
 	options = options || {};
 
-	underscore.defaults(options, config);
+	_.defaults(options, config);
 	if (options.schema) {
 		return require('./lib/api').Api.build(options);
 	}
