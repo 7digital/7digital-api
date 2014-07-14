@@ -15,6 +15,8 @@ step(
 		oauthHelper.getRequestToken({
 			oauthkey: consumerkey,
 			oauthsecret: consumersecret,
+			// If your key is locked to a country you must add it here:
+			// country: 'us',
 			callbackUrl: ''
 		}, this);
 	},
@@ -50,6 +52,8 @@ step(
 		oauthHelper.getAccessToken({
 				oauthkey: consumerkey,
 				oauthsecret: consumersecret,
+				// If your key is locked to a country you must add it here:
+				// country: 'us',
 				requesttoken: this.requestToken,
 				requestsecret: this.requestSecret
 			}, this);
@@ -83,6 +87,8 @@ step(
 		user.getLocker({
 			accesstoken: accessToken,
 			accesssecret: accessSecret,
+			// If your key is locked to a country you must add it here:
+			// country: 'us',
 			pageSize: 1
 		}, function (err, response) {
 			if (err) {
