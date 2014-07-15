@@ -119,6 +119,30 @@
 						"methodName": "deliverItem",
 						"oauth": "3-legged",
 						"method": "GET"
+					},
+					{
+						"apiCall": "signup",
+						"methodName": "signup",
+						"oauth": "2-legged",
+						"method": "POST"
+					},
+					{
+						"apiCall": "details",
+						"methodName": "getDetails",
+						"oauth": "2-legged",
+						"method": "GET"
+					}
+
+				]
+			},
+		"Users":
+			{
+				"resource" : "users",
+				"actions":
+				[
+					{
+						"apiCall" : "",
+						"methodName" : "find"
 					}
 				]
 			},
