@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 
 var Api = require('../lib/api').Api;
 
@@ -27,15 +27,16 @@ describe('API.build', function() {
 			format: 'json',
 			logger: { silly: function () {} }
 		}, schema);
+
 		testApi = new api.Test();
 	});
 
 	it('should return a wrapper', function() {
-		expect(api).not.to.be.null;
+		assert(api);
 	});
 
 	it('should create an API constructor for each resource', function() {
-		expect(api.Test).to.exist;
+		assert(api.Test);
 	});
 
 	it('should supply oauth key and secret when provided', function() {
@@ -48,20 +49,20 @@ describe('API.build', function() {
 
 		testApi = new api.Test();
 
-		expect(testApi.consumerkey).to.equal('testkey');
-		expect(testApi.consumersecret).to.equal('testsecret');
+		assert.strictEqual(testApi.consumerkey, 'testkey');
+		assert.strictEqual(testApi.consumersecret, 'testsecret');
 	});
 
 	it('should supply the API with host, version and resource name',
 		function() {
-		expect(testApi.host).to.equal('api.example.com');
-		expect(testApi.version).to.equal('1.0');
-		expect(testApi.resourceName).to.equal('testresource');
+		assert.strictEqual(testApi.host, 'api.example.com');
+		assert.strictEqual(testApi.version, '1.0');
+		assert.strictEqual(testApi.resourceName, 'testresource');
 	});
 
 	it('should create a method for each action', function() {
-		expect(testApi.getByDate).to.exist;
-		expect(testApi.getByDate).to.be.a('function');
+		assert(testApi.getByDate);
+		assert.isFunction(testApi.getByDate);
 	});
 
 	it('should allow hierarchical default parameters', function() {
@@ -75,7 +76,7 @@ describe('API.build', function() {
 
 		testApi = new api.Test({ defaultParams: { pageSize: 5 }});
 
-		expect(testApi.defaultParams).to.deep.equal({
+		assert.deepEqual(testApi.defaultParams, {
 			country: 'fr',
 			pageSize: 5
 		});
