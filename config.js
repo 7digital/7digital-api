@@ -4,11 +4,6 @@ var path = require('path'),
 	noopCache = require('./lib/noop-cache');
 
 module.exports = {
-	// Path to the json file defining the remote api resources and actions
-	// and how they map to classes and methods on the API wrapper.
-	//
-	// @type string
-	schemapath: path.join(__dirname, 'assets/7digital-api-schema.json'),
 	// Your API consumer key for accessing oauth secured endpoints
 	// see http://api.7digital.com/1.2/static/documentation/7digitalpublicapi.html#Introduction
 	//
