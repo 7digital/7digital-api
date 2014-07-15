@@ -40,6 +40,7 @@ describe('API.build', function() {
 	});
 
 	it('should supply oauth key and secret when provided', function() {
+
 		api = Api.build({
 			consumerkey: 'testkey',
 			consumersecret: 'testsecret',
@@ -82,4 +83,52 @@ describe('API.build', function() {
 		});
 	});
 
+	it('should allow reconfiguration of the client', function() {
+		function createLogger(label) {
+			return {
+				label: label,
+				silly: function () {}
+			};
+		}
+		api = Api.build({
+			consumerkey: 'testkey',
+			consumersecret: 'testsecret',
+			format: 'json',
+			logger: createLogger('logger1')
+		}, schema);
+
+		var api2 = api.reconfigure({
+			logger: createLogger('logger2'),
+			defaultParams: {
+				page: 2
+			}
+		});
+
+		var api3 = api2.reconfigure({
+			defaultParams: {
+				country: 'fr'
+			}
+		});
+
+		var testApi = new api.Test({ defaultParams: { pageSize: 5 }});
+		var testApi2 = new api2.Test({ defaultParams: { pageSize: 6 }});
+		var testApi3 = new api3.Test({ defaultParams: { pageSize: 7 }});
+
+		assert.equal(testApi.logger.label, 'logger1');
+		assert.equal(testApi2.logger.label, 'logger2');
+		assert.equal(testApi3.logger.label, 'logger2');
+
+		assert.deepEqual(testApi.defaultParams, {
+			pageSize: 5
+		});
+		assert.deepEqual(testApi2.defaultParams, {
+			page: 2,
+			pageSize: 6
+		});
+		assert.deepEqual(testApi3.defaultParams, {
+			page: 2,
+			pageSize: 7,
+			country: 'fr'
+		});
+	});
 });
