@@ -167,13 +167,12 @@ for each action that can be performed on the resource.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Resource</span><span class="hljs-params">(options)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Resource</span><span class="hljs-params">(options, schema)</span> {</span>
 	<span class="hljs-keyword">this</span>.logger = options.logger;
 	<span class="hljs-keyword">this</span>.resourceName = options.resourceDefinition.resource;
-	<span class="hljs-keyword">this</span>.host = options.schema.host;
-	<span class="hljs-keyword">this</span>.port = options.schema.port;
-	<span class="hljs-keyword">this</span>.api = options.api;
-	<span class="hljs-keyword">this</span>.version = options.schema.version;
+	<span class="hljs-keyword">this</span>.host = schema.host;
+	<span class="hljs-keyword">this</span>.port = schema.port;
+	<span class="hljs-keyword">this</span>.version = schema.version;
 	<span class="hljs-keyword">this</span>.consumerkey = options.consumerkey;
 	<span class="hljs-keyword">this</span>.consumersecret = options.consumersecret;
 
@@ -182,7 +181,7 @@ for each action that can be performed on the resource.</p>
 
 	_.each(options.resourceDefinition.actions,
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processAction</span><span class="hljs-params">(action)</span> {</span>
-			<span class="hljs-keyword">this</span>.createAction(action, <span class="hljs-keyword">this</span>.request);
+			<span class="hljs-keyword">this</span>.createAction(schema.version, action);
 		}, <span class="hljs-keyword">this</span>);
 }</pre></div>
         
@@ -227,7 +226,7 @@ or a hash if they differ.</li>
 </ul>
 
         
-          <div class='highlight'><pre>Resource.prototype.createAction = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(actionDefinition)</span> {</span>
+          <div class='highlight'><pre>Resource.prototype.createAction = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(prefix, actionDefinition)</span> {</span>
 	<span class="hljs-keyword">var</span> fnName = <span class="hljs-keyword">this</span>.chooseMethodName(actionDefinition),
 		action = <span class="hljs-keyword">typeof</span> actionDefinition.apiCall === <span class="hljs-string">'undefined'</span> ?
 			actionDefinition : actionDefinition.apiCall,
@@ -243,7 +242,7 @@ or a hash if they differ.</li>
 				port: <span class="hljs-keyword">this</span>.port,
 				version: <span class="hljs-keyword">this</span>.version,
 				authtype: actionDefinition.oauth,
-				url: <span class="hljs-keyword">this</span>.api.formatPath(<span class="hljs-keyword">this</span>.resourceName, action)
+				url: helpers.formatPath(prefix, <span class="hljs-keyword">this</span>.resourceName, action)
 			},
 			credentials = {
 				consumerkey: <span class="hljs-keyword">this</span>.consumerkey,

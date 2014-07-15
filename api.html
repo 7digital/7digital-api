@@ -157,9 +157,13 @@
         
         <p>API</p>
 <p>Creates a new API wrapper from a schema definition</p>
+<ul>
+<li>@param {Object} options - The API options, see below</li>
+<li>@param {Object} schema - The definition of the api resources and actions
+see the assets/7digital-api-schema json file.</li>
+</ul>
 <p>The options parameter should have the following properties:</p>
 <ul>
-<li><code>schema</code> the API schema definition</li>
 <li><code>consumerkey</code> your application’s oauth consumer key</li>
 <li><code>consumersecret</code> your application’s oauth consumer secret</li>
 <li><code>format</code> the response format</li>
@@ -171,7 +175,7 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span><span class="hljs-params">(options)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span><span class="hljs-params">(options, schema)</span> {</span>
 	<span class="hljs-keyword">var</span> prop, resourceOptions, resourceConstructor, apiRoot = <span class="hljs-keyword">this</span>;</pre></div>
         
       
@@ -180,10 +184,8 @@
 
         
           <div class='highlight'><pre>	_.defaults(options, config);
-
-	<span class="hljs-keyword">this</span>.schema = options.schema;
-	<span class="hljs-keyword">this</span>.format = options.format;
-	<span class="hljs-keyword">this</span>.logger = options.logger;</pre></div>
+	<span class="hljs-keyword">this</span>.options = options;
+	<span class="hljs-keyword">this</span>.schema = schema;</pre></div>
         
       
         
@@ -201,8 +203,8 @@ this is syntactic sugar to allow callers to new up the resources.</p>
 
         
           <div class='highlight'><pre>			_.defaults(resourceOptions.defaultParams,
-				options.defaultParams);
-			_.defaults(resourceOptions, options);
+				apiRoot.options.defaultParams);
+			_.defaults(resourceOptions, apiRoot.options);
 
 			<span class="hljs-keyword">this</span>.cache = resourceOptions.cache;
 			<span class="hljs-keyword">this</span>.format = resourceOptions.format;
@@ -214,94 +216,50 @@ this is syntactic sugar to allow callers to new up the resources.</p>
 		<span class="hljs-keyword">return</span> APIResource;
 	}
 
-	<span class="hljs-keyword">for</span> (prop <span class="hljs-keyword">in</span> options.schema.resources) {
-		<span class="hljs-keyword">if</span> (options.schema.resources.hasOwnProperty(prop)) {
+	<span class="hljs-keyword">for</span> (prop <span class="hljs-keyword">in</span> schema.resources) {
+		<span class="hljs-keyword">if</span> (schema.resources.hasOwnProperty(prop)) {
 			resourceOptions = options;
 			resourceOptions.api = <span class="hljs-keyword">this</span>;
 			resourceOptions.resourceDefinition =
-				options.schema.resources[prop];
+				schema.resources[prop];
 
 			<span class="hljs-keyword">this</span>[prop] = createResourceConstructor(
-				<span class="hljs-keyword">new</span> Resource(resourceOptions));
+				<span class="hljs-keyword">new</span> Resource(resourceOptions, schema));
 		}
 	}
+
 }</pre></div>
         
       
         
-        <p>Gets the schema JSON document used to construct the API
-wrapper</p>
+        <p>Creates a new client with additional / replacement options.</p>
 <ul>
-<li>@return {String}</li>
+<li>@param {Object} newOptions - the overriden or additional options for the
+new client</li>
+<li>@return {Api} - a new api instance with the merged options</li>
 </ul>
 
         
-          <div class='highlight'><pre>Api.prototype.getSchema = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.schema;
-};</pre></div>
-        
-      
-        
-        <p>Gets the classname for a given resource on the API. In conjunction
-with <code>getActionMethodName</code> this allows you to translate an API
-URL into a method call on the wrapper.</p>
-<p>I.E. Given a path of artist/details, you can resolve the class name for
-the artist component.</p>
-<ul>
-<li>@param {String} - the name of the resource</li>
-<li>@return {String} - the class name</li>
-</ul>
+          <div class='highlight'><pre>Api.prototype.reconfigure = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reconfigure</span><span class="hljs-params">(newOptions)</span> {</span>
+	<span class="hljs-keyword">var</span> mergedDefaultParams = _.extend({}, <span class="hljs-keyword">this</span>.options.defaultParams,
+		newOptions.defaultParams);
+	<span class="hljs-keyword">var</span> mergedOptions = _.extend({}, <span class="hljs-keyword">this</span>.options, newOptions);
 
-        
-          <div class='highlight'><pre>Api.prototype.getResourceClassName = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(resource)</span> {</span>
-	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> resourceName <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.schema.resources) {
-		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.schema.resources.hasOwnProperty(resourceName)) {
-			<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.schema.resources[resourceName].resource.toLowerCase() ===
-				resource.toLowerCase()) {
-				<span class="hljs-keyword">return</span> resourceName;
-			}
-		}
-	}
+	mergedOptions.defaultParams = mergedDefaultParams;
 
-	<span class="hljs-keyword">return</span> <span class="hljs-string">''</span>;
-};</pre></div>
-        
-      
-        
-        <p>Gets the method name for a call to the wrapper given the resource class name.
-See <code>getActionMethodName</code> above for resolving class names.</p>
-<ul>
-<li>@param {String} resourceClassName</li>
-<li>@param {String} action - the path component of the path</li>
-<li>@return {String} - the method name on the wrapper</li>
-</ul>
-
-        
-          <div class='highlight'><pre>Api.prototype.getActionMethodName = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(resourceClassName, action)</span> {</span>
-	<span class="hljs-keyword">var</span> actionMethodName = <span class="hljs-string">''</span>;
-
-	<span class="hljs-keyword">this</span>.schema.resources[resourceClassName].actions.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(act)</span> {</span>
-		<span class="hljs-keyword">if</span> (_.isString(act) &amp;&amp; act.toLowerCase() === action.toLowerCase()) {
-			actionMethodName = <span class="hljs-string">'get'</span> + capitalize(act);
-		}
-		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (act.apiCall &amp;&amp; act.apiCall.toLowerCase() ===
-					action.toLowerCase()) {
-			actionMethodName = act.methodName;
-		}
-		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (act.apiCall === <span class="hljs-string">''</span> &amp;&amp; action === <span class="hljs-string">''</span>) {
-			actionMethodName = act.methodName;
-		}
-	});
-
-	<span class="hljs-keyword">return</span> actionMethodName;
+	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(mergedOptions, <span class="hljs-keyword">this</span>.schema);
 };</pre></div>
         
       
         
         <p>Factory method for creating an API wrapper from a JSON schema definition.</p>
+<ul>
+<li>@param {Object} options - The API options, see below</li>
+<li>@param {Object} schema - The definition of the api resources and actions
+see the assets/7digital-api-schema json file.</li>
+</ul>
 <p>The <code>options</code> argument can contain the following properties:</p>
 <ul>
-<li><em>schema</em> - A JSON string containing the schema definition for the API</li>
 <li><em>consumerkey</em> - The OAuth consumer key for your application</li>
 <li><em>consumersecret</em> - The OAuth consumer secret for your application</li>
 <li><em>format</em> - The format of responses you would like to receive</li>
@@ -309,27 +267,8 @@ See <code>getActionMethodName</code> above for resolving class names.</p>
 </ul>
 
         
-          <div class='highlight'><pre>Api.build = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">build</span><span class="hljs-params">(options)</span> {</span>
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(options);
-};</pre></div>
-        
-      
-        
-        <p>Factory method for creating an API wrapper from a file</p>
-<p>The <code>options</code> argument can contain the following properties:</p>
-<ul>
-<li><em>schemapath</em> - A path to a file containing the JSON schema definition<pre><code>           <span class="hljs-keyword">for</span> the API
-</code></pre></li>
-<li><em>consumerkey</em> - The OAuth consumer key for your application</li>
-<li><em>consumersecret</em> - The OAuth consumer secret for your application</li>
-<li><em>format</em> - The format of responses you would like to receive</li>
-<li><em>logger</em> - An instance of a logger for output from the wrapper</li>
-</ul>
-
-        
-          <div class='highlight'><pre>Api.buildFromFile = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildFromFile</span><span class="hljs-params">(options)</span> {</span>
-	options.schema = <span class="hljs-built_in">require</span>(options.schemapath);
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(options);
+          <div class='highlight'><pre>Api.build = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">build</span><span class="hljs-params">(options, schema)</span> {</span>
+	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(options, schema);
 };</pre></div>
         
       
@@ -340,19 +279,8 @@ browserify can do the right thing for non-node environments.</p>
 
         
           <div class='highlight'><pre>Api.buildDefault = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildDefault</span><span class="hljs-params">()</span> {</span>
-	config.schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../assets/7digital-api-schema.json'</span>);
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(config);
-};</pre></div>
-        
-      
-        
-        <p>Determines the path for a given action on a resource</p>
-<p>@param {String} resource
-@param {String} action</p>
-
-        
-          <div class='highlight'><pre>Api.prototype.formatPath = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatPath</span><span class="hljs-params">(resource, action)</span> {</span>
-	<span class="hljs-keyword">return</span> helpers.formatPath(<span class="hljs-keyword">this</span>.schema.version, resource, action);
+	<span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../assets/7digital-api-schema.json'</span>);
+	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(config, schema);
 };
 
 module.exports.Api = Api;</pre></div>
