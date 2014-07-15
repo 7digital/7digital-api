@@ -3,8 +3,7 @@
 var fs = require('fs');
 var config = require('../config');
 
-var schemaText = fs.readFileSync(config.schemapath);
-var schema = JSON.parse(schemaText.toString());
+var schema = require('../assets/7digital-api-schema');
 
 schema.host = 'localhost';
 schema.port = '3000'
@@ -13,10 +12,9 @@ schema.version = undefined;
 var Api = require('../lib/api').Api;
 
 var api = new Api({
-	schema: schema,
 	format: 'json',
 	logger: require('../lib/logger')
-});
+}, schema);
 
 var expect = require('chai').expect;
 

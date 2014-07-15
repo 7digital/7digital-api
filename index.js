@@ -1,19 +1,18 @@
 'use strict';
 
 var config = require('./config'),
+	defaultSchema = require('./assets/7digital-api-schema'),
 	_ = require('lodash');
 
 module.exports = require('./lib/api').Api.buildDefault();
 
-module.exports.configure = function (options) {
+module.exports.configure = function (options, schema) {
 	options = options || {};
+	schema = schema || defaultSchema;
 
 	_.defaults(options, config);
-	if (options.schema) {
-		return require('./lib/api').Api.build(options);
-	}
 
-	return require('./lib/api').Api.buildFromFile(options);
+	return require('./lib/api').Api.build(options, schema);
 };
 
 module.exports.oauth = require('./lib/oauth-helper');

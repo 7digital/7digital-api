@@ -13,10 +13,6 @@ describe('config', function() {
 		expect(config.consumersecret).to.equal('YOUR_SECRET_HERE');
 	});
 
-	it('should have the path to the schema json', function() {
-		expect(config.schemapath).to.match(/assets\/7digital-api-schema.json$/);
-	});
-
 	it('should have debug', function() {
 		expect(config.debug).to.equal(true);
 	});

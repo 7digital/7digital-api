@@ -17,6 +17,9 @@ describe('api when oauth is required', function () {
 		userToken = process.env['NODE_API_CLIENT_TESTS_USER_TOKEN'] || die('no NODE_API_CLIENT_TESTS_USER_TOKEN set');
 		userSecret = process.env['NODE_API_CLIENT_TESTS_USER_SECRET'] || die('no NODE_API_CLIENT_TESTS_USER_SECRET set');
 
+		// Clear the module cache to get a fresh API - other int tests mutate
+		// the schema
+		require('module')._cache = {};
 		api = require('../index').configure({
 			consumerkey: consumerKey,
 			consumersecret: consumerSecret

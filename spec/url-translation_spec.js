@@ -23,10 +23,9 @@ describe('url translation', function() {
 
 	beforeEach(function() {
 		api = Api.build({
-			schema: schema,
 			format: 'json',
 			logger: require('../lib/logger')
-		});
+		}, schema);
 
 		testApi = new api.Test();
 	});

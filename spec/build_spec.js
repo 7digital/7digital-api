@@ -22,12 +22,11 @@ describe('API.build', function() {
 
 	beforeEach(function() {
 		api = Api.build({
-			schema: schema,
 			consumerkey: 'YOUR_KEY_HERE',
 			consumersecret: 'YOUR_SECRET_HERE',
 			format: 'json',
 			logger: { silly: function () {} }
-		}),
+		}, schema);
 		testApi = new api.Test();
 	});
 
@@ -41,12 +40,11 @@ describe('API.build', function() {
 
 	it('should supply oauth key and secret when provided', function() {
 		api = Api.build({
-			schema: schema,
 			consumerkey: 'testkey',
 			consumersecret: 'testsecret',
 			format: 'json',
 			logger: { silly: function () {} }
-		});
+		}, schema);
 
 		testApi = new api.Test();
 
@@ -68,13 +66,12 @@ describe('API.build', function() {
 
 	it('should allow hierarchical default parameters', function() {
 		api = Api.build({
-			schema: schema,
 			consumerkey: 'testkey',
 			consumersecret: 'testsecret',
 			format: 'json',
 			logger: { silly: function () {} },
 			defaultParams: { country: 'fr' }
-		});
+		}, schema);
 
 		testApi = new api.Test({ defaultParams: { pageSize: 5 }});
 
