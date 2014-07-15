@@ -57,7 +57,7 @@ publish-docs: test docs publish-check
 	rm -rf public
 	cp -R docs/* .
 	git add -A
-	git commit -m "Publish docs"
+	-git commit -m "Publish docs"
 	git push origin gh-pages
 	git checkout master
 
