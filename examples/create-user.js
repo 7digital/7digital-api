@@ -1,13 +1,11 @@
 // Module dependencies
 var util = require('util'),
+	uuid = require('node-uuid'),
 	step = require('step'),
-	readline = require('readline'),
-	oauthHelper = require('../lib/oauth-helper'),
-	// Create a readline interface for prompting the user
-	consoleInterface = readline.createInterface(process.stdin, process.stdout),
 	// Consumer key and secret
-	consumerkey = 'YOUR_KEY_HERE',
-	consumersecret = 'YOUR_SECRET_HERE',
+	// Replace these with your key
+	consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY,
+	consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET,
 	api = require('../index').configure({
 		consumerkey: consumerkey,
 		consumersecret: consumersecret,
@@ -18,12 +16,32 @@ var util = require('util'),
 	}),
 	oauth = new api.OAuth();
 
+
 step(
-	function getRequestToken() {
-		// Get a request token using the oauth helper
-		oauth.getRequestToken('http://callbackurl.com', this);
+	function createUser() {
+		this.user = new api.User();
+		this.username = 'node-client-test-' + uuid.v4() + '@7digital.com';
+		this.password = 'top-secret';
+		this.user.signup({
+			emailAddress: this.username,
+			password: this.password
+		}, this);
 	},
-	function authorise(err, requestToken, requestSecret, authoriseUrl) {
+	function getRequestToken(err, userResponse) {
+		if (err) {
+			// Something went wrong, show the user and exit
+			console.error('Error creating the user');
+			console.error(util.inspect(err.stack, { depth: null, colors: true }));
+			process.exit(0);
+		}
+
+		console.info('Created user ' + this.username);
+		console.info(userResponse);
+
+		// Get a request token using the oauth helper
+		oauth.getRequestToken('http://callbackurl.com/', this);
+	},
+	function authorise(err, requestToken, requestSecret) {
 		if (err) {
 			// Something went wrong, show the user and exit
 			console.error('Error getting the request token');
@@ -36,20 +54,25 @@ step(
 		console.info('Request Token: %s', requestToken);
 		console.info('Request Secret: %s', requestSecret);
 
-		// Show the authorise url
-		console.info('Authorise here: %s', authoriseUrl);
-
 		// Remember the token and secret so we can access it after the
 		// user presses enter
 		this.requestToken = requestToken;
 		this.requestSecret = requestSecret;
 
-		// Tell the user to visit the authorise url
-		consoleInterface.question('Visit the link to authorise this ' +
-			'application to access your 7digital' +
-			'account.  Press enter to continue', this);
+		oauth.authoriseRequestToken({
+			username: this.username,
+			password: this.password,
+			token: this.requestToken
+		}, this);
 	},
-	function continueAfterAuthorisation() {
+	function continueAfterAuthorisation(err) {
+		if (err) {
+			// Something went wrong, show the user and exit
+			console.error('Error authorising the request token');
+			console.error(util.inspect(err, { depth: null, colors: true }));
+			process.exit(0);
+		}
+
 		// Get an access token using the oauth helper using the authorised
 		// request token and secret
 		oauth.getAccessToken({
@@ -58,13 +81,6 @@ step(
 		}, this);
 	},
 	function logTheAccessToken(err, accessToken, accessSecret) {
-		var user;
-
-		// Close the readline interface properly so that the process
-		// ends cleanly otherwise it will hang.
-		consoleInterface.close();
-		process.stdin.destroy();
-
 		if (err) {
 			// Something went wrong, show the user and exit
 			console.error('Error getting the access token');
@@ -77,25 +93,23 @@ step(
 		console.info('Access Token: %s', accessToken);
 		console.info('Access Secret: %s', accessSecret);
 
-		user = new api.User();
-		user.getLocker({
+		this.user.getLocker({
 			accesstoken: accessToken,
 			accesssecret: accessSecret,
-			// If your key is locked to a country you must add it here:
-			// country: 'us',
 			pageSize: 1
-		}, function (err, response) {
-			if (err) {
-				// Something went wrong, show the user and exit
-				console.error('An error occurred: ');
-				console.error(util.inspect(err, { depth: null, colors: true }));
-				process.exit(1);
-			}
+		}, this);
+	},function showLocker(err, lockerResponse) {
+		if (err) {
+			// Something went wrong, show the user and exit
+			console.error('An error occurred: ');
+			console.error(util.inspect(err, { depth: null, colors: true }));
+			process.exit(1);
+		}
 
-			console.log('Successfully accessed the user\'s locker: ');
-			console.log(util.inspect(response, { depth: null, colors: true }));
+		console.log('Successfully accessed the user\'s locker: ');
+		console.log(util.inspect(lockerResponse, { depth: null, colors: true }));
 
-			process.exit(0);
-		});
+		process.exit(0);
 	}
 );
+

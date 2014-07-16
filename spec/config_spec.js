@@ -13,10 +13,6 @@ describe('config', function() {
 		expect(config.consumersecret).to.equal('YOUR_SECRET_HERE');
 	});
 
-	it('should have debug', function() {
-		expect(config.debug).to.equal(true);
-	});
-
 	it('should have the response format set to JSON by default', function() {
 		expect(config.format).to.equal('json');
 	});

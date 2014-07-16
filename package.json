@@ -27,7 +27,7 @@
     "lodash": "~2.4.1",
     "oauth": "0.9.5",
     "step": "~0.0.5",
-    "xml2js": "~0.4.1"
+    "xml2js": "~0.4.3"
   },
   "devDependencies": {
     "docco": "~0.6.3",
@@ -43,5 +43,8 @@
     "Dan Haller <dan.haller@7digital.com> (http://github.com/raoulmillais)",
     "Dave Aitken <dave.aitken@7digital.com> (http://github.com/actionshrimp)",
     "Chris Watson <chris.watson@7digital.com> (http://github.com/c24w)"
-  ]
+  ],
+  "optionalDependencies": {
+    "node-uuid": "^1.4.1"
+  }
 }

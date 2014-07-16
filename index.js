@@ -15,5 +15,4 @@ module.exports.configure = function (options, schema) {
 	return require('./lib/api').Api.build(options, schema);
 };
 
-module.exports.oauth = require('./lib/oauth-helper');
 module.exports.schema = require('./assets/7digital-api-schema');
