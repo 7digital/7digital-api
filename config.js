@@ -13,11 +13,6 @@ module.exports = {
 	//
 	// @type string
 	consumersecret: 'YOUR_SECRET_HERE',
-	// Enables verbose logging to the console of all api requests and responses
-	// when set to true.
-	//
-	// @type boolean
-	debug: true,
 	// The desired format of API responses
 	// Sets format to JSON by default
 	//
