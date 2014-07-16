@@ -76,7 +76,11 @@ You can specify default parameters on a per resource basis also:
 ```javascript
 var api, artists;
 
-api = require('7digital-api').configure({ country: 'fr' });
+api = require('7digital-api').configure({
+	defaultParams: {
+		country: 'fr'
+	}
+});
 
 artists = new api.Artists({ defaultParams: { pageSize: 15 } });
 
@@ -91,17 +95,54 @@ of the API endpoints and the parameters they accept.
 
 ### Making requests on behalf of a user to OAuth protected endpoints
 
+**NOTE: The oauth access method changed considerably in 0.19.0**
 
-There is a bundled OAuth helper that configures the oauth library with the
-necessary settings for the API and formats the authorise URL appropriately.
+This example assumes you have access to the oauth/requestToken/authorise
+endpoint to authenticate users.  If you do not have this access you will
+need to send the user to the authoriseUrl provided by `getRequestToken`
+and complete the auth flow when your callbackUrl is hit.
 
 ```javascript
-require('7digital-api').oauth,
+var api = require('7digital-api').configure({
+	consumerkey: 'YOUR_KEY_HERE',
+	consumersecret: 'YOUR_SECRET_HERE',
+	defaultParams: {
+		country: 'fr'
+	}
+});
+
+var oauth = new api.OAuth();
+oauth.getRequestToken('http://callbackurl.com/', authoriseToken);
+function authoriseToken(err, requesttoken, requestsecret) {
+	oauth.authoriseRequestToken({
+		username: 'joe@bloggs.com',
+		password: 'top-secret',
+		token: requesttoken
+	}, function (err) {
+		oauth.getAccessToken({
+			requesttoken: requesttoken,
+			requestsecret: requestsecret
+		}, function (err, accesstoken, accesssecret) {
+			// use the token and secret to call secure endpoints.
+			var apiForJoeBloggs = api.reconfigure({ 
+				defaultParams: {
+					accesstoken: accesstoken,
+					accesssecret: accesssecret
+				}
+			});
+			var user = new apiForJoeBloggs.User();
+			user.getLocker({
+				pageSize: 1
+			}, function (err, response) {
+				// Do something with the locker
+			});
+		});
+	});
 ```
 
-See oauth.js in the examples folder for an example of the OAuth flow for
-acquiring an authorised access token and secret that you will need to access
-any of the protected endpoints on behalf of a user.
+See oauth.js and create-user.js in the examples folder for examples of the
+OAuth flow for acquiring an authorised access token and secret that you will
+need to access any of the protected endpoints on behalf of a user.
 
 ```bash
 node examples\oauth.js
