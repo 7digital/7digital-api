@@ -23,6 +23,13 @@
               
                 
                 <li>
+                  <a class="source" href="create-user.html">
+                    create-user.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -107,8 +114,8 @@
               
                 
                 <li>
-                  <a class="source" href="oauth-helper.html">
-                    oauth-helper.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
@@ -140,189 +147,221 @@
 
       
         
-        <p>Module dependencies</p>
-
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
-	step = <span class="hljs-built_in">require</span>(<span class="hljs-string">'step'</span>),
-	readline = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>),
-	oauthHelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../lib/oauth-helper'</span>),</pre></div>
+        
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
+<span class="hljs-keyword">var</span> OAuthClient = <span class="hljs-built_in">require</span>(<span class="hljs-string">'oauth'</span>).OAuth;
+<span class="hljs-keyword">var</span> accessTokenUrl = <span class="hljs-string">'http://api.7digital.com/1.2/oauth/accesstoken'</span>;
+<span class="hljs-keyword">var</span> responseParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./responseparser'</span>);</pre></div>
         
       
         
-        <p>Create a readline interface for prompting the user</p>
+        <p>Creates an OAuth v1 wrapper configured with the supplied key and
+secret and the necessary options for authenticating with the
+7digital API.</p>
+<ul>
+<li>@param {String} oauthkey</li>
+<li><p>@param {String} oauthsecret</p>
+</li>
+<li><p>@return {OAuth}</p>
+</li>
+</ul>
 
         
-          <div class='highlight'><pre>	consoleInterface = readline.createInterface(process.stdin, process.stdout),</pre></div>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createOAuthWrapper</span><span class="hljs-params">(oauthkey,
+	oauthsecret)</span> {</span>
+
+	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OAuthClient(
+				<span class="hljs-string">'http://api.7digital.com/1.2/oauth/requesttoken'</span>,
+				accessTokenUrl,
+				oauthkey, oauthsecret, <span class="hljs-string">'1.0'</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">'HMAC-SHA1'</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OAuth</span><span class="hljs-params">(options)</span> {</span>
+	<span class="hljs-keyword">this</span>.consumerkey = options.consumerkey;
+	<span class="hljs-keyword">this</span>.client = createOAuthWrapper(options.consumerkey,
+		options.consumersecret);
+	<span class="hljs-keyword">this</span>.country = options.defaultParams.country;
+}</pre></div>
         
       
         
-        <p>Consumer key and secret</p>
+        <p>Gets a request token from the 7digital API and generates an authorise
+url for the user to grant the application access to their locker and
+make purchases on their behalf.</p>
+<pre><code><span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'7digital-api'</span>).configure({
+        consumerkey: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
+        consumersecret: <span class="hljs-string">'YOUR_SECRET'</span>,
+        defaultParams: {
+             country: <span class="hljs-string">'fr'</span>
+        }
+});
+<span class="hljs-keyword">var</span> oAuth = <span class="hljs-keyword">new</span> api.OAuth();
+oAuth.getRequestToken(<span class="hljs-string">'http://acme.com/oauth_cb'</span>, authorise);
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span><span class="hljs-params">(err, requestToken, requestSecret, authoriseUrl)</span> {</span>
+         <span class="hljs-comment">// Get an access token</span>
+});
+</code></pre><ul>
+<li>@param {String} cbUrl</li>
+<li>@param {Function} callback</li>
+</ul>
 
         
-          <div class='highlight'><pre>	consumerkey = <span class="hljs-string">'YOUR_KEY_HERE'</span>,
-	consumersecret = <span class="hljs-string">'YOUR_SECRET_HERE'</span>;
+          <div class='highlight'><pre>OAuth.prototype.getRequestToken = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">(cbUrl, callback)</span> {</span>
+	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.country) {
+		<span class="hljs-keyword">this</span>.client.getOAuthRequestToken({ country: <span class="hljs-keyword">this</span>.country },
+			buildAuthoriseUrl.bind(<span class="hljs-keyword">this</span>));
+	} <span class="hljs-keyword">else</span> {
+		<span class="hljs-keyword">this</span>.client.getOAuthRequestToken(buildAuthoriseUrl.bind(<span class="hljs-keyword">this</span>));
+	}
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildAuthoriseUrl</span><span class="hljs-params">(err, requestToken, requestSecret, results)</span> {</span>
+		<span class="hljs-keyword">var</span> authoriseUrl;
 
-step(
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">()</span> {</span></pre></div>
-        
-      
-        
-        <p>Get a request token using the oauth helper</p>
-
-        
-          <div class='highlight'><pre>		oauthHelper.getRequestToken({
-			oauthkey: consumerkey,
-			oauthsecret: consumersecret,</pre></div>
-        
-      
-        
-        <p>If your key is locked to a country you must add it here:
-country: ‘us’,</p>
-
-        
-          <div class='highlight'><pre>			callbackUrl: <span class="hljs-string">''</span>
-		}, <span class="hljs-keyword">this</span>);
-	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span><span class="hljs-params">(err, requestToken, requestSecret, authoriseUrl)</span> {</span>
-		<span class="hljs-keyword">if</span> (err) {</pre></div>
-        
-      
-        
-        <p>Something went wrong, show the user and exit</p>
-
-        
-          <div class='highlight'><pre>			console.error(<span class="hljs-string">'Error getting the request token'</span>);
-			console.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
-			process.exit(<span class="hljs-number">0</span>);
-		}</pre></div>
-        
-      
-        
-        <p>Log the request token and secret</p>
-
-        
-          <div class='highlight'><pre>		console.info(<span class="hljs-string">'Received Request Token and Secret'</span>);
-		console.info(<span class="hljs-string">'Request Token: %s'</span>, requestToken);
-		console.info(<span class="hljs-string">'Request Secret: %s'</span>, requestSecret);</pre></div>
-        
-      
-        
-        <p>Show the authorise url</p>
-
-        
-          <div class='highlight'><pre>		console.info(<span class="hljs-string">'Authorise here: %s'</span>, authoriseUrl);</pre></div>
-        
-      
-        
-        <p>Remember the token and secret so we can access it after the
-user presses enter</p>
-
-        
-          <div class='highlight'><pre>		<span class="hljs-keyword">this</span>.requestToken = requestToken;
-		<span class="hljs-keyword">this</span>.requestSecret = requestSecret;</pre></div>
-        
-      
-        
-        <p>Tell the user to visit the authorise url</p>
-
-        
-          <div class='highlight'><pre>		consoleInterface.question(<span class="hljs-string">'Visit the link to authorise this '</span> +
-			<span class="hljs-string">'application to access your 7digital'</span> +
-			<span class="hljs-string">'account.  Press enter to continue'</span>, <span class="hljs-keyword">this</span>);
-	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">continueAfterAuthorisation</span><span class="hljs-params">()</span> {</span></pre></div>
-        
-      
-        
-        <p>Get an access token using the oauth helper using the authorised
-request token and secret</p>
-
-        
-          <div class='highlight'><pre>		oauthHelper.getAccessToken({
-				oauthkey: consumerkey,
-				oauthsecret: consumersecret,</pre></div>
-        
-      
-        
-        <p>If your key is locked to a country you must add it here:
-country: ‘us’,</p>
-
-        
-          <div class='highlight'><pre>				requesttoken: <span class="hljs-keyword">this</span>.requestToken,
-				requestsecret: <span class="hljs-keyword">this</span>.requestSecret
-			}, <span class="hljs-keyword">this</span>);
-	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logTheAccessToken</span><span class="hljs-params">(err, accessToken, accessSecret)</span> {</span>
-		<span class="hljs-keyword">var</span> api, user;</pre></div>
-        
-      
-        
-        <p>Close the readline interface properly so that the process
-ends cleanly otherwise it will hang.</p>
-
-        
-          <div class='highlight'><pre>		consoleInterface.close();
-		process.stdin.destroy();
-
-		<span class="hljs-keyword">if</span> (err) {</pre></div>
-        
-      
-        
-        <p>Something went wrong, show the user and exit</p>
-
-        
-          <div class='highlight'><pre>			console.error(<span class="hljs-string">'Error getting the access token'</span>);
-			console.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
-			process.exit(<span class="hljs-number">1</span>);
+		<span class="hljs-keyword">if</span> (err) {
+			callback(err);
+			<span class="hljs-keyword">return</span>;
 		}
 
-		api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
-			consumerkey: consumerkey,
-			consumersecret: consumersecret
-		});</pre></div>
+		<span class="hljs-comment">/* jshint validthis: true */</span>
+		authoriseUrl = <span class="hljs-string">'https://account.7digital.com/'</span> +
+						<span class="hljs-keyword">this</span>.consumerkey + <span class="hljs-string">'/oauth/authorise?'</span> +
+					<span class="hljs-string">'oauth_token='</span> + requestToken + <span class="hljs-string">'&amp;oauth_callback='</span> +
+					<span class="hljs-built_in">encodeURIComponent</span>(cbUrl);
+
+		<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, requestToken, requestSecret, authoriseUrl);
+	}
+};</pre></div>
         
       
         
-        <p>Log the access token and secret</p>
+        <p>Authorises a request token from the 7digital API for consumers who have
+access to the user management API.  If there is no error the requesttoken
+may be used to gain an access token using <code>getAccessToken</code>.</p>
+<p>The requestData parameter should contain the following</p>
+<ul>
+<li><code>username</code> the email address of the user</li>
+<li><code>password</code> the password for the user’s account</li>
+<li><code>token</code> the request token received from <code>getRequestToken</code></li>
+</ul>
+<ul>
+<li>@param {Object} requestData</li>
+<li>@param {Function} callback</li>
+</ul>
 
         
-          <div class='highlight'><pre>		console.info(<span class="hljs-string">'Received Access Token and Secret'</span>);
-		console.info(<span class="hljs-string">'Access Token: %s'</span>, accessToken);
-		console.info(<span class="hljs-string">'Access Secret: %s'</span>, accessSecret);
+          <div class='highlight'><pre>OAuth.prototype.authoriseRequestToken = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authoriseRequestToken</span><span class="hljs-params">(
+	requestData, callback)</span> {</span>
 
-		user = <span class="hljs-keyword">new</span> api.User();
-		user.getLocker({
-			accesstoken: accessToken,
-			accesssecret: accessSecret,</pre></div>
-        
-      
-        
-        <p>If your key is locked to a country you must add it here:
-country: ‘us’,</p>
+	<span class="hljs-keyword">var</span> url = <span class="hljs-string">'https://api.7digital.com/1.2/oauth/requestToken/authorise?'</span>,
+		fullUrl;
 
-        
-          <div class='highlight'><pre>			pageSize: <span class="hljs-number">1</span>
-		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, response)</span> {</span>
-			<span class="hljs-keyword">if</span> (err) {</pre></div>
-        
-      
-        
-        <p>Something went wrong, show the user and exit</p>
+	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.country) {
+		requestData.country = <span class="hljs-keyword">this</span>.country;
+	}
 
-        
-          <div class='highlight'><pre>				console.error(<span class="hljs-string">'An error occurred: '</span>);
-				console.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
-				process.exit(<span class="hljs-number">1</span>);
+	fullUrl = url + qs.stringify(requestData);
+
+	<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.client.get(fullUrl, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, checkResponse.bind(<span class="hljs-keyword">this</span>));
+	<span class="hljs-comment">/* jshint validthis: true */</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkResponse</span><span class="hljs-params">(err, data)</span> {</span>
+		<span class="hljs-keyword">if</span> (err) {
+			<span class="hljs-keyword">return</span> callback(err);
+		}
+
+		responseParser.parse(data,
+			{ format: <span class="hljs-keyword">this</span>.format, logger: <span class="hljs-keyword">this</span>.logger }, getTokens);
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTokens</span><span class="hljs-params">(err, tokenResponse)</span> {</span>
+			<span class="hljs-keyword">var</span> accessToken, accessSecret;
+
+			<span class="hljs-keyword">if</span> (err) {
+				<span class="hljs-keyword">return</span> callback(err);
 			}
 
-			console.log(<span class="hljs-string">'Successfully accessed the user\'s locker: '</span>);
-			console.log(util.inspect(response, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
-
-			process.exit(<span class="hljs-number">0</span>);
-		});
+			<span class="hljs-keyword">return</span> callback();
+		}
 	}
-);</pre></div>
+};</pre></div>
+        
+      
+        
+        <p>Gets an access token from the 7digital API for signing requests to
+access a user’s 7digital account on their behalf.</p>
+<p>You must generate your access token only after the user has authorised
+the request token.</p>
+<p>You can use this token and secret for signing requests to the 3-legged
+OAuth secured API endpoints.</p>
+<pre><code><span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'7digital-api'</span>).configure({
+        consumerkey: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
+        consumersecret: <span class="hljs-string">'YOUR_SECRET'</span>,
+        defaultParams: {
+            country: <span class="hljs-string">'us'</span>
+        }
+});
+<span class="hljs-keyword">var</span> oAuth = <span class="hljs-keyword">new</span> api.OAuth();
+oAuth.getAccessToken({
+        requesttoken: <span class="hljs-string">'YOUR_TOKEN_HERE'</span>,
+        requestsecret: <span class="hljs-string">'TOKEN_SECRET_HERE'</span>
+    }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accessSignedEndpoints</span><span class="hljs-params">(err, accessToken, accessSecret)</span> {</span>
+        <span class="hljs-comment">// Access the user's locker etc</span>
+});
+</code></pre><p>The requestData parameter should contain the following</p>
+<ul>
+<li><code>requesttoken</code> an authorised OAuth request token</li>
+<li><code>requestsecret</code> the corresponding OAuth request secret</li>
+</ul>
+<ul>
+<li>@param {Object} requestData</li>
+<li>@param {Function} callback</li>
+</ul>
+
+        
+          <div class='highlight'><pre>OAuth.prototype.getAccessToken = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAccessToken</span><span class="hljs-params">(requestData,
+	callback)</span> {</span>
+
+	<span class="hljs-keyword">var</span> extraParams = {};
+
+	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.country) {
+		extraParams.country = <span class="hljs-keyword">this</span>.country;
+	}</pre></div>
+        
+      
+        
+        <p>This must be done manually rather than using the wrapper as there is
+no means of supplying the extra parameter via getOAuthAccessToken</p>
+
+        
+          <div class='highlight'><pre>	<span class="hljs-keyword">this</span>.client._performSecureRequest(requestData.requesttoken,
+		requestData.requestsecret, <span class="hljs-string">'GET'</span>, accessTokenUrl, extraParams, <span class="hljs-literal">null</span>,
+		<span class="hljs-literal">null</span>, checkResponse.bind(<span class="hljs-keyword">this</span>));
+	<span class="hljs-comment">/* jshint validthis: true */</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkResponse</span><span class="hljs-params">(err, data)</span> {</span>
+		<span class="hljs-keyword">if</span> (err) {
+			<span class="hljs-keyword">return</span> callback(err);
+		}
+
+		responseParser.parse(data,
+			{ format: <span class="hljs-keyword">this</span>.format, logger: <span class="hljs-keyword">this</span>.logger }, getTokens);
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTokens</span><span class="hljs-params">(err, tokenResponse)</span> {</span>
+			<span class="hljs-keyword">var</span> accessToken, accessSecret;
+
+			<span class="hljs-keyword">if</span> (err) {
+				<span class="hljs-keyword">return</span> callback(err);
+			}
+
+			accessToken = tokenResponse.oauth_access_token.oauth_token;
+			accessSecret = tokenResponse.oauth_access_token.oauth_token_secret;
+
+			<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, accessToken, accessSecret);
+		}
+   }
+};
+
+module.exports = exports = {
+	createOAuthWrapper: createOAuthWrapper,
+	OAuth: OAuth
+};</pre></div>
         
       
       <div class="fleur">h</div>

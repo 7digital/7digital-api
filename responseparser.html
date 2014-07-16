@@ -23,6 +23,13 @@
               
                 
                 <li>
+                  <a class="source" href="create-user.html">
+                    create-user.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -107,8 +114,8 @@
               
                 
                 <li>
-                  <a class="source" href="oauth-helper.html">
-                    oauth-helper.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
@@ -286,8 +293,6 @@ caller.</p>
 		callback(<span class="hljs-literal">null</span>, response);
 		<span class="hljs-keyword">return</span>;
 	}
-
-	opts.logger.silly(response);
 
 	parser = <span class="hljs-keyword">new</span> xml2js.Parser({ mergeAttrs: <span class="hljs-literal">true</span>, explicitArray: <span class="hljs-literal">false</span> });
 

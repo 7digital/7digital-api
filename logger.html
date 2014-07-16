@@ -23,6 +23,13 @@
               
                 
                 <li>
+                  <a class="source" href="create-user.html">
+                    create-user.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -107,8 +114,8 @@
               
                 
                 <li>
-                  <a class="source" href="oauth-helper.html">
-                    oauth-helper.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
@@ -142,9 +149,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
-
-<span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config'</span>);</pre></div>
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;</pre></div>
         
       
         
@@ -172,13 +177,9 @@ and formats like console.log</p>
 		<span class="hljs-keyword">return</span> console[method].apply(console, logArgs);
 	}
 
-	<span class="hljs-keyword">if</span> (config.debug) {
-		<span class="hljs-keyword">return</span> logger;
-	} <span class="hljs-keyword">else</span> {
-		<span class="hljs-keyword">return</span> (level === <span class="hljs-string">'warn'</span> || level === <span class="hljs-string">'error'</span>)
-			? logger
-			: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>};
-	}
+	<span class="hljs-keyword">return</span> (level === <span class="hljs-string">'warn'</span> || level === <span class="hljs-string">'error'</span> || level === <span class="hljs-string">'info'</span>)
+		? logger
+		: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>};
 }
 
 module.exports = {

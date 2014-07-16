@@ -23,6 +23,13 @@
               
                 
                 <li>
+                  <a class="source" href="create-user.html">
+                    create-user.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -107,8 +114,8 @@
               
                 
                 <li>
-                  <a class="source" href="oauth-helper.html">
-                    oauth-helper.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
@@ -145,6 +152,7 @@
           <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> Resource = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./resource'</span>),
+	OAuth = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./oauth'</span>).OAuth,
 	helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>),
 	config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config'</span>),
 	util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
@@ -228,6 +236,7 @@ this is syntactic sugar to allow callers to new up the resources.</p>
 		}
 	}
 
+	<span class="hljs-keyword">this</span>[<span class="hljs-string">'OAuth'</span>] = createResourceConstructor(<span class="hljs-keyword">new</span> OAuth(options));
 }</pre></div>
         
       
