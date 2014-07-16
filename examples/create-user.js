@@ -6,11 +6,15 @@ var util = require('util'),
 	// Replace these with your key
 	consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY,
 	consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET,
-	api = require('../').configure({
+	api = require('../index').configure({
 		consumerkey: consumerkey,
-		consumersecret: consumersecret
+		consumersecret: consumersecret,
+		defaultParams: {
+			// If your key is locked to a country you must add it here:
+			//country: 'us'
+		}
 	}),
-	oauthHelper = require('../lib/oauth-helper');
+	oauth = new api.OAuth();
 
 
 step(
@@ -35,13 +39,7 @@ step(
 		console.info(userResponse);
 
 		// Get a request token using the oauth helper
-		oauthHelper.getRequestToken({
-			oauthkey: consumerkey,
-			oauthsecret: consumersecret,
-			// If your key is locked to a country you must add it here:
-			// country: 'us',
-			callbackUrl: ''
-		}, this);
+		oauth.getRequestToken('http://callbackurl.com/', this);
 	},
 	function authorise(err, requestToken, requestSecret) {
 		if (err) {
@@ -61,14 +59,10 @@ step(
 		this.requestToken = requestToken;
 		this.requestSecret = requestSecret;
 
-		oauthHelper.authoriseRequestToken({
-			oauthkey: consumerkey,
-			oauthsecret: consumersecret,
-			// If your key is locked to a country you must add it here:
-			// country: 'us',
+		oauth.authoriseRequestToken({
 			username: this.username,
 			password: this.password,
-			requesttoken: this.requestToken
+			token: this.requestToken
 		}, this);
 	},
 	function continueAfterAuthorisation(err) {
@@ -81,11 +75,7 @@ step(
 
 		// Get an access token using the oauth helper using the authorised
 		// request token and secret
-		oauthHelper.getAccessToken({
-			oauthkey: consumerkey,
-			oauthsecret: consumersecret,
-			// If your key is locked to a country you must add it here:
-			// country: 'us',
+		oauth.getAccessToken({
 			requesttoken: this.requestToken,
 			requestsecret: this.requestSecret
 		}, this);
@@ -106,8 +96,6 @@ step(
 		this.user.getLocker({
 			accesstoken: accessToken,
 			accesssecret: accessSecret,
-			// If your key is locked to a country you must add it here:
-			// country: 'us',
 			pageSize: 1
 		}, this);
 	},function showLocker(err, lockerResponse) {

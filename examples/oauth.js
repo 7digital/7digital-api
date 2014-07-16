@@ -7,18 +7,21 @@ var util = require('util'),
 	consoleInterface = readline.createInterface(process.stdin, process.stdout),
 	// Consumer key and secret
 	consumerkey = 'YOUR_KEY_HERE',
-	consumersecret = 'YOUR_SECRET_HERE';
+	consumersecret = 'YOUR_SECRET_HERE',
+	api = require('../index').configure({
+		consumerkey: consumerkey,
+		consumersecret: consumersecret,
+		defaultParams: {
+			// If your key is locked to a country you must add it here:
+			//country: 'us'
+		}
+	}),
+	oauth = new api.OAuth();
 
 step(
 	function getRequestToken() {
 		// Get a request token using the oauth helper
-		oauthHelper.getRequestToken({
-			oauthkey: consumerkey,
-			oauthsecret: consumersecret,
-			// If your key is locked to a country you must add it here:
-			// country: 'us',
-			callbackUrl: ''
-		}, this);
+		oauth.getRequestToken('http://callbackurl.com', this);
 	},
 	function authorise(err, requestToken, requestSecret, authoriseUrl) {
 		if (err) {
@@ -49,17 +52,13 @@ step(
 	function continueAfterAuthorisation() {
 		// Get an access token using the oauth helper using the authorised
 		// request token and secret
-		oauthHelper.getAccessToken({
-				oauthkey: consumerkey,
-				oauthsecret: consumersecret,
-				// If your key is locked to a country you must add it here:
-				// country: 'us',
-				requesttoken: this.requestToken,
-				requestsecret: this.requestSecret
-			}, this);
+		oauth.getAccessToken({
+			requesttoken: this.requestToken,
+			requestsecret: this.requestSecret
+		}, this);
 	},
 	function logTheAccessToken(err, accessToken, accessSecret) {
-		var api, user;
+		var user;
 
 		// Close the readline interface properly so that the process
 		// ends cleanly otherwise it will hang.
@@ -72,11 +71,6 @@ step(
 			console.error(util.inspect(err, { depth: null, colors: true }));
 			process.exit(1);
 		}
-
-		api = require('../index').configure({
-			consumerkey: consumerkey,
-			consumersecret: consumersecret
-		});
 
 		// Log the access token and secret
 		console.info('Received Access Token and Secret');
