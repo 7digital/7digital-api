@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var api = require('../index');
 
 describe("Territories actions", function() {
@@ -12,7 +12,7 @@ describe("Territories actions", function() {
 	});
 
 	it("should generate a getCountries method for the default action", function() {
-		expect(territories.getCountries).to.exist;
-		expect(territories.getCountries).to.be.a('function');
+		assert(territories.getCountries);
+		assert.isFunction(territories.getCountries);
 	});
 });

@@ -1,33 +1,28 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var api = require('../index');
 
 describe("Tracks actions", function() {
 
 	var tracks;
-	
+
 	beforeEach(function() {
 		tracks = new api.Tracks();
 	});
-	
+
 	it("should generate a getChart method for the chart action", function() {
-		expect(tracks.getChart).to.exist;
-		expect(tracks.getChart).to.be.a('function');
-	});
-		
-	it("should generate a getDetails method for the details action", function() {
-		expect(tracks.getDetails).to.exist;
-		expect(tracks.getDetails).to.be.a('function');
+		assert(tracks.getChart);
+		assert.isFunction(tracks.getChart);
 	});
 
-	it("should generate a getPreview method for the preview action", function() {
-		expect(tracks.getPreview).to.exist;
-		expect(tracks.getPreview).to.be.a('function');
+	it("should generate a getDetails method for the details action", function() {
+		assert(tracks.getDetails);
+		assert.isFunction(tracks.getDetails);
 	});
 
 	it("should generate a search method for the search action", function() {
-		expect(tracks.search).to.exist;
-		expect(tracks.search).to.be.a('function');
+		assert(tracks.search);
+		assert.isFunction(tracks.search);
 	});
 });

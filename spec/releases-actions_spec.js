@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var api = require('../index');
 
 describe("Releases actions", function() {
@@ -12,47 +12,47 @@ describe("Releases actions", function() {
 	});
 
 	it("should generate a getByDate method for the byDate action", function() {
-		expect(releases.getByDate).to.exist;
-		expect(releases.getByDate).to.be.a('function');
+		assert(releases.getByDate);
+		assert.isFunction(releases.getByDate);
 	});
 
 	it("should generate a getDetails method for the details action", function() {
-		expect(releases.getDetails).to.exist;
-		expect(releases.getDetails).to.be.a('function');
+		assert(releases.getDetails);
+		assert.isFunction(releases.getDetails);
 	});
 
 	it("should generate a getChart method for the chart action", function() {
-		expect(releases.getChart).to.exist;
-		expect(releases.getChart).to.be.a('function');
+		assert(releases.getChart);
+		assert.isFunction(releases.getChart);
 	});
 
 	it("should generate a getRecommendations method for the recommend action", function() {
-		expect(releases.getRecommendations).to.exist;
-		expect(releases.getRecommendations).to.be.a('function');
+		assert(releases.getRecommendations);
+		assert.isFunction(releases.getRecommendations);
 	});
 
 	it("should generate a search method for the search action", function() {
-		expect(releases.search).to.exist;
-		expect(releases.search).to.be.a('function');
+		assert(releases.search);
+		assert.isFunction(releases.search);
 	});
 
 	it("should generate a getTracks method for the tracks action", function() {
-		expect(releases.getTracks).to.exist;
-		expect(releases.getTracks).to.be.a('function');
+		assert(releases.getTracks);
+		assert.isFunction(releases.getTracks);
 	});
 
 	it("should generate a getTags method for the tags action", function() {
-		expect(releases.getTags).to.exist;
-		expect(releases.getTags).to.be.a('function');
+		assert(releases.getTags);
+		assert.isFunction(releases.getTags);
 	});
 
 	it("should generate a getNewByTags method for the bytag/new action", function() {
-		expect(releases.getNewByTags).to.exist;
-		expect(releases.getNewByTags).to.be.a('function');
+		assert(releases.getNewByTags);
+		assert.isFunction(releases.getNewByTags);
 	});
 
 	it("should generate a getTopByTags method for the bytag/top action", function() {
-		expect(releases.getNewByTags).to.exist;
-		expect(releases.getNewByTags).to.be.a('function');
+		assert(releases.getNewByTags);
+		assert.isFunction(releases.getNewByTags);
 	});
 });

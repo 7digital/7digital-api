@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var api = require('../index');
 
 describe("Tags actions", function() {
@@ -12,8 +12,8 @@ describe("Tags actions", function() {
 	});
 
 	it("should generate an all method for the default action", function() {
-		expect(tags.all).to.exist;
-		expect(tags.all).to.be.a('function');
+		assert(tags.all);
+		assert.isFunction(tags.all);
 	});
 
 });
