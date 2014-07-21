@@ -2,7 +2,6 @@
 var util = require('util'),
 	step = require('step'),
 	readline = require('readline'),
-	oauthHelper = require('../lib/oauth-helper'),
 	// Create a readline interface for prompting the user
 	consoleInterface = readline.createInterface(process.stdin, process.stdout),
 	// Consumer key and secret
@@ -12,11 +11,16 @@ var util = require('util'),
 		consumerkey: consumerkey,
 		consumersecret: consumersecret,
 		defaultParams: {
-			// If your key is locked to a country you must add it here:
-			//country: 'us'
+			// If your key is locked to a country you can default it here
+			country: 'ww'
 		}
 	}),
-	oauth = new api.OAuth();
+	oauth = new api.OAuth({
+		defaultParams: {
+			// You can also default parameters here
+			//country: 'ww'
+		}
+	});
 
 step(
 	function getRequestToken() {
@@ -81,8 +85,6 @@ step(
 		user.getLocker({
 			accesstoken: accessToken,
 			accesssecret: accessSecret,
-			// If your key is locked to a country you must add it here:
-			// country: 'us',
 			pageSize: 1
 		}, function (err, response) {
 			if (err) {
