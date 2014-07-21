@@ -44,7 +44,6 @@
 					[
 						{ "apiCall": "chart", "methodName": "getChart" },
 						{ "apiCall": "details", "methodName": "getDetails" },
-						{ "apiCall": "preview", "methodName": "getPreview" },
 						{ "apiCall": "search", "methodName": "search" }
 					]
 			},

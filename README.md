@@ -144,8 +144,24 @@ See oauth.js and create-user.js in the examples folder for examples of the
 OAuth flow for acquiring an authorised access token and secret that you will
 need to access any of the protected endpoints on behalf of a user.
 
-```bash
-node examples\oauth.js
+
+### Accessing previews
+
+The preview endpoint behaves differently from the other endpoints as it returns
+you the bytes to to the clip.  It also resides on a different host.  You must
+sign your resuests:
+
+```javascript
+var api = require('7digital-api').configure({
+	consumerkey: 'YOUR_KEY_HERE',
+	consumersecret: 'YOUR_SECRET_HERE',
+	defaultParams: {
+		country: 'es'
+	}
+});
+
+var oauth = new api.OAuth();
+var previewUrl = oauth.sign('http://previews/7digital.com/clip/12345');
 ```
 
 ### Running the tests
