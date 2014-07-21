@@ -183,7 +183,6 @@ secret and the necessary options for authenticating with the
 	<span class="hljs-keyword">this</span>.consumerkey = options.consumerkey;
 	<span class="hljs-keyword">this</span>.client = createOAuthWrapper(options.consumerkey,
 		options.consumersecret);
-	<span class="hljs-keyword">this</span>.country = options.defaultParams.country;
 }</pre></div>
         
       
@@ -210,9 +209,10 @@ oAuth.getRequestToken(<span class="hljs-string">'http://acme.com/oauth_cb'</span
 
         
           <div class='highlight'><pre>OAuth.prototype.getRequestToken = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">(cbUrl, callback)</span> {</span>
-	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.country) {
-		<span class="hljs-keyword">this</span>.client.getOAuthRequestToken({ country: <span class="hljs-keyword">this</span>.country },
-			buildAuthoriseUrl.bind(<span class="hljs-keyword">this</span>));
+	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.defaultParams.country) {
+		<span class="hljs-keyword">this</span>.client.getOAuthRequestToken({
+			country: <span class="hljs-keyword">this</span>.defaultParams.country
+		}, buildAuthoriseUrl.bind(<span class="hljs-keyword">this</span>));
 	} <span class="hljs-keyword">else</span> {
 		<span class="hljs-keyword">this</span>.client.getOAuthRequestToken(buildAuthoriseUrl.bind(<span class="hljs-keyword">this</span>));
 	}
@@ -258,7 +258,7 @@ may be used to gain an access token using <code>getAccessToken</code>.</p>
 		fullUrl;
 
 	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.country) {
-		requestData.country = <span class="hljs-keyword">this</span>.country;
+		requestData.country = <span class="hljs-keyword">this</span>.defaultParams.country;
 	}
 
 	fullUrl = url + qs.stringify(requestData);
@@ -320,10 +320,10 @@ oAuth.getAccessToken({
           <div class='highlight'><pre>OAuth.prototype.getAccessToken = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAccessToken</span><span class="hljs-params">(requestData,
 	callback)</span> {</span>
 
-	<span class="hljs-keyword">var</span> extraParams = {};
+	<span class="hljs-keyword">var</span> extraParams = <span class="hljs-literal">null</span>;
 
-	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.country) {
-		extraParams.country = <span class="hljs-keyword">this</span>.country;
+	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.defaultParams.country) {
+		extraParams = { country: <span class="hljs-keyword">this</span>.defaultParams.country };
 	}</pre></div>
         
       
@@ -333,15 +333,38 @@ no means of supplying the extra parameter via getOAuthAccessToken</p>
 
         
           <div class='highlight'><pre>	<span class="hljs-keyword">this</span>.client._performSecureRequest(requestData.requesttoken,
-		requestData.requestsecret, <span class="hljs-string">'GET'</span>, accessTokenUrl, extraParams, <span class="hljs-literal">null</span>,
+		requestData.requestsecret, <span class="hljs-string">'POST'</span>, accessTokenUrl, extraParams, <span class="hljs-literal">null</span>,
 		<span class="hljs-literal">null</span>, checkResponse.bind(<span class="hljs-keyword">this</span>));
 	<span class="hljs-comment">/* jshint validthis: true */</span>
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkResponse</span><span class="hljs-params">(err, data)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkResponse</span><span class="hljs-params">(err, data, response)</span> {</span>
+		<span class="hljs-keyword">var</span> results, accessToken, accessSecret;
+
 		<span class="hljs-keyword">if</span> (err) {
 			<span class="hljs-keyword">return</span> callback(err);
-		}
+		}</pre></div>
+        
+      
+        
+        <p>Check if we got a for url encoded response</p>
 
-		responseParser.parse(data,
+        
+          <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/oauth_token/</span>.test(data)) {
+			results = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>).parse(data);
+			accessToken= results[<span class="hljs-string">"oauth_token"</span>];
+			accessSecret = results[<span class="hljs-string">"oauth_token_secret"</span>];
+
+			<span class="hljs-keyword">delete</span> results[<span class="hljs-string">"oauth_token"</span>];
+			<span class="hljs-keyword">delete</span> results[<span class="hljs-string">"oauth_token_secret"</span>];
+
+			<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, accessToken, accessSecret);
+		}</pre></div>
+        
+      
+        
+        <p>We didn’t so parse the body as an XML response</p>
+
+        
+          <div class='highlight'><pre>		responseParser.parse(data,
 			{ format: <span class="hljs-keyword">this</span>.format, logger: <span class="hljs-keyword">this</span>.logger }, getTokens);
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTokens</span><span class="hljs-params">(err, tokenResponse)</span> {</span>
 			<span class="hljs-keyword">var</span> accessToken, accessSecret;
