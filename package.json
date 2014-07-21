@@ -14,7 +14,7 @@
   ],
   "author": "Raoul Millais <raoul@raoulmillais.com> (http://www.raoulmillais.com/)",
   "licenses": [
-    "BSD"
+    "ISC"
   ],
   "engines": [
     "node >= 0.6.0"
