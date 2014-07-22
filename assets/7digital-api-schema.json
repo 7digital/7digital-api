@@ -212,6 +212,12 @@
 				{
 					"apiCall": "card/type",
 					"methodName": "getCardTypes"
+				},
+				{
+					"apiCall": "voucher/details",
+					"methodName": "getVoucherDetails",
+					"oauth": "2-legged",
+					"method": "GET"
 				}
 			]
 		}
