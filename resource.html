@@ -187,7 +187,7 @@ for each action that can be performed on the resource.</p>
 
 	_.each(options.resourceDefinition.actions,
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processAction</span><span class="hljs-params">(action)</span> {</span>
-			<span class="hljs-keyword">this</span>.createAction(schema.version, action);
+			<span class="hljs-keyword">this</span>.createAction(schema.version, action, options.userManagement);
 		}, <span class="hljs-keyword">this</span>);
 }</pre></div>
         
@@ -232,12 +232,15 @@ or a hash if they differ.</li>
 </ul>
 
         
-          <div class='highlight'><pre>Resource.prototype.createAction = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(prefix, actionDefinition)</span> {</span>
-	<span class="hljs-keyword">var</span> fnName = <span class="hljs-keyword">this</span>.chooseMethodName(actionDefinition),
+          <div class='highlight'><pre>Resource.prototype.createAction = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(prefix, actionDefinition, isManaged)</span> {</span>
+	<span class="hljs-keyword">var</span> url, fnName = <span class="hljs-keyword">this</span>.chooseMethodName(actionDefinition),
 		action = <span class="hljs-keyword">typeof</span> actionDefinition.apiCall === <span class="hljs-string">'undefined'</span> ?
 			actionDefinition : actionDefinition.apiCall,
 		httpMethod = (actionDefinition.method || <span class="hljs-string">'GET'</span>),
-		url;
+		authType = (actionDefinition.oauth
+			&amp;&amp; actionDefinition.oauth === <span class="hljs-string">'3-legged'</span> &amp;&amp; isManaged)
+			? <span class="hljs-string">'2-legged'</span>
+			: actionDefinition.oauth;
 
 	<span class="hljs-keyword">this</span>.logger.silly(<span class="hljs-string">'Creating method: '</span> + fnName + <span class="hljs-string">' for '</span> + action +
 					<span class="hljs-string">' action with '</span> + httpMethod + <span class="hljs-string">' HTTP verb'</span>);
@@ -247,13 +250,18 @@ or a hash if they differ.</li>
 				host: <span class="hljs-keyword">this</span>.host,
 				port: <span class="hljs-keyword">this</span>.port,
 				version: <span class="hljs-keyword">this</span>.version,
-				authtype: actionDefinition.oauth,
+				authtype: authType,
 				url: helpers.formatPath(prefix, <span class="hljs-keyword">this</span>.resourceName, action)
 			},
 			credentials = {
 				consumerkey: <span class="hljs-keyword">this</span>.consumerkey,
 				consumersecret: <span class="hljs-keyword">this</span>.consumersecret
 			};
+
+		<span class="hljs-keyword">if</span> (_.isFunction(requestData)) {
+			callback = requestData;
+			requestData = {};
+		}
 
 		<span class="hljs-keyword">if</span> (httpMethod.toLowerCase() === <span class="hljs-string">'get'</span>) {</pre></div>
         
@@ -285,6 +293,7 @@ or a hash if they differ.</li>
 	}
 
 	invokeAction.action = action;
+	invokeAction.authtype = authType;
 	<span class="hljs-keyword">this</span>[fnName] = invokeAction;
 };
 

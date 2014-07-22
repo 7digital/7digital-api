@@ -202,7 +202,17 @@ this is syntactic sugar to allow callers to new up the resources.</p>
 
         
           <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createResourceConstructor</span><span class="hljs-params">(resourcePrototype)</span> {</span>
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">APIResource</span><span class="hljs-params">(resourceOptions)</span> {</span>
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">APIResource</span><span class="hljs-params">(resourceOptions)</span> {</span></pre></div>
+        
+      
+        
+        <p>Allow creating resources without <code>new</code> keyword</p>
+
+        
+          <div class='highlight'><pre>			<span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> APIResource)) {
+				<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> APIResource(resourceOptions);
+			}
+
 			resourceOptions = resourceOptions || {};</pre></div>
         
       
@@ -287,9 +297,10 @@ We need a separate method with an inlined schemapath so that
 browserify can do the right thing for non-node environments.</p>
 
         
-          <div class='highlight'><pre>Api.buildDefault = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildDefault</span><span class="hljs-params">()</span> {</span>
+          <div class='highlight'><pre>Api.buildDefault = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildDefault</span><span class="hljs-params">(options)</span> {</span>
+	options = options || config;
 	<span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../assets/7digital-api-schema.json'</span>);
-	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(config, schema);
+	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(options, schema);
 };
 
 module.exports.Api = Api;</pre></div>
