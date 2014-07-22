@@ -72,6 +72,18 @@ describe('API.build', function() {
 		assert.isFunction(testApi.getByDate);
 	});
 
+	it('should create a 3-legged user action when not managed', function() {
+		var api = Api.buildDefault();
+		assert.isFunction(api.User().getLocker);
+		assert.equal(api.User().getLocker.authtype, '3-legged');
+	});
+
+	it('should create a 2-legged user action when managed', function() {
+		var api = Api.buildDefault({ userManagement: true });
+		assert.isFunction(api.User().getLocker);
+		assert.equal(api.User().getLocker.authtype, '2-legged');
+	});
+
 	it('should allow hierarchical default parameters', function() {
 		api = Api.build({
 			consumerkey: 'testkey',

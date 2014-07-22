@@ -126,6 +126,12 @@
 						"method": "POST"
 					},
 					{
+						"apiCall": "create",
+						"methodName": "create",
+						"oauth": "2-legged",
+						"method": "GET"
+					},
+					{
 						"apiCall": "details",
 						"methodName": "getDetails",
 						"oauth": "2-legged",

@@ -25,7 +25,15 @@ module.exports = {
 	// @type {Winston.Logger} or any object which defines methods for each of
 	// the npm loglevels.
 	logger: require('./lib/logger'),
-
+	// If your key allows you two legged access to manage user accounts
+	// either for creating 3rd party partner accounts or by providing
+	// access to user details using a userId then you should set this
+	// to true.  This changes all 3-legged oauth endpoints to 2-legged.
+	//
+	// This option is not reconfigurable using `reconfigure`
+	//
+	// @type {Boolean} whether user management is enabled for your key.
+	userManagement: false,
 	// A response cache client
 	//
 	// @type {Object} An object providing get and set functions.
