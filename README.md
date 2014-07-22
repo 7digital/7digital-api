@@ -101,7 +101,7 @@ of the API endpoints and the parameters they accept.
 
 The preview endpoint behaves differently from the other endpoints as it returns
 you the bytes to to the clip.  It also resides on a different host.  You must
-sign your resuests:
+sign your requests:
 
 ```javascript
 var api = require('7digital-api').configure({
