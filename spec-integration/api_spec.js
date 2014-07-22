@@ -53,7 +53,7 @@ describe('api', function () {
 
 	it('should ensure empty basketItems is an array', function (done) {
 		var basket = new api.Basket();
-		basket.create({ }, function (err, data) {
+		basket.create(function (err, data) {
 			expect(data.basket.basketItems).to.be.instanceOf(Array);
 			done();
 		});
