@@ -39,6 +39,12 @@ describe('API.build', function() {
 		assert(api.Test);
 	});
 
+	it('should allow creation of resources without new', function () {
+		var res = api.Test();
+		assert(res);
+		assert.instanceOf(res, require('../lib/resource'));
+	});
+
 	it('should supply oauth key and secret when provided', function() {
 
 		api = Api.build({
