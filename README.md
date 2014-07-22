@@ -93,6 +93,29 @@ artists.getReleases({ artistid: 1 }, function(err, data) {
 See [developer.7digital.net](http://developer.7digital.net/) for full details
 of the API endpoints and the parameters they accept.
 
+## OAuth protected endpoints
+
+**NOTE: The oauth access method changed considerably in 0.19.0**
+
+### Accessing previews
+
+The preview endpoint behaves differently from the other endpoints as it returns
+you the bytes to to the clip.  It also resides on a different host.  You must
+sign your resuests:
+
+```javascript
+var api = require('7digital-api').configure({
+	consumerkey: 'YOUR_KEY_HERE',
+	consumersecret: 'YOUR_SECRET_HERE',
+	defaultParams: {
+		country: 'es'
+	}
+});
+
+var oauth = new api.OAuth();
+var previewUrl = oauth.sign('http://previews/7digital.com/clip/12345');
+```
+
 ### Making requests on behalf of a user to OAuth protected endpoints
 
 **NOTE: The oauth access method changed considerably in 0.19.0**
@@ -124,7 +147,7 @@ function authoriseToken(err, requesttoken, requestsecret) {
 			requestsecret: requestsecret
 		}, function (err, accesstoken, accesssecret) {
 			// use the token and secret to call secure endpoints.
-			var apiForJoeBloggs = api.reconfigure({ 
+			var apiForJoeBloggs = api.reconfigure({
 				defaultParams: {
 					accesstoken: accesstoken,
 					accesssecret: accesssecret
@@ -144,24 +167,35 @@ See oauth.js and create-user.js in the examples folder for examples of the
 OAuth flow for acquiring an authorised access token and secret that you will
 need to access any of the protected endpoints on behalf of a user.
 
+### Partner users (3rd party user management)
 
-### Accessing previews
-
-The preview endpoint behaves differently from the other endpoints as it returns
-you the bytes to to the clip.  It also resides on a different host.  You must
-sign your resuests:
+If your key has permissions to create 3rd-party (partner) users, you must
+configure the client to allow you to access protected enpoints with your
+user ids instead of access tokens.  This can be done like so:
 
 ```javascript
 var api = require('7digital-api').configure({
 	consumerkey: 'YOUR_KEY_HERE',
 	consumersecret: 'YOUR_SECRET_HERE',
+	userManagement: true,
 	defaultParams: {
-		country: 'es'
+		country: 'fr'
 	}
 });
 
-var oauth = new api.OAuth();
-var previewUrl = oauth.sign('http://previews/7digital.com/clip/12345');
+// You can now access user endpoints for your users without an access token or
+// secret and with your external user id instead
+api.User().create({
+	userId: 'external-user-12345',
+	emailAddress: 'joe@bloggs.com'
+	}, function (err, userResponse) {
+		api.User().getLocker({
+			userId: 'external-user-12345',
+			pageSize: 1
+		}, function (err, response) {
+		// Do something with the user's (empty!) locker
+	});
+});
 ```
 
 ### Running the tests
