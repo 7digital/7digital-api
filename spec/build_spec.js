@@ -7,7 +7,7 @@ var Api = require('../lib/api').Api;
 describe('API.build', function() {
 	var schema = {
 		"host": "api.example.com",
-		"version": "1.0",
+		"prefix": "1.0",
 		"resources":
 			{
 				"Test": {
@@ -60,10 +60,10 @@ describe('API.build', function() {
 		assert.strictEqual(testApi.consumersecret, 'testsecret');
 	});
 
-	it('should supply the API with host, version and resource name',
+	it('should supply the API with host, prefix and resource name',
 		function() {
 		assert.strictEqual(testApi.host, 'api.example.com');
-		assert.strictEqual(testApi.version, '1.0');
+		assert.strictEqual(testApi.prefix, '1.0');
 		assert.strictEqual(testApi.resourceName, 'testresource');
 	});
 

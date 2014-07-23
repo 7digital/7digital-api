@@ -1,7 +1,7 @@
 {
 	"host": "api.7digital.com",
 	"port": "80",
-	"version": "1.2",
+	"prefix": "1.2",
 	"resources":
 		{
 		"Releases":
