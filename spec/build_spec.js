@@ -7,7 +7,7 @@ var Api = require('../lib/api').Api;
 describe('API.build', function() {
 	var schema = {
 		"host": "api.example.com",
-		"version": "1.0",
+		"prefix": "1.0",
 		"resources":
 			{
 				"Test": {
@@ -15,6 +15,22 @@ describe('API.build', function() {
 					"actions":
 					[
 						"byDate"
+					]
+				},
+				"Other": {
+					"resource": "testresource",
+					"host": "api.other.com",
+					"port": 8080,
+					"prefix": "public",
+					"actions": [
+						{ "apiCall": "byDate", "methodName": "getByDate" },
+						{
+							"apiCall": "overridden",
+							"host": "api.acme.com",
+							"port": 3000,
+							"prefix": "foo",
+							"methodName": "isOverridden"
+						},
 					]
 				}
 			}
@@ -60,11 +76,27 @@ describe('API.build', function() {
 		assert.strictEqual(testApi.consumersecret, 'testsecret');
 	});
 
-	it('should supply the API with host, version and resource name',
+	it('should supply the API with host, prefix and resource name',
 		function() {
 		assert.strictEqual(testApi.host, 'api.example.com');
-		assert.strictEqual(testApi.version, '1.0');
+		assert.strictEqual(testApi.prefix, '1.0');
 		assert.strictEqual(testApi.resourceName, 'testresource');
+	});
+
+	it('should override the API host, and port on a resource',
+		function() {
+		var other = new api.Other();
+		assert.strictEqual(other.host, 'api.other.com');
+		assert.strictEqual(other.prefix, 'public');
+		assert.strictEqual(other.port, 8080);
+	});
+
+	it('should override the API host, and port on an action',
+		function() {
+		var other = new api.Other();
+		assert.strictEqual(other.isOverridden.host, 'api.acme.com');
+		assert.strictEqual(other.isOverridden.prefix, 'foo');
+		assert.strictEqual(other.isOverridden.port, 3000);
 	});
 
 	it('should create a method for each action', function() {

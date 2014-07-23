@@ -7,7 +7,7 @@ var schema = require('../assets/7digital-api-schema');
 
 schema.host = 'localhost';
 schema.port = '3000'
-schema.version = undefined;
+schema.prefix = undefined;
 
 var Api = require('../lib/api').Api;
 
