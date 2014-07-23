@@ -16,6 +16,22 @@ describe('API.build', function() {
 					[
 						"byDate"
 					]
+				},
+				"Other": {
+					"resource": "testresource",
+					"host": "api.other.com",
+					"port": 8080,
+					"prefix": "public",
+					"actions": [
+						{ "apiCall": "byDate", "methodName": "getByDate" },
+						{
+							"apiCall": "overridden",
+							"host": "api.acme.com",
+							"port": 3000,
+							"prefix": "foo",
+							"methodName": "isOverridden"
+						},
+					]
 				}
 			}
 		}, api, testApi;
@@ -65,6 +81,22 @@ describe('API.build', function() {
 		assert.strictEqual(testApi.host, 'api.example.com');
 		assert.strictEqual(testApi.prefix, '1.0');
 		assert.strictEqual(testApi.resourceName, 'testresource');
+	});
+
+	it('should override the API host, and port on a resource',
+		function() {
+		var other = new api.Other();
+		assert.strictEqual(other.host, 'api.other.com');
+		assert.strictEqual(other.prefix, 'public');
+		assert.strictEqual(other.port, 8080);
+	});
+
+	it('should override the API host, and port on an action',
+		function() {
+		var other = new api.Other();
+		assert.strictEqual(other.isOverridden.host, 'api.acme.com');
+		assert.strictEqual(other.isOverridden.prefix, 'foo');
+		assert.strictEqual(other.isOverridden.port, 3000);
 	});
 
 	it('should create a method for each action', function() {
