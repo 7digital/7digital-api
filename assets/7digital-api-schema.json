@@ -138,6 +138,12 @@
 						"method": "POST"
 					},
 					{
+						"apiCall": "payment/cardregistration/:id",
+						"methodName": "getCardRegistration",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
 						"apiCall": "deliveritem",
 						"methodName": "deliverItem",
 						"oauth": "3-legged",
