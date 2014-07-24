@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>logger.js</title>
+  <title>actionhelper.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -13,7 +13,7 @@
 
       <div class="header">
         
-          <h1>logger.js</h1>
+          <h1>actionhelper.js</h1>
         
 
         
@@ -156,46 +156,40 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;</pre></div>
-        
-      
-        
-        <p>Makes a logger function that formats messages sensibly and logs to either
-stdout or stderr.</p>
-<ul>
-<li>@param {String} level - the log level.</li>
-<li>@param {String} method - the method on the console object to call.</li>
-<li>@return {Function} - the logging function.</li>
-</ul>
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
 
-        
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeLogger</span><span class="hljs-params">(level, method)</span> {</span></pre></div>
-        
-      
-        
-        <p>The logger function to return takes a variable number of arguments
-and formats like console.log</p>
+<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 
-        
-          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logger</span><span class="hljs-params">()</span> {</span>
-		<span class="hljs-keyword">var</span> args = [].slice.call(<span class="hljs-built_in">arguments</span>);
-		<span class="hljs-keyword">var</span> format = level.toUpperCase() + <span class="hljs-string">': (api-client) '</span> + args.shift();
-		<span class="hljs-keyword">var</span> logArgs = [format].concat(args);
-		<span class="hljs-keyword">return</span> console[method].apply(console, logArgs);
-	}
-
-	<span class="hljs-keyword">return</span> (level === <span class="hljs-string">'warn'</span> || level === <span class="hljs-string">'error'</span> || level === <span class="hljs-string">'info'</span>)
-		? logger
-		: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>};
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">templateParams</span><span class="hljs-params">(url)</span> {</span>
+	<span class="hljs-keyword">return</span> url.match(<span class="hljs-regexp">/:([^/]+)/g</span>);
 }
 
-module.exports = {
-	silly: makeLogger(<span class="hljs-string">'silly'</span>, <span class="hljs-string">'log'</span>),
-	verbose: makeLogger(<span class="hljs-string">'verbose'</span>, <span class="hljs-string">'log'</span>),
-	info: makeLogger(<span class="hljs-string">'info'</span>, <span class="hljs-string">'log'</span>),
-	http: makeLogger(<span class="hljs-string">'http'</span>, <span class="hljs-string">'log'</span>),
-	warn: makeLogger(<span class="hljs-string">'warn'</span>, <span class="hljs-string">'log'</span>),
-	error: makeLogger(<span class="hljs-string">'error'</span>, <span class="hljs-string">'error'</span>)
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">template</span><span class="hljs-params">(url, params)</span> {</span>
+	<span class="hljs-keyword">var</span> templated = url;
+	<span class="hljs-keyword">var</span> keys = _.keys(params);
+	<span class="hljs-keyword">var</span> loweredKeys = _.map(keys, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> {</span>
+		<span class="hljs-keyword">return</span> key.toLowerCase();
+	});
+	<span class="hljs-keyword">var</span> keyLookup = _.zipObject(loweredKeys, keys);
+
+	_.each(templateParams(url), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">replaceParam</span><span class="hljs-params">(param)</span> {</span>
+		<span class="hljs-keyword">var</span> normalisedParam = param.toLowerCase().substr(<span class="hljs-number">1</span>);
+
+		<span class="hljs-keyword">if</span> (!keyLookup[normalisedParam]) {
+			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Missing '</span> + normalisedParam);
+		}
+
+		templated = templated.replace(param,
+			params[keyLookup[normalisedParam]]);
+		<span class="hljs-keyword">delete</span> params[keyLookup[normalisedParam]];
+	});
+
+	<span class="hljs-keyword">return</span> templated;
+}
+
+module.exports = exports = {
+	templateParams: templateParams,
+	template: template
 };</pre></div>
         
       

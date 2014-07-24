@@ -72,6 +72,13 @@
               
                 
                 <li>
+                  <a class="source" href="actionhelper.html">
+                    actionhelper.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="api.html">
                     api.js
                   </a>
@@ -153,6 +160,7 @@
 
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
 	http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>),
+	actionhelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./actionhelper'</span>),
 	ApiHttpError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiHttpError,
 	cache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cache'</span>),
 	querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>),
@@ -334,7 +342,6 @@
 
 	requestData = prepare(requestData, credentials.consumerkey);
 
-	logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
 
 	<span class="hljs-keyword">if</span> (!is2Legged) {
 		<span class="hljs-keyword">delete</span> requestData.accesstoken;
@@ -343,10 +350,14 @@
 
 	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {
 		logger.info(<span class="hljs-string">'token: '</span> + token + <span class="hljs-string">' secret: '</span> + secret);
+
+		fullUrl = actionhelper.template(fullUrl, requestData);
 		fullUrl = fullUrl + <span class="hljs-string">'?'</span> + querystring.stringify(requestData);
+		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
 
 		oauthClient.get(fullUrl, token, secret, callbackWithDataAndResponse);
-	} <span class="hljs-keyword">else</span> {</pre></div>
+	} <span class="hljs-keyword">else</span> {
+		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);</pre></div>
         
       
         
@@ -379,7 +390,7 @@ specification and applies approriate HTTP headers.</p>
 <li>@param {String} url - the URL on the API to make the request to.</li>
 <li>@param {String} httpMethod</li>
 <li>@param {Object} data - hash of the parameters for the request.</li>
-<li>@param {Object} hostInfo - hash of host, port and version</li>
+<li>@param {Object} hostInfo - hash of host, port and prefix</li>
 <li>@param {Object} credentials - hash of oauth consumer key and secret</li>
 <li>@param {Object} logger - an object implementing the npm log levels</li>
 <li>@param {Function} callback</li>
