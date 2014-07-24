@@ -114,6 +114,36 @@
 						"method": "GET"
 					},
 					{
+						"apiCall": "payment/card",
+						"methodName": "listCards",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
+						"apiCall": "payment/card/select",
+						"methodName": "selectCard",
+						"oauth": "3-legged",
+						"method": "POST"
+					},
+					{
+						"apiCall": "payment/card/delete",
+						"methodName": "deleteCard",
+						"oauth": "3-legged",
+						"method": "POST"
+					},
+					{
+						"apiCall": "payment/cardregistration",
+						"methodName": "registerCard",
+						"oauth": "3-legged",
+						"method": "POST"
+					},
+					{
+						"apiCall": "payment/cardregistration/:id",
+						"methodName": "getCardRegistration",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
 						"apiCall": "deliveritem",
 						"methodName": "deliverItem",
 						"oauth": "3-legged",
