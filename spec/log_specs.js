@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var sinon = require('sinon');
 
 describe('logger', function() {
@@ -8,17 +8,17 @@ describe('logger', function() {
 	var originalConsole;
 
 	it('should have the npm log levels', function() {
-		expect(log.silly).to.exist;
-		expect(log.verbose).to.exist;
-		expect(log.info).to.exist;
-		expect(log.http).to.exist;
-		expect(log.warn).to.exist;
-		expect(log.error).to.exist;
+		assert(log.silly);
+		assert(log.verbose);
+		assert(log.info);
+		assert(log.http);
+		assert(log.warn);
+		assert(log.error);
 	});
 
 	// Cant clobber console - mocha has already clobbered it
-	xit('should concatenate first argument and prefix with remaining', 
+	xit('should concatenate first argument and prefix with remaining',
 		function () {
-		log.error('foo %s', {}, bar); // prints "foo [object Object] 23"
+		log.error('foo %s', {}, 23); // prints "foo [object Object] 23"
 	});
 });

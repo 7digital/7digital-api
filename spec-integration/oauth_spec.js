@@ -6,16 +6,20 @@ function die(msg) {
 	throw new Error(msg);
 }
 
+function fromEnvOrDie(key) {
+	return process.env[key] || die('no ' + key + ' set');
+}
+
 describe('api when oauth is required', function () {
 	var consumerKey, consumerSecret, voucherCode, preOAuthedToken, userToken,
 		userSecret, api;
 
 	before(function () {
-		consumerKey = process.env['NODE_API_CLIENT_TESTS_CONSUMER_KEY'] || die('no NODE_API_CLIENT_TESTS_CONSUMER_KEY set');
-		consumerSecret = process.env['NODE_API_CLIENT_TESTS_CONSUMER_SECRET'] || die('no NODE_API_CLIENT_TESTS_CONSUMER_SECRET set');
-		voucherCode = process.env['NODE_API_CLIENT_TESTS_VOUCHER_CODE'] || die('no NODE_API_CLIENT_TESTS_VOUCHER_CODE set');
-		userToken = process.env['NODE_API_CLIENT_TESTS_USER_TOKEN'] || die('no NODE_API_CLIENT_TESTS_USER_TOKEN set');
-		userSecret = process.env['NODE_API_CLIENT_TESTS_USER_SECRET'] || die('no NODE_API_CLIENT_TESTS_USER_SECRET set');
+		consumerKey = fromEnvOrDie('NODE_API_CLIENT_TESTS_CONSUMER_KEY');
+		consumerSecret = fromEnvOrDie('NODE_API_CLIENT_TESTS_CONSUMER_SECRET');
+		voucherCode = fromEnvOrDie('NODE_API_CLIENT_TESTS_VOUCHER_CODE');
+		userToken = fromEnvOrDie('NODE_API_CLIENT_TESTS_USER_TOKEN');
+		userSecret = fromEnvOrDie('NODE_API_CLIENT_TESTS_USER_SECRET');
 
 		// Clear the module cache to get a fresh API - other int tests mutate
 		// the schema
@@ -26,25 +30,27 @@ describe('api when oauth is required', function () {
 		});
 	});
 
-	it('should propagate errors correctly when unauthorised (two-legged oauth)', function (done) {
+	it('propagates errors when unauthorised (2-legged)', function (done) {
 		var unauthedApi = require('../index');
 		var basketApi = new unauthedApi.Basket();
 
 		basketApi.applyVoucher({}, function (err, rs) {
 			assert.ok(err, 'no error returned from api');
-			assert.match(err.data, /oauth/i, 'error message did not mention oauth');
+			assert.match(err.data, /oauth/i,
+				'error message did not mention oauth');
 			done();
 		});
 	});
 
-	it('should be able apply a voucher (two-legged oauth)', function (done) {
-		//create a basket
+	it('applies a voucher (2-legged oauth)', function (done) {
 		var basketApi = new api.Basket();
 
 		basketApi.create({}, function (err, rs) {
+			var basket;
+
 			assert.notOk(err, 'error after basket/create: ' + err);
 
-			var basket = rs.basket;
+			basket = rs.basket;
 
 			assert.ok(basket.id, 'no basketId returned by api basket/create');
 
@@ -53,9 +59,10 @@ describe('api when oauth is required', function () {
 				releaseId: 1188827,
 				itemId: 30173868
 			}, function (err, rs) {
+				var basketAfterAddItem;
 				assert.notOk(err, 'error after basket/addItem: ' + err);
 
-				var basketAfterAddItem = rs.basket;
+				basketAfterAddItem = rs.basket;
 
 				assert.lengthOf(basketAfterAddItem.basketItems, 1,
 					'unexpected number of basket items after basket/addItem');
@@ -67,9 +74,12 @@ describe('api when oauth is required', function () {
 					basketId: basket.id,
 					voucherCode: voucherCode
 				}, function (err, rs) {
-					assert.notOk(err, 'error after basket/applyVoucher: ' + err);
+					var basketAfterVoucher;
 
-					var basketAfterVoucher = rs.basket;
+					assert.notOk(err,
+						'error after basket/applyVoucher: ' + err);
+
+					basketAfterVoucher = rs.basket;
 
 					assert.equal(basketAfterVoucher.amountDue.amount, 0,
 						'expected free basket after basket/applyVoucher');
@@ -80,17 +90,22 @@ describe('api when oauth is required', function () {
 		});
 	});
 
-	it('should propagate errors correctly when unauthorised (three-legged oauth)', function (done) {
+	it('propagates errors when unauthorised (3-legged oauth)',
+		function (done) {
+
 		var user = new api.User();
 
 		user.getLocker({}, function (err, res) {
 			assert.ok(err, 'expected an error');
-			assert.match(err.data, /oauth.*token/i, 'error message did not mention oauth or tokens');
+			assert.match(err.data, /oauth.*token/i,
+				'error message did not mention oauth or tokens');
 			done();
 		});
 	});
 
-	it('should be able to fetch a pre-authorised user\'s locker (three-legged oauth)', function (done) {
+	it('fetches a pre-authorised user\'s locker (3-legged oauth)',
+		function (done) {
+
 		this.timeout(30000);
 
 		var user = new api.User();
@@ -111,7 +126,7 @@ describe('User management', function () {
 	var exec = require('child_process').exec,
 		path = require('path');
 
-	it('should create users', function(done) {
+	it('creates users', function(done) {
 		exec('node ' + path.join(__dirname, '../examples/create-user.js'),
 			function assertOutput(err, stdout, stderr) {
 				assert(!err);

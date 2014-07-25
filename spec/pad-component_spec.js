@@ -1,18 +1,18 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var helpers = require('../lib/helpers');
 
-describe("helpers.padComponent", function() {
-	
-	it('should return a string with a leading zero when less than or equal to 9', function() {
+describe('padComponent', function() {
+
+	it('returns a string with a leading zero when a single digit', function() {
 		var result = helpers.padComponent(9);
-		expect(result).to.equal('09');
+		assert.equal(result, '09');
 	});
-	
-	it('should return a string with when more than 9', function() {
+
+	it('returns a string with when more than 9', function() {
 		var result = helpers.padComponent(10);
-		expect(result).to.equal('10');
+		assert.equal(result, '10');
 	});
 
 });

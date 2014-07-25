@@ -3,7 +3,7 @@
 var assert = require('chai').assert;
 var api = require('../index');
 
-describe("Tags actions", function() {
+describe('Tags actions', function() {
 
 	var tags;
 
@@ -11,7 +11,7 @@ describe("Tags actions", function() {
 		tags = new api.Tags();
 	});
 
-	it("should generate an all method for the default action", function() {
+	it('generates an all method for the default action', function() {
 		assert(tags.all);
 		assert.isFunction(tags.all);
 	});

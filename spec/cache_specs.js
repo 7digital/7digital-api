@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var cache = require('../lib/cache');
 
 describe('cache', function () {
@@ -9,7 +9,7 @@ describe('cache', function () {
 
 		it('prefixes a hash', function () {
 			var key = cache.generateCacheKeyFromUrl('/foo');
-			expect(key.indexOf('7digital-api:')).to.equal(0);
+			assert.equal(key.indexOf('7digital-api:'), 0);
 		});
 
 	});
@@ -23,7 +23,7 @@ describe('cache', function () {
 				}
 			};
 			var maxAge = cache.parseMaxAgeHeader(res);
-			expect(maxAge).to.equal(600);
+			assert.equal(maxAge, 600);
 		});
 
 	});

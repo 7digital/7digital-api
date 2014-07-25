@@ -1,14 +1,14 @@
 'use strict';
 
-var expect = require('chai').expect;
-
+var assert = require('chai').assert;
 var helpers = require('../lib/helpers');
 
 describe('helpers.capitalize', function() {
-	it('should capitalise the first letter of a string', function() {
+
+	it('capitalises the first letter of a string', function() {
 		var result = helpers.capitalize('seven');
-		expect(result[0]).to.equal('S');
-		expect(result).to.equal('Seven');
+		assert.equal(result[0], 'S');
+		assert.equal(result, 'Seven');
 	});
 
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 var request = require('../lib/request');
 
 describe('request', function () {
@@ -9,16 +9,17 @@ describe('request', function () {
 
 		it('adds the user agent and host headers', function () {
 			var headers  = request.createHeaders('api.7digital.com');
-			expect(headers.host).to.equal('api.7digital.com');
-			expect(headers['User-Agent']).to.equal('Node.js HTTP Client');
+			assert.equal(headers.host, 'api.7digital.com');
+			assert.equal(headers['User-Agent'], 'Node.js HTTP Client');
 		});
 
 	});
 
 	describe('prepare', function () {
+
 		it('adds the consumer key to the params', function () {
 			var preparedData = request.prepare({}, 'YOUR_KEY_HERE');
-			expect(preparedData.oauth_consumer_key).to.equal('YOUR_KEY_HERE');
+			assert.equal(preparedData.oauth_consumer_key, 'YOUR_KEY_HERE');
 		});
 
 		it('converts dates to the correct format', function () {
@@ -26,8 +27,9 @@ describe('request', function () {
 				someParam: new Date(2005, 5, 3)
 			});
 
-			expect(preparedData.someParam).to.equal('20050603');
+			assert.equal(preparedData.someParam, '20050603');
 		});
+
 	});
 
 });
