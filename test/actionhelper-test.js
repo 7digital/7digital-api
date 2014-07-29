@@ -4,7 +4,7 @@ var actionhelper = require('../lib/actionhelper');
 
 describe('templateParams', function () {
 
-	it('should return a param for a templated url', function () {
+	it('returns a parameters for a templated url', function () {
 		var url = 'foo/:bar/baz';
 		assert.deepEqual(actionhelper.templateParams(url), [ ':bar' ]);
 	});
@@ -18,7 +18,7 @@ describe('templateParams', function () {
 
 describe('template', function () {
 
-	it('should replace params', function () {
+	it('replaces parameters', function () {
 		var template = 'foo/:bAr/baz/:quux';
 		var params = {
 			bar: 'hello',
@@ -31,7 +31,7 @@ describe('template', function () {
 		assert.deepEqual(params, { remaining: 'param' });
 	});
 
-	it('should throw when missing parameters', function () {
+	it('throws when missing parameters', function () {
 		var template = 'foo/:bAr/baz/:quux';
 		var params = {
 			bar: 'hello'

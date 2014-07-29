@@ -1,19 +1,20 @@
 'use strict';
 
-var expect = require('chai').expect;
+var assert = require('chai').assert;
 
 describe('config', function() {
 	var config = require('../config');
 
 	it('should have the default consumer key', function() {
-		expect(config.consumerkey).to.equal('YOUR_KEY_HERE');
+		assert.equal(config.consumerkey, 'YOUR_KEY_HERE');
 	});
 
 	it('should have an empty oauthsecret', function() {
-		expect(config.consumersecret).to.equal('YOUR_SECRET_HERE');
+		assert.equal(config.consumersecret, 'YOUR_SECRET_HERE');
 	});
 
 	it('should have the response format set to JSON by default', function() {
-		expect(config.format).to.equal('json');
+		assert.equal(config.format, 'json');
 	});
+
 });

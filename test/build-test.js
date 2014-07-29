@@ -1,7 +1,6 @@
 'use strict';
 
 var assert = require('chai').assert;
-
 var Api = require('../lib/api').Api;
 
 describe('API.build', function() {
@@ -47,21 +46,21 @@ describe('API.build', function() {
 		testApi = new api.Test();
 	});
 
-	it('should return a wrapper', function() {
+	it('returns a wrapper', function() {
 		assert(api);
 	});
 
-	it('should create an API constructor for each resource', function() {
+	it('creates an API constructor for each resource', function() {
 		assert(api.Test);
 	});
 
-	it('should allow creation of resources without new', function () {
+	it('allows creation of resources without new', function () {
 		var res = api.Test();
 		assert(res);
 		assert.instanceOf(res, require('../lib/resource'));
 	});
 
-	it('should supply oauth key and secret when provided', function() {
+	it('gives resources the provided oauth key and secret', function() {
 
 		api = Api.build({
 			consumerkey: 'testkey',
@@ -76,14 +75,14 @@ describe('API.build', function() {
 		assert.strictEqual(testApi.consumersecret, 'testsecret');
 	});
 
-	it('should supply the API with host, prefix and resource name',
+	it('gives resources the supplied host, prefix and resource name',
 		function() {
 		assert.strictEqual(testApi.host, 'api.example.com');
 		assert.strictEqual(testApi.prefix, '1.0');
 		assert.strictEqual(testApi.resourceName, 'testresource');
 	});
 
-	it('should override the API host, and port on a resource',
+	it('overrides API host, prefix and port on a resource',
 		function() {
 		var other = new api.Other();
 		assert.strictEqual(other.host, 'api.other.com');
@@ -91,7 +90,7 @@ describe('API.build', function() {
 		assert.strictEqual(other.port, 8080);
 	});
 
-	it('should override the API host, and port on an action',
+	it('overrides the API host, prefix and port on an action',
 		function() {
 		var other = new api.Other();
 		assert.strictEqual(other.isOverridden.host, 'api.acme.com');
@@ -99,24 +98,24 @@ describe('API.build', function() {
 		assert.strictEqual(other.isOverridden.port, 3000);
 	});
 
-	it('should create a method for each action', function() {
+	it('creates a method for each action', function() {
 		assert(testApi.getByDate);
 		assert.isFunction(testApi.getByDate);
 	});
 
-	it('should create a 3-legged user action when not managed', function() {
+	it('creates a 3-legged user action when not managed', function() {
 		var api = Api.buildDefault();
 		assert.isFunction(api.User().getLocker);
 		assert.equal(api.User().getLocker.authtype, '3-legged');
 	});
 
-	it('should create a 2-legged user action when managed', function() {
+	it('creates a 2-legged user action when managed', function() {
 		var api = Api.buildDefault({ userManagement: true });
 		assert.isFunction(api.User().getLocker);
 		assert.equal(api.User().getLocker.authtype, '2-legged');
 	});
 
-	it('should allow hierarchical default parameters', function() {
+	it('allows hierarchical default parameters', function() {
 		api = Api.build({
 			consumerkey: 'testkey',
 			consumersecret: 'testsecret',
@@ -133,7 +132,7 @@ describe('API.build', function() {
 		});
 	});
 
-	it('should allow reconfiguration of the client', function() {
+	it('allows reconfiguration of the client', function() {
 		function createLogger(label) {
 			return {
 				label: label,

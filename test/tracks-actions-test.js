@@ -3,7 +3,7 @@
 var assert = require('chai').assert;
 var api = require('../index');
 
-describe("Tracks actions", function() {
+describe('Tracks actions', function() {
 
 	var tracks;
 
@@ -11,18 +11,19 @@ describe("Tracks actions", function() {
 		tracks = new api.Tracks();
 	});
 
-	it("should generate a getChart method for the chart action", function() {
+	it('generates a getChart method for the chart action', function() {
 		assert(tracks.getChart);
 		assert.isFunction(tracks.getChart);
 	});
 
-	it("should generate a getDetails method for the details action", function() {
+	it('generates a getDetails method for the details action', function() {
 		assert(tracks.getDetails);
 		assert.isFunction(tracks.getDetails);
 	});
 
-	it("should generate a search method for the search action", function() {
+	it('generates a search method for the search action', function() {
 		assert(tracks.search);
 		assert.isFunction(tracks.search);
 	});
+
 });
