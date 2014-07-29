@@ -20,7 +20,8 @@
     "node >= 0.6.0"
   ],
   "scripts": {
-    "test": "./node_modules/.bin/mocha spec/"
+    "integration-test": "./node_modules/.bin/mocha --recursive -R spec test-integration/",
+    "test": "./node_modules/.bin/mocha --recursive -R spec test/"
   },
   "main": "index.js",
   "dependencies": {
