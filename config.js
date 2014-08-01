@@ -38,9 +38,12 @@ module.exports = {
 	//
 	// @type {Object} An object providing get and set functions.
 	cache: require('./lib/noop-cache'),
-
 	// A hash of parameters to provide with every GET request made to the API
 	//
 	// @type {Object} A hash contining querystring parameters
-	defaultParams: {}
+	defaultParams: {},
+	// A hash of custom headers to provide with every request made to the API
+	//
+	// @type {Object} A hash contining the headers
+	headers: {}
 };

@@ -148,20 +148,41 @@ describe('API.build', function() {
 
 		var api2 = api.reconfigure({
 			logger: createLogger('logger2'),
+			headers: {
+				'foo': 'bar'
+			},
 			defaultParams: {
 				page: 2
 			}
 		});
 
 		var api3 = api2.reconfigure({
+			headers: {
+				'baz': 'quux'
+			},
 			defaultParams: {
 				country: 'fr'
 			}
 		});
 
-		var testApi = new api.Test({ defaultParams: { pageSize: 5 }});
-		var testApi2 = new api2.Test({ defaultParams: { pageSize: 6 }});
-		var testApi3 = new api3.Test({ defaultParams: { pageSize: 7 }});
+		var testApi = new api.Test({
+			headers: {
+				'resource-header': 1
+			},
+			defaultParams: { pageSize: 5 }
+		});
+		var testApi2 = new api2.Test({
+			headers: {
+				'resource-header': 2
+			},
+			defaultParams: { pageSize: 6 }
+		});
+		var testApi3 = new api3.Test({
+			headers: {
+				'resource-header': 3
+			},
+			defaultParams: { pageSize: 7 }
+		});
 
 		assert.equal(testApi.logger.label, 'logger1');
 		assert.equal(testApi2.logger.label, 'logger2');
@@ -170,14 +191,26 @@ describe('API.build', function() {
 		assert.deepEqual(testApi.defaultParams, {
 			pageSize: 5
 		});
+		assert.deepEqual(testApi.headers, {
+			'resource-header':1
+		});
 		assert.deepEqual(testApi2.defaultParams, {
 			page: 2,
 			pageSize: 6
+		});
+		assert.deepEqual(testApi2.headers, {
+			'resource-header': 2,
+			foo: 'bar'
 		});
 		assert.deepEqual(testApi3.defaultParams, {
 			page: 2,
 			pageSize: 7,
 			country: 'fr'
+		});
+		assert.deepEqual(testApi3.headers, {
+			'resource-header': 3,
+			foo: 'bar',
+			baz: 'quux'
 		});
 	});
 });
