@@ -229,12 +229,15 @@ this is syntactic sugar to allow callers to new up the resources.</p>
         
           <div class='highlight'><pre>			_.defaults(resourceOptions.defaultParams,
 				apiRoot.options.defaultParams);
+			_.defaults(resourceOptions.headers,
+				apiRoot.options.headers);
 			_.defaults(resourceOptions, apiRoot.options);
 
 			<span class="hljs-keyword">this</span>.cache = resourceOptions.cache;
 			<span class="hljs-keyword">this</span>.format = resourceOptions.format;
 			<span class="hljs-keyword">this</span>.logger = resourceOptions.logger;
 			<span class="hljs-keyword">this</span>.defaultParams = resourceOptions.defaultParams;
+			<span class="hljs-keyword">this</span>.headers = resourceOptions.headers;
 		}
 
 		APIResource.prototype = resourcePrototype;
@@ -269,9 +272,12 @@ new client</li>
           <div class='highlight'><pre>Api.prototype.reconfigure = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reconfigure</span><span class="hljs-params">(newOptions)</span> {</span>
 	<span class="hljs-keyword">var</span> mergedDefaultParams = _.extend({}, <span class="hljs-keyword">this</span>.options.defaultParams,
 		newOptions.defaultParams);
+	<span class="hljs-keyword">var</span> mergedHeaders = _.extend({}, <span class="hljs-keyword">this</span>.options.headers,
+		newOptions.headers);
 	<span class="hljs-keyword">var</span> mergedOptions = _.extend({}, <span class="hljs-keyword">this</span>.options, newOptions);
 
 	mergedOptions.defaultParams = mergedDefaultParams;
+	mergedOptions.headers = mergedHeaders;
 
 	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(mergedOptions, <span class="hljs-keyword">this</span>.schema);
 };</pre></div>

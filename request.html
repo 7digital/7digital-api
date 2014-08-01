@@ -204,11 +204,26 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHeaders</span><span class="hljs-params">(host)</span> {</span>
-	<span class="hljs-keyword">return</span> {
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHeaders</span><span class="hljs-params">(host, headers)</span> {</span>
+	<span class="hljs-keyword">return</span> _.extend({}, headers, {
 		<span class="hljs-string">'host'</span>: host,
 		<span class="hljs-string">'User-Agent'</span> : USER_AGENT
-	};
+	});
+}</pre></div>
+        
+      
+        
+        <p>Logs out a headers hash</p>
+<ul>
+<li>@param {Object} logger - The logger to use</li>
+<li>@param {Object} headers - The hash of headers to log</li>
+</ul>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logHeaders</span><span class="hljs-params">(logger, headers)</span> {</span>
+	<span class="hljs-keyword">return</span> _.each(_.keys(headers), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> {</span>
+		logger.info(key + <span class="hljs-string">': '</span> + headers[key]);
+	});
 }</pre></div>
         
       
@@ -217,6 +232,7 @@
 <ul>
 <li>@param {Object} endpointInfo - Generic metadata about the endpoint to hit.</li>
 <li>@param {Object} requestData - Parameters for this specific request.</li>
+<li>@param {Object} headers - Custom headers for this request.</li>
 <li>@param {Object} credentials - OAuth consumerkey and consumersecret.</li>
 <li>@param {Object} logger - An object implementing the npm log levels.</li>
 <li>@param {Object} theCache - A response cache.</li>
@@ -224,7 +240,7 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(endpointInfo, requestData, credentials, logger, theCache,
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, theCache,
 	callback)</span> {</span>
 
 	<span class="hljs-keyword">var</span> normalisedData = prepare(requestData, credentials.consumerkey),
@@ -255,11 +271,11 @@
 
         
           <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (endpointInfo.authtype) {
-			dispatchSecure(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData,
+			dispatchSecure(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData, headers,
 				endpointInfo.authtype, hostInfo, credentials, logger,
 				cacheAndCallback);
 		} <span class="hljs-keyword">else</span> {
-			dispatch(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData, hostInfo,
+			dispatch(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData, headers, hostInfo,
 				credentials, logger, cacheAndCallback);
 		}
 
@@ -296,24 +312,25 @@
 <ul>
 <li>@param {Object} endpointInfo - Generic metadata about the endpoint to hit.</li>
 <li>@param {Object} requestData - Parameters for this specific request.</li>
+<li>@param {Object} headers - Headers for this request.</li>
 <li>@param {Object} credentials - OAuth consumerkey and consumersecret.</li>
 <li>@param {Object} logger - An object implementing the npm log levels.</li>
 <li>@param {Function} callback - The callback to call with the response.</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post</span><span class="hljs-params">(endpointInfo, requestData, credentials, logger, callback)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, callback)</span> {</span>
 	<span class="hljs-keyword">var</span> hostInfo = {
 		host: endpointInfo.host,
 		port: endpointInfo.port
 	};
 
 	<span class="hljs-keyword">if</span> (endpointInfo.authtype) {
-		dispatchSecure(endpointInfo.url, <span class="hljs-string">'POST'</span>, requestData,
+		dispatchSecure(endpointInfo.url, <span class="hljs-string">'POST'</span>, requestData, headers,
 			endpointInfo.authtype, hostInfo, credentials, logger, callback);
 	} <span class="hljs-keyword">else</span> {
-		dispatch(endpointInfo.url, <span class="hljs-string">'POST'</span>, requestData, hostInfo, credentials,
-			logger, callback);
+		dispatch(endpointInfo.url, <span class="hljs-string">'POST'</span>, requestData, headers, hostInfo,
+			credentials, logger, callback);
 	}
 }</pre></div>
         
@@ -324,21 +341,23 @@
 <li>@param {String} url - the path of the API url to request.</li>
 <li>@param {String} httpMethod</li>
 <li>@param {Object} requestData - hash of the parameters for the request.</li>
+<li>@param {Object} headers - Headers for this request.</li>
 <li>@param {String} authType - OAuth request type: ‘2-legged’ or ‘3-legged’</li>
 <li>@param {Object} hostInfo - API host information</li>
 <li>@param {Function} callback - The callback to call with the response.</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(url, httpMethod, requestData, authtype, hostInfo,
-		credentials, logger, callback)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(url, httpMethod, requestData, headers, authtype,
+		hostInfo, credentials, logger, callback)</span> {</span>
 
 	<span class="hljs-keyword">var</span> fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + url,
 		is2Legged = authtype === <span class="hljs-string">'2-legged'</span>,
 		token = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesstoken,
 		secret = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesssecret,
-		oauthClient = oauthHelper.createOAuthWrapper(
-			credentials.consumerkey, credentials.consumersecret);
+		mergedHeaders = createHeaders(hostInfo.host, headers),
+		oauthClient = oauthHelper.createOAuthWrapper(credentials.consumerkey,
+			credentials.consumersecret, mergedHeaders);
 
 	requestData = prepare(requestData, credentials.consumerkey);
 
@@ -354,20 +373,19 @@
 		fullUrl = actionhelper.template(fullUrl, requestData);
 		fullUrl = fullUrl + <span class="hljs-string">'?'</span> + querystring.stringify(requestData);
 		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
+		logHeaders(logger, mergedHeaders);
 
-		oauthClient.get(fullUrl, token, secret, callbackWithDataAndResponse);
-	} <span class="hljs-keyword">else</span> {
-		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);</pre></div>
-        
-      
-        
-        <p>FIXME: This will not work with the playlist API which expects a
-JSON payload</p>
-
-        
-          <div class='highlight'><pre>		oauthClient[httpMethod.toLowerCase()](fullUrl, token, secret,
-			requestData, <span class="hljs-string">'application/x-www-form-urlencoded'</span>,
+		<span class="hljs-keyword">return</span> oauthClient.get(fullUrl, token, secret,
 			callbackWithDataAndResponse);
+	}
+
+	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'POST'</span>) {
+		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
+		logger.info(<span class="hljs-string">'DATA: '</span> + querystring.stringify(requestData));
+		logHeaders(logger, mergedHeaders);
+
+		<span class="hljs-keyword">return</span> oauthClient.post(fullUrl, token, secret, requestData,
+			<span class="hljs-string">'application/x-www-form-urlencoded'</span>, callbackWithDataAndResponse);
 	}
 
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> {</span>
@@ -376,10 +394,9 @@ JSON payload</p>
 			<span class="hljs-keyword">return</span> callback(err);
 		}
 
-		callback(<span class="hljs-literal">null</span>, data, response);
+		<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, data, response);
 	}
 
-	logger.info(<span class="hljs-string">'DATA: '</span> + querystring.stringify(requestData));
 }</pre></div>
         
       
@@ -390,6 +407,7 @@ specification and applies approriate HTTP headers.</p>
 <li>@param {String} url - the URL on the API to make the request to.</li>
 <li>@param {String} httpMethod</li>
 <li>@param {Object} data - hash of the parameters for the request.</li>
+<li>@param {Object} headers - Headers for this request.</li>
 <li>@param {Object} hostInfo - hash of host, port and prefix</li>
 <li>@param {Object} credentials - hash of oauth consumer key and secret</li>
 <li>@param {Object} logger - an object implementing the npm log levels</li>
@@ -397,10 +415,11 @@ specification and applies approriate HTTP headers.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatch</span><span class="hljs-params">(url, httpMethod, data, hostInfo, credentials, logger,
-	callback)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatch</span><span class="hljs-params">(url, httpMethod, data, headers, hostInfo, credentials,
+		logger, callback)</span> {</span>
 
-	<span class="hljs-keyword">var</span> apiRequest, headers, prop, hasErrored;
+	<span class="hljs-keyword">var</span> apiRequest, prop, hasErrored,
+		mergedHeaders = createHeaders(hostInfo.host, headers);
 
 	data = prepare(data, credentials.consumerkey);</pre></div>
         
@@ -419,7 +438,8 @@ the XML response back instead of a redirect to the track download.</p>
 	}
 
 	logger.info(util.format(<span class="hljs-string">'%s: http://%s:%s%s'</span>, httpMethod,
-		hostInfo.host, hostInfo.port, url));</pre></div>
+		hostInfo.host, hostInfo.port, url));
+	logHeaders(logger, mergedHeaders);</pre></div>
         
       
         
@@ -427,7 +447,15 @@ the XML response back instead of a redirect to the track download.</p>
 
         
           <div class='highlight'><pre>	apiRequest = http.request({
-		method: httpMethod,
+		method: httpMethod,</pre></div>
+        
+      
+        
+        <p>disable connection pooling to get round node’s unnecessarily low
+5 max connections</p>
+
+        
+          <div class='highlight'><pre>		agent: <span class="hljs-literal">false</span>,
 		hostname: hostInfo.host,</pre></div>
         
       
@@ -449,7 +477,7 @@ currently does not set CORS headers.</p>
           <div class='highlight'><pre>		withCredentials: <span class="hljs-literal">false</span>,
 		path: url,
 		port: hostInfo.port,
-		headers: createHeaders(hostInfo.host)
+		headers: mergedHeaders
 	}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleResponse</span><span class="hljs-params">(response)</span> {</span>
 		<span class="hljs-keyword">var</span> responseBuffer = <span class="hljs-string">''</span>;
 

@@ -282,13 +282,13 @@ or a hash if they differ.</li>
 
         
           <div class='highlight'><pre>			_.defaults(requestData, <span class="hljs-keyword">this</span>.defaultParams);
-			request.get(endpointInfo, requestData, credentials, <span class="hljs-keyword">this</span>.logger,
-				<span class="hljs-keyword">this</span>.cache, checkAndParse);
+			request.get(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers, credentials,
+				<span class="hljs-keyword">this</span>.logger, <span class="hljs-keyword">this</span>.cache, checkAndParse);
 		}
 
 		<span class="hljs-keyword">if</span> (httpMethod.toLowerCase() === <span class="hljs-string">'post'</span>) {
-			request.post(endpointInfo, requestData, credentials, <span class="hljs-keyword">this</span>.logger,
-				checkAndParse);
+			request.post(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers, credentials,
+				<span class="hljs-keyword">this</span>.logger, checkAndParse);
 		}
 
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkAndParse</span><span class="hljs-params">(err, data, response)</span> {</span>

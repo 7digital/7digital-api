@@ -178,12 +178,12 @@ secret and the necessary options for authenticating with the
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createOAuthWrapper</span><span class="hljs-params">(oauthkey,
-	oauthsecret)</span> {</span>
+	oauthsecret, headers)</span> {</span>
 
 	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OAuthClient(
 				<span class="hljs-string">'http://api.7digital.com/1.2/oauth/requesttoken'</span>,
 				accessTokenUrl,
-				oauthkey, oauthsecret, <span class="hljs-string">'1.0'</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">'HMAC-SHA1'</span>);
+				oauthkey, oauthsecret, <span class="hljs-string">'1.0'</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">'HMAC-SHA1'</span>, <span class="hljs-number">32</span>, headers);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OAuth</span><span class="hljs-params">(options)</span> {</span>
