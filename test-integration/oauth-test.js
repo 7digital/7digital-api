@@ -105,11 +105,9 @@ describe('api when oauth is required', function () {
 
 	it('fetches a pre-authorised user\'s locker (3-legged oauth)',
 		function (done) {
-
-		this.timeout(30000);
-
 		var user = new api.User();
 
+		this.timeout(30000);
 		user.getLocker({
 			accesstoken: userToken,
 			accesssecret: userSecret

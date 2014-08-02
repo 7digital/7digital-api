@@ -1,12 +1,12 @@
 'use strict';
 
-var assert = require('chai').assert,
-	parser = require('../lib/responseparser'),
-	fs = require('fs'),
-	path = require('path'),
-	sinon = require('sinon'),
-	ApiParseError = require('../lib/errors').ApiParseError,
-	ApiError = require('../lib/errors').ApiError;
+var assert = require('chai').assert;
+var parser = require('../lib/responseparser');
+var fs = require('fs');
+var path = require('path');
+var sinon = require('sinon');
+var ApiParseError = require('../lib/errors').ApiParseError;
+var ApiError = require('../lib/errors').ApiError;
 
 describe('responseparser', function() {
 
@@ -18,22 +18,18 @@ describe('responseparser', function() {
 	}
 
 	it('returns xml when format is xml', function() {
-		var callbackSpy = sinon.spy(),
-			xml = fs.readFileSync(
-				path.join(__dirname +
-					'/responses/release-tracks-singletrack.xml'),
-					'utf8');
+		var callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(path.join(__dirname +
+				'/responses/release-tracks-singletrack.xml'), 'utf8');
 		parser.parse(xml, createOptsWithFormat('XML'), callbackSpy);
 		assert(callbackSpy.calledOnce);
 		assert(callbackSpy.calledWith(null, xml));
 	});
 
 	it('returns javascript object when format is not xml', function() {
-		var callbackSpy = sinon.spy(),
-			xml = fs.readFileSync(
-				path.join(__dirname +
-					'/responses/release-tracks-singletrack.xml'),
-					'utf8');
+		var callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(path.join(__dirname +
+			'/responses/release-tracks-singletrack.xml'), 'utf8');
 
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
@@ -41,8 +37,8 @@ describe('responseparser', function() {
 	});
 
 	it('returns parse error when response format is unexpected', function () {
-		var callbackSpy = sinon.spy(),
-		xml = 'some really rubbish xml';
+		var callbackSpy = sinon.spy();
+		var xml = 'some really rubbish xml';
 
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
@@ -50,11 +46,9 @@ describe('responseparser', function() {
 	});
 
 	it('removes xml cruft', function () {
-		var parsed, callbackSpy = sinon.spy(),
-			xml = fs.readFileSync(
-				path.join(__dirname +
-					'/responses/release-tracks-singletrack.xml'),
-					'utf8');
+		var parsed, callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(path.join(__dirname +
+					'/responses/release-tracks-singletrack.xml'), 'utf8');
 
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
@@ -66,8 +60,8 @@ describe('responseparser', function() {
 	});
 
 	it('calls back with the error when the status is error', function () {
-		var error, response, callbackSpy = sinon.spy(),
-			xml = fs.readFileSync(
+		var error, response, callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(
 				path.join(__dirname, 'responses', 'release-not-found.xml'),
 				'utf-8');
 
@@ -83,11 +77,9 @@ describe('responseparser', function() {
 	});
 
 	it('normalises single resource responses into an array', function() {
-		var response, callbackSpy = sinon.spy(),
-			xml = fs.readFileSync(
-				path.join(__dirname +
-					'/responses/release-tracks-singletrack.xml'),
-					'utf8');
+		var response, callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(path.join(__dirname +
+			'/responses/release-tracks-singletrack.xml'), 'utf8');
 
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
@@ -101,7 +93,7 @@ describe('responseparser', function() {
 		var response;
 		var callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(path.join(__dirname +
-								"/responses/basket-additem.xml"), "utf8");
+								'/responses/basket-additem.xml'), 'utf8');
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
 		response = callbackSpy.lastCall.args[1];
@@ -109,9 +101,9 @@ describe('responseparser', function() {
 	});
 
 	it('names the payment card text node', function () {
-		var response, callbackSpy = sinon.spy(),
-			xml = fs.readFileSync(path.join(__dirname +
-								"/responses/payment-card-type.xml"), "utf8");
+		var response, callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(path.join(__dirname +
+			'/responses/payment-card-type.xml'), 'utf8');
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
 

@@ -1,7 +1,7 @@
 // Require the API wrapper, if you have npm installed it this would be:
 //     var api= require('7digital-api');
-var api = require('../index'),
-	basket = new api.Basket();
+var api = require('../index');
+var basket = new api.Basket();
 
 // Make a request using the wrapper and process the result
 basket.create({ artistid: 1 }, function processReleases(err, data) {

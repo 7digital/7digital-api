@@ -1,6 +1,6 @@
-var config,
-	api,
-	artists;
+var config;
+var api;
+var artists;
 
 config = {
 	consumerkey: 'YOUR_KEY_HERE',

@@ -1,26 +1,26 @@
 // Module dependencies
-var util = require('util'),
-	step = require('step'),
-	readline = require('readline'),
-	// Create a readline interface for prompting the user
-	consoleInterface = readline.createInterface(process.stdin, process.stdout),
-	// Consumer key and secret
-	consumerkey = 'YOUR_KEY_HERE',
-	consumersecret = 'YOUR_SECRET_HERE',
-	api = require('../index').configure({
-		consumerkey: consumerkey,
-		consumersecret: consumersecret,
-		defaultParams: {
-			// If your key is locked to a country you can default it here
-			country: 'ww'
-		}
-	}),
-	oauth = new api.OAuth({
-		defaultParams: {
-			// You can also default parameters here
-			//country: 'ww'
-		}
-	});
+var util = require('util');
+var step = require('step');
+var readline = require('readline');
+// Create a readline interface for prompting the user
+var consoleInterface = readline.createInterface(process.stdin, process.stdout);
+// Consumer key and secret
+var consumerkey = 'YOUR_KEY_HERE';
+var consumersecret = 'YOUR_SECRET_HERE';
+var api = require('../index').configure({
+	consumerkey: consumerkey,
+	consumersecret: consumersecret,
+	defaultParams: {
+		// If your key is locked to a country you can default it here
+		country: 'ww'
+	}
+});
+var oauth = new api.OAuth({
+	defaultParams: {
+		// You can also default parameters here
+		//country: 'ww'
+	}
+});
 
 step(
 	function getRequestToken() {

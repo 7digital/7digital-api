@@ -1,8 +1,8 @@
 'use strict';
 
-var config = require('./config'),
-	defaultSchema = require('./assets/7digital-api-schema'),
-	_ = require('lodash');
+var config = require('./config');
+var defaultSchema = require('./assets/7digital-api-schema');
+var _ = require('lodash');
 
 module.exports = require('./lib/api').Api.buildDefault();
 

@@ -1,20 +1,20 @@
 // Module dependencies
-var util = require('util'),
-	uuid = require('node-uuid'),
-	step = require('step'),
-	// Consumer key and secret
-	// Replace these with your key
-	consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY,
-	consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET,
-	api = require('../index').configure({
-		consumerkey: consumerkey,
-		consumersecret: consumersecret,
-		defaultParams: {
-			// If your key is locked to a country you must add it here:
-			//country: 'us'
-		}
-	}),
-	oauth = new api.OAuth();
+var util = require('util');
+var uuid = require('node-uuid');
+var step = require('step');
+// Consumer key and secret
+// Replace these with your key
+var consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
+var consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET;
+var api = require('../index').configure({
+	consumerkey: consumerkey,
+	consumersecret: consumersecret,
+	defaultParams: {
+		// If your key is locked to a country you must add it here:
+		//country: 'us'
+	}
+});
+var oauth = new api.OAuth();
 
 
 step(
