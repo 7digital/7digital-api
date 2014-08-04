@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
 var config = require('../config');
 
 var schema = require('../assets/7digital-api-schema');
@@ -133,6 +134,39 @@ describe('api', function () {
 			assert(err);
 			assert.match(err.message, /^unrecognised response status/);
 			done();
+		});
+	});
+
+	describe('when using a cache', function () {
+		var res;
+
+		before(function (done) {
+			var pathToXml = path.join(__dirname,
+				'../test/responses/release-tracks-singletrack.xml');
+
+			fs.readFile(pathToXml, function (err, data) {
+				if (err) { return done(err); }
+				res = data;
+				done();
+			});
+		});
+
+		it('doesn\'t error when using a cache', function (done) {
+			var cache = {
+				set: function () {},
+				get: function (key, cb) {
+					return cb(null, res);
+				}
+			};
+			var releases = new api.Releases({
+				cache: cache
+			});
+
+			releases.getDetails({ releaseId: 1192901 }, function (err, data) {
+				assert(!err);
+				assert(data);
+				done();
+			});
 		});
 	});
 });
