@@ -158,15 +158,15 @@
         
           <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
 
-<span class="hljs-keyword">var</span> Resource = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./resource'</span>),
-	OAuth = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./oauth'</span>).OAuth,
-	helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>),
-	config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config'</span>),
-	util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
-	capitalize = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>).capitalize,
-	_ =  <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>),
-	noopCache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./noop-cache'</span>),
-	api;</pre></div>
+<span class="hljs-keyword">var</span> Resource = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./resource'</span>);
+<span class="hljs-keyword">var</span> OAuth = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./oauth'</span>).OAuth;
+<span class="hljs-keyword">var</span> helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>);
+<span class="hljs-keyword">var</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../config'</span>);
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">var</span> capitalize = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>).capitalize;
+<span class="hljs-keyword">var</span> _ =  <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
+<span class="hljs-keyword">var</span> noopCache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./noop-cache'</span>);
+<span class="hljs-keyword">var</span> api;</pre></div>
         
       
         
@@ -191,7 +191,8 @@ see the assets/7digital-api-schema json file.</li>
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span><span class="hljs-params">(options, schema)</span> {</span>
-	<span class="hljs-keyword">var</span> prop, resourceOptions, resourceConstructor, apiRoot = <span class="hljs-keyword">this</span>;</pre></div>
+	<span class="hljs-keyword">var</span> prop, resourceOptions, resourceConstructor;
+	<span class="hljs-keyword">var</span> apiRoot = <span class="hljs-keyword">this</span>;</pre></div>
         
       
         

@@ -157,9 +157,9 @@
         <p>Module dependencies</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
-	uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-uuid'</span>),
-	step = <span class="hljs-built_in">require</span>(<span class="hljs-string">'step'</span>),</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-uuid'</span>);
+<span class="hljs-keyword">var</span> step = <span class="hljs-built_in">require</span>(<span class="hljs-string">'step'</span>);</pre></div>
         
       
         
@@ -167,12 +167,12 @@
 Replace these with your key</p>
 
         
-          <div class='highlight'><pre>	consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY,
-	consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET,
-	api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
-		consumerkey: consumerkey,
-		consumersecret: consumersecret,
-		defaultParams: {</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
+<span class="hljs-keyword">var</span> consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET;
+<span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
+	consumerkey: consumerkey,
+	consumersecret: consumersecret,
+	defaultParams: {</pre></div>
         
       
         
@@ -180,9 +180,9 @@ Replace these with your key</p>
 country: ‘us’</p>
 
         
-          <div class='highlight'><pre>		}
-	}),
-	oauth = <span class="hljs-keyword">new</span> api.OAuth();
+          <div class='highlight'><pre>	}
+});
+<span class="hljs-keyword">var</span> oauth = <span class="hljs-keyword">new</span> api.OAuth();
 
 
 step(

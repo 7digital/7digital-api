@@ -188,8 +188,8 @@ Cache-Control header in the response or false if it doesn’t exist.</li>
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseMaxAgeHeader</span><span class="hljs-params">(response)</span> {</span>
-	<span class="hljs-keyword">var</span> cacheControl = response.headers[<span class="hljs-string">'cache-control'</span>],
-		maxAge;
+	<span class="hljs-keyword">var</span> cacheControl = response.headers[<span class="hljs-string">'cache-control'</span>];
+	<span class="hljs-keyword">var</span> maxAge;
 	<span class="hljs-keyword">if</span> (!cacheControl) {
 		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 	}

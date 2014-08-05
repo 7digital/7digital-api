@@ -262,8 +262,8 @@ may be used to gain an access token using <code>getAccessToken</code>.</p>
           <div class='highlight'><pre>OAuth.prototype.authoriseRequestToken = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authoriseRequestToken</span><span class="hljs-params">(
 	requestData, callback)</span> {</span>
 
-	<span class="hljs-keyword">var</span> url = <span class="hljs-string">'https://api.7digital.com/1.2/oauth/requestToken/authorise?'</span>,
-		fullUrl;
+	<span class="hljs-keyword">var</span> url = <span class="hljs-string">'https://api.7digital.com/1.2/oauth/requestToken/authorise?'</span>;
+	<span class="hljs-keyword">var</span> fullUrl;
 
 	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.country) {
 		requestData.country = <span class="hljs-keyword">this</span>.defaultParams.country;
@@ -401,7 +401,9 @@ of the API.</p>
 
         
           <div class='highlight'><pre>OAuth.prototype.sign = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sign</span><span class="hljs-params">(url, parameters)</span> {</span>
-	<span class="hljs-keyword">var</span> orderedParams, params = {}, query = <span class="hljs-string">''</span>;
+	<span class="hljs-keyword">var</span> orderedParams;
+	<span class="hljs-keyword">var</span> params = {};
+	<span class="hljs-keyword">var</span> query = <span class="hljs-string">''</span>;
 	<span class="hljs-keyword">var</span> parsedUrl= <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>).parse( url, <span class="hljs-literal">false</span> );
 
 	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.defaultParams.country) {

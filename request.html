@@ -158,16 +158,16 @@
         
           <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
 
-<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>),
-	http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>),
-	actionhelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./actionhelper'</span>),
-	ApiHttpError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiHttpError,
-	cache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cache'</span>),
-	querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>),
-	_ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>),
-	helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>),
-	oauthHelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./oauth'</span>),
-	USER_AGENT = <span class="hljs-string">'Node.js HTTP Client'</span>;</pre></div>
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+<span class="hljs-keyword">var</span> actionhelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./actionhelper'</span>);
+<span class="hljs-keyword">var</span> ApiHttpError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiHttpError;
+<span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cache'</span>);
+<span class="hljs-keyword">var</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
+<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
+<span class="hljs-keyword">var</span> helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>);
+<span class="hljs-keyword">var</span> oauthHelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./oauth'</span>);
+<span class="hljs-keyword">var</span> USER_AGENT = <span class="hljs-string">'Node.js HTTP Client'</span>;</pre></div>
         
       
         
@@ -243,14 +243,13 @@
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, theCache,
 	callback)</span> {</span>
 
-	<span class="hljs-keyword">var</span> normalisedData = prepare(requestData, credentials.consumerkey),
-		fullUrl = endpointInfo.url + <span class="hljs-string">'?'</span> +
-			querystring.stringify(normalisedData),
-		cacheKey = cache.generateCacheKeyFromUrl(fullUrl),
-		hostInfo = {
-			host: endpointInfo.host,
-			port: endpointInfo.port
-		};
+	<span class="hljs-keyword">var</span> normalisedData = prepare(requestData, credentials.consumerkey);
+	<span class="hljs-keyword">var</span> fullUrl = endpointInfo.url + <span class="hljs-string">'?'</span> + qs.stringify(normalisedData);
+	<span class="hljs-keyword">var</span> cacheKey = cache.generateCacheKeyFromUrl(fullUrl);
+	<span class="hljs-keyword">var</span> hostInfo = {
+		host: endpointInfo.host,
+		port: endpointInfo.port
+	};
 
 	theCache.get(cacheKey, checkCacheResult);
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkCacheResult</span><span class="hljs-params">(err, res)</span> {</span>
@@ -351,12 +350,12 @@
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(url, httpMethod, requestData, headers, authtype,
 		hostInfo, credentials, logger, callback)</span> {</span>
 
-	<span class="hljs-keyword">var</span> fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + url,
-		is2Legged = authtype === <span class="hljs-string">'2-legged'</span>,
-		token = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesstoken,
-		secret = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesssecret,
-		mergedHeaders = createHeaders(hostInfo.host, headers),
-		oauthClient = oauthHelper.createOAuthWrapper(credentials.consumerkey,
+	<span class="hljs-keyword">var</span> fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + url;
+	<span class="hljs-keyword">var</span> is2Legged = authtype === <span class="hljs-string">'2-legged'</span>;
+	<span class="hljs-keyword">var</span> token = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesstoken;
+	<span class="hljs-keyword">var</span> secret = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesssecret;
+	<span class="hljs-keyword">var</span> mergedHeaders = createHeaders(hostInfo.host, headers);
+	<span class="hljs-keyword">var</span> oauthClient = oauthHelper.createOAuthWrapper(credentials.consumerkey,
 			credentials.consumersecret, mergedHeaders);
 
 	requestData = prepare(requestData, credentials.consumerkey);
@@ -371,7 +370,7 @@
 		logger.info(<span class="hljs-string">'token: '</span> + token + <span class="hljs-string">' secret: '</span> + secret);
 
 		fullUrl = actionhelper.template(fullUrl, requestData);
-		fullUrl = fullUrl + <span class="hljs-string">'?'</span> + querystring.stringify(requestData);
+		fullUrl = fullUrl + <span class="hljs-string">'?'</span> + qs.stringify(requestData);
 		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
 		logHeaders(logger, mergedHeaders);
 
@@ -381,7 +380,7 @@
 
 	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'POST'</span>) {
 		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
-		logger.info(<span class="hljs-string">'DATA: '</span> + querystring.stringify(requestData));
+		logger.info(<span class="hljs-string">'DATA: '</span> + qs.stringify(requestData));
 		logHeaders(logger, mergedHeaders);
 
 		<span class="hljs-keyword">return</span> oauthClient.post(fullUrl, token, secret, requestData,
@@ -418,8 +417,8 @@ specification and applies approriate HTTP headers.</p>
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatch</span><span class="hljs-params">(url, httpMethod, data, headers, hostInfo, credentials,
 		logger, callback)</span> {</span>
 
-	<span class="hljs-keyword">var</span> apiRequest, prop, hasErrored,
-		mergedHeaders = createHeaders(hostInfo.host, headers);
+	<span class="hljs-keyword">var</span> apiRequest, prop, hasErrored;
+	<span class="hljs-keyword">var</span> mergedHeaders = createHeaders(hostInfo.host, headers);
 
 	data = prepare(data, credentials.consumerkey);</pre></div>
         
@@ -434,7 +433,7 @@ the XML response back instead of a redirect to the track download.</p>
 	}
 
 	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {
-		url = url + <span class="hljs-string">'?'</span> + querystring.stringify(data);
+		url = url + <span class="hljs-string">'?'</span> + qs.stringify(data);
 	}
 
 	logger.info(util.format(<span class="hljs-string">'%s: http://%s:%s%s'</span>, httpMethod,
