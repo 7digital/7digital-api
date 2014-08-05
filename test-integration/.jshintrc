@@ -20,9 +20,8 @@
 	"dojo"          : false,
 
 	"predef"        : [
-		'before', 'after', 'beforeEach', 'afterEach', 'describe', 'it', 'xit'
+		"before", "after", "beforeEach", "afterEach", "describe", "it", "xit"
 	],
-
 
 	// *Development.*
 	// Allow debugger statements e.g. browser breakpoints.
@@ -95,7 +94,7 @@
 	// Prohibit use of initial or trailing underbars in names.
 	"nomen"         : true,
 	// Allow only one `var` statement per function.
-	"onevar"        : true,
+	"onevar"        : false,
 	// Prohibit use of `++` & `--`.
 	"plusplus"      : false,
 	// Tolerate all forms of subscript notation besides dot notation e.g. 
