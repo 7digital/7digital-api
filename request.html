@@ -350,16 +350,17 @@
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(url, httpMethod, requestData, headers, authtype,
 		hostInfo, credentials, logger, callback)</span> {</span>
 
-	<span class="hljs-keyword">var</span> fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + url;
+	hostInfo.port = hostInfo.port || <span class="hljs-number">443</span>;
+
 	<span class="hljs-keyword">var</span> is2Legged = authtype === <span class="hljs-string">'2-legged'</span>;
 	<span class="hljs-keyword">var</span> token = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesstoken;
 	<span class="hljs-keyword">var</span> secret = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesssecret;
 	<span class="hljs-keyword">var</span> mergedHeaders = createHeaders(hostInfo.host, headers);
 	<span class="hljs-keyword">var</span> oauthClient = oauthHelper.createOAuthWrapper(credentials.consumerkey,
 			credentials.consumersecret, mergedHeaders);
+	<span class="hljs-keyword">var</span> fullUrl;
 
 	requestData = prepare(requestData, credentials.consumerkey);
-
 
 	<span class="hljs-keyword">if</span> (!is2Legged) {
 		<span class="hljs-keyword">delete</span> requestData.accesstoken;
@@ -369,7 +370,8 @@
 	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {
 		logger.info(<span class="hljs-string">'token: '</span> + token + <span class="hljs-string">' secret: '</span> + secret);
 
-		fullUrl = actionhelper.template(fullUrl, requestData);
+		url = actionhelper.template(url, requestData);
+		fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + <span class="hljs-string">':'</span> + hostInfo.port + url;
 		fullUrl = fullUrl + <span class="hljs-string">'?'</span> + qs.stringify(requestData);
 		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
 		logHeaders(logger, mergedHeaders);
@@ -379,6 +381,7 @@
 	}
 
 	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'POST'</span>) {
+		fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + <span class="hljs-string">':'</span> + hostInfo.port + url;
 		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
 		logger.info(<span class="hljs-string">'DATA: '</span> + qs.stringify(requestData));
 		logHeaders(logger, mergedHeaders);
@@ -416,6 +419,8 @@ specification and applies approriate HTTP headers.</p>
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatch</span><span class="hljs-params">(url, httpMethod, data, headers, hostInfo, credentials,
 		logger, callback)</span> {</span>
+
+	hostInfo.port = hostInfo.port || <span class="hljs-number">80</span>;
 
 	<span class="hljs-keyword">var</span> apiRequest, prop, hasErrored;
 	<span class="hljs-keyword">var</span> mergedHeaders = createHeaders(hostInfo.host, headers);
