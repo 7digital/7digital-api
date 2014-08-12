@@ -1,6 +1,5 @@
 {
 	"host": "api.7digital.com",
-	"port": "80",
 	"prefix": "1.2",
 	"resources":
 		{
