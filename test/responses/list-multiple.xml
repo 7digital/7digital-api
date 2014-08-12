@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" status="ok" version="1.2" xsi:noNamespaceSchemaLocation="http://api.7digital.com/1.2/static/7digitalAPI.xsd">
+  <list id="15587">
+    <key>home1</key>
+    <listItems>
+      <listItem id="3705234">
+        <type>release</type>
+        <release id="3705234">
+          <title>LP1</title>
+          <version>Explicit</version>
+          <type>Album</type>
+          <barcode>889030111869</barcode>
+          <year>2014</year>
+          <explicitContent>true</explicitContent>
+          <artist id="1959981">
+            <name>FKA twigs</name>
+            <appearsAs>FKA twigs</appearsAs>
+            <url>http://www.7digital.com/artist/fka-twigs/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/fka-twigs/release/lp1-explicit-1/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/037/052/0003705234_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-08-04T11:59:47Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>4.99</value>
+            <formattedPrice>£4.99</formattedPrice>
+            <rrp>7.99</rrp>
+            <formattedRrp>£7.99</formattedRrp>
+            <onSale>true</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+            <format id="33">
+              <fileFormat>M4A</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="343160">
+            <name>Young Turks Recordings Ltd</name>
+          </label>
+          <licensor id="39">
+            <name>Beggars</name>
+          </licensor>
+          <trackCount>10</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3690890">
+        <type>release</type>
+        <release id="3690890">
+          <title>Lacuna</title>
+          <version/>
+          <type>Album</type>
+          <barcode>5051083082242</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="360090">
+            <name>Childhood</name>
+            <appearsAs>Childhood</appearsAs>
+            <url>http://www.7digital.com/artist/childhood/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/childhood/release/lacuna/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/908/0003690890_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-07-29T16:00:16Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>4.99</value>
+            <formattedPrice>£4.99</formattedPrice>
+            <rrp>7.99</rrp>
+            <formattedRrp>£7.99</formattedRrp>
+            <onSale>true</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+            <format id="33">
+              <fileFormat>M4A</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="150959">
+            <name>Marathon Artists</name>
+          </label>
+          <licensor id="48">
+            <name>Vital</name>
+          </licensor>
+          <trackCount>11</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3694985">
+        <type>release</type>
+        <release id="3694985">
+          <title>Three Hearts</title>
+          <version/>
+          <type>Album</type>
+          <barcode>00602537894994</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="883520">
+            <name>Alex Clare</name>
+            <appearsAs>Alex Clare</appearsAs>
+            <url>http://www.7digital.com/artist/alex-clare/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/alex-clare/release/three-hearts-1/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/949/0003694985_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-07-31T09:48:30Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>8.99</value>
+            <formattedPrice>£8.99</formattedPrice>
+            <rrp>8.99</rrp>
+            <formattedRrp>£8.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="41180">
+            <name>Universal Music Portugal SA</name>
+          </label>
+          <licensor id="1">
+            <name>Universal</name>
+          </licensor>
+          <trackCount>13</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3682051">
+        <type>release</type>
+        <release id="3682051">
+          <title> Laura Mvula with Metropole Orkest conducted by Jules Buckley at Abbey Road Studios (Live)</title>
+          <version/>
+          <type>Album</type>
+          <barcode>886444592000</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="1435708">
+            <name>Laura Mvula</name>
+            <appearsAs>Laura Mvula</appearsAs>
+            <url>http://www.7digital.com/artist/laura-mvula/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/laura-mvula/release/laura-mvula-with-metropole-orkest-conducted-by-jules-buckley-at-abbey-road-studios-live/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/820/0003682051_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-07-24T15:17:48Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>8.99</value>
+            <formattedPrice>£8.99</formattedPrice>
+            <rrp>8.99</rrp>
+            <formattedRrp>£8.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+            <format id="33">
+              <fileFormat>M4A</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="89">
+            <name>RCA Records Label</name>
+          </label>
+          <licensor id="2">
+            <name>Sony Music</name>
+          </licensor>
+          <trackCount>12</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3515754">
+        <type>release</type>
+        <release id="3515754">
+          <title>Native</title>
+          <version/>
+          <type>Album</type>
+          <barcode>00602537836574</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="435254">
+            <name>OneRepublic</name>
+            <appearsAs>OneRepublic</appearsAs>
+            <url>http://www.7digital.com/artist/one-republic/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/one-republic/release/native-7/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/035/157/0003515754_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-06-10T04:47:08Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>8.99</value>
+            <formattedPrice>£8.99</formattedPrice>
+            <rrp>8.99</rrp>
+            <formattedRrp>£8.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="100389">
+            <name>Universal Music (Thailand) Ltd.</name>
+          </label>
+          <licensor id="1">
+            <name>Universal</name>
+          </licensor>
+          <trackCount>19</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3694180">
+        <type>release</type>
+        <release id="3694180">
+          <title>Finest Selection: The Greatest Hits</title>
+          <version/>
+          <type>Album</type>
+          <barcode>00602537911158</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="164856">
+            <name>The Saturdays</name>
+            <appearsAs>The Saturdays</appearsAs>
+            <url>http://www.7digital.com/artist/the-saturdays/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/the-saturdays/release/finest-selection-the-greatest-hits/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/941/0003694180_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-07-30T10:09:45Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>7.99</value>
+            <formattedPrice>£7.99</formattedPrice>
+            <rrp>7.99</rrp>
+            <formattedRrp>£7.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="91940">
+            <name>Universal Music Pte. Ltd.</name>
+          </label>
+          <licensor id="1">
+            <name>Universal</name>
+          </licensor>
+          <trackCount>20</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3690924">
+        <type>release</type>
+        <release id="3690924">
+          <title>Distraction</title>
+          <version/>
+          <type>Album</type>
+          <barcode>825646288755</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="254833">
+            <name>Bear Hands</name>
+            <appearsAs>Bear Hands</appearsAs>
+            <url>http://www.7digital.com/artist/bear-hands/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/bear-hands/release/distraction-1/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/909/0003690924_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-08-02T00:12:07Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>6.99</value>
+            <formattedPrice>£6.99</formattedPrice>
+            <rrp>6.99</rrp>
+            <formattedRrp>£6.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="273">
+            <name>Warner Bros.</name>
+          </label>
+          <licensor id="18">
+            <name>Warner</name>
+          </licensor>
+          <trackCount>12</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3700313">
+        <type>release</type>
+        <release id="3700313">
+          <title>Don't Kill the Magic</title>
+          <version/>
+          <type>Album</type>
+          <barcode>886444660891</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="2040858">
+            <name>MAGIC!</name>
+            <appearsAs>MAGIC!</appearsAs>
+            <url>http://www.7digital.com/artist/magic-2/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/magic-2/release/dont-kill-the-magic-3/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/037/003/0003700313_50.jpg</image>
+          <releaseDate>2014-08-04T00:00:00Z</releaseDate>
+          <addedDate>2014-08-04T11:55:19Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>4.49</value>
+            <formattedPrice>£4.49</formattedPrice>
+            <rrp>4.49</rrp>
+            <formattedRrp>£4.49</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+            <format id="33">
+              <fileFormat>M4A</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="256845">
+            <name>Sony Music Entertainment International Limited</name>
+          </label>
+          <licensor id="2">
+            <name>Sony Music</name>
+          </licensor>
+          <trackCount>11</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3675638">
+        <type>release</type>
+        <release id="3675638">
+          <title>They Want My Soul</title>
+          <version/>
+          <type>Album</type>
+          <barcode>045778737765</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="87184">
+            <name>Spoon</name>
+            <appearsAs>Spoon</appearsAs>
+            <url>http://www.7digital.com/artist/spoon/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/spoon/release/they-want-my-soul-1/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/756/0003675638_50.jpg</image>
+          <releaseDate>2014-08-04T00:00:00Z</releaseDate>
+          <addedDate>2014-07-22T17:55:05Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>7.99</value>
+            <formattedPrice>£7.99</formattedPrice>
+            <rrp>7.99</rrp>
+            <formattedRrp>£7.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="2113">
+            <name>Anti/Epitaph</name>
+          </label>
+          <licensor id="18">
+            <name>Warner</name>
+          </licensor>
+          <trackCount>10</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3664949">
+        <type>release</type>
+        <release id="3664949">
+          <title>Angus &amp; Julia Stone</title>
+          <version/>
+          <type>Album</type>
+          <barcode>00602537912759</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="231899">
+            <name>Angus and Julia Stone</name>
+            <appearsAs>Angus &amp; Julia Stone</appearsAs>
+            <url>http://www.7digital.com/artist/angus-and-julia-stone/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/angus-and-julia-stone/release/angus-and-julia-stone-4/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/649/0003664949_50.jpg</image>
+          <releaseDate>2014-08-01T00:00:00Z</releaseDate>
+          <addedDate>2014-07-21T10:35:35Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>8.99</value>
+            <formattedPrice>£8.99</formattedPrice>
+            <rrp>8.99</rrp>
+            <formattedRrp>£8.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="352946">
+            <name>Universal Music India Pvt Ltd.</name>
+          </label>
+          <licensor id="1">
+            <name>Universal</name>
+          </licensor>
+          <trackCount>13</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3682663">
+        <type>release</type>
+        <release id="3682663">
+          <title>BBC Radio 1’s Dance Anthems Ibiza Mixed By Danny Howard</title>
+          <version/>
+          <type>Album</type>
+          <barcode>5051275069259</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="209">
+            <name>Various Artists</name>
+            <appearsAs>Various Artists</appearsAs>
+            <url>http://www.7digital.com/artist/various-artists/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/various-artists/release/bbc-radio-1-s-dance-anthems-ibiza-mixed-by-danny-howard/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/826/0003682663_50.jpg</image>
+          <releaseDate>2014-08-04T00:00:00Z</releaseDate>
+          <addedDate>2014-07-24T17:05:32Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>9.99</value>
+            <formattedPrice>£9.99</formattedPrice>
+            <rrp>9.99</rrp>
+            <formattedRrp>£9.99</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+            <format id="33">
+              <fileFormat>M4A</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="60924">
+            <name>Ministry of Sound Recordings Ltd</name>
+          </label>
+          <licensor id="102">
+            <name>Ministry of Sound Group Limited</name>
+          </licensor>
+          <trackCount>42</trackCount>
+        </release>
+      </listItem>
+      <listItem id="3626049">
+        <type>release</type>
+        <release id="3626049">
+          <title>Always Returning</title>
+          <version/>
+          <type>Album</type>
+          <barcode>0802644829623</barcode>
+          <year>2014</year>
+          <explicitContent>false</explicitContent>
+          <artist id="6736">
+            <name>Engineers</name>
+            <appearsAs>Engineers</appearsAs>
+            <url>http://www.7digital.com/artist/engineers/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/engineers/release/always-returning/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/036/260/0003626049_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-07-07T12:33:29Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>7.49</value>
+            <formattedPrice>£7.49</formattedPrice>
+            <rrp>7.49</rrp>
+            <formattedRrp>£7.49</formattedRrp>
+            <onSale>false</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+            <format id="33">
+              <fileFormat>M4A</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="77541">
+            <name>Complete Blues</name>
+          </label>
+          <licensor id="336">
+            <name>Essential Music and Marketing Ltd</name>
+          </licensor>
+          <trackCount>10</trackCount>
+        </release>
+      </listItem>
+    </listItems>
+  </list>
+</response>

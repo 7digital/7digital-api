@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" status="ok" version="1.2" xsi:noNamespaceSchemaLocation="http://api.7digital.com/1.2/static/7digitalAPI.xsd">
+  <locker>
+    <lockerReleases>
+      <page>1</page>
+      <pageSize>1</pageSize>
+      <totalItems>1</totalItems>
+      <lockerRelease>
+        <release id="3058001">
+          <title>Run The Jewels</title>
+          <version />
+          <type>Album</type>
+          <barcode>5021392876191</barcode>
+          <artist id="2057842">
+            <name>Run The Jewels</name>
+            <appearsAs>Run The Jewels</appearsAs>
+            <url>http://www.7digital.com/artist/run-the-jewels/?partner=5932</url>
+          </artist>
+          <url>http://www.7digital.com/artist/run-the-jewels/release/run-the-jewels/?partner=5932</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/030/580/0003058001_50.jpg</image>
+          <releaseDate>2014-01-13T00:00:00Z</releaseDate>
+          <licensor id="317" />
+        </release>
+        <lockerTracks>
+          <lockerTrack>
+            <track id="32578219">
+              <title>Run the Jewels</title>
+              <version />
+              <artist id="2057842">
+                <name>Run The Jewels</name>
+                <appearsAs>Run The Jewels</appearsAs>
+                <url>http://www.7digital.com/artist/run-the-jewels/?partner=5932</url>
+              </artist>
+              <trackNumber>1</trackNumber>
+              <duration>210</duration>
+              <isrc>GBCFB1306000</isrc>
+              <url>http://www.7digital.com/artist/run-the-jewels/release/run-the-jewels/?partner=5932&amp;h=01</url>
+            </track>
+            <remainingDownloads>5</remainingDownloads>
+            <purchaseId>812485994</purchaseId>
+            <purchaseDate>2014-04-16T16:08:55+01:00</purchaseDate>
+            <completeAlbumPurchase>false</completeAlbumPurchase>
+            <downloadUrls>
+              <downloadUrl>
+                <url>http://media.geo.7digital.com/media/user/downloadtrack?oauth_consumer_key=7djre5mr5e9z&amp;oauth_nonce=ku4k7i9qgg4w09e6&amp;oauth_signature=Sle%2F%2BMrsZMgzAG56gSnZGsOmsMw%3D&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1407841134&amp;oauth_version=1.0a&amp;formatid=17&amp;partnerid=712&amp;onbehalfofpartnerid=712&amp;presigned=1&amp;releaseid=3058001&amp;shopid=34&amp;trackid=32578219&amp;userid=108596530</url>
+                <format id="17">
+                  <fileFormat>MP3</fileFormat>
+                  <bitRate>320</bitRate>
+                  <drmFree>true</drmFree>
+                </format>
+              </downloadUrl>
+              <downloadUrl>
+                <url>http://media.geo.7digital.com/media/user/downloadtrack?oauth_consumer_key=7djre5mr5e9z&amp;oauth_nonce=smzz3m9sqrqrqufv&amp;oauth_signature=dNgPUowtLwKCpZ9RfQ0kJUq%2FPl0%3D&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1407841134&amp;oauth_version=1.0a&amp;formatid=33&amp;partnerid=712&amp;onbehalfofpartnerid=712&amp;presigned=1&amp;releaseid=3058001&amp;shopid=34&amp;trackid=32578219&amp;userid=108596530</url>
+                <format id="33">
+                  <fileFormat>M4A</fileFormat>
+                  <bitRate>320</bitRate>
+                  <drmFree>true</drmFree>
+                </format>
+              </downloadUrl>
+            </downloadUrls>
+          </lockerTrack>
+        </lockerTracks>
+        <available>true</available>
+      </lockerRelease>
+    </lockerReleases>
+  </locker>
+</response>
+
