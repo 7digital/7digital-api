@@ -192,11 +192,19 @@ wraps it in an array if it is.</p>
 		<span class="hljs-string">'recommendations.recommendedItem'</span>,
 		<span class="hljs-string">'tags.tag'</span>,
 		<span class="hljs-string">'taggedResults.taggedItem'</span>,
-		<span class="hljs-string">'cardTypes.cardType'</span>
-	]).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkLength</span><span class="hljs-params">(item)</span> {</span>
-		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>),
-			parent = parts[<span class="hljs-number">0</span>],
-			child = parts[<span class="hljs-number">1</span>];</pre></div>
+		<span class="hljs-string">'cardTypes.cardType'</span>,</pre></div>
+        
+      
+        
+        <p>NB: the outermost item to be arrayified must come first</p>
+
+        
+          <div class='highlight'><pre>		<span class="hljs-string">'locker.lockerReleases.lockerRelease'</span>,
+		<span class="hljs-string">'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack'</span>,
+		<span class="hljs-string">'release.formats.format'</span>,
+		<span class="hljs-string">'list.listItems.listItem'</span>,
+		<span class="hljs-string">'basket.basketItems.basketItem'</span>
+	]).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkLength</span><span class="hljs-params">(item)</span> {</span></pre></div>
         
       
         
@@ -207,39 +215,31 @@ but when there are many then:
 We want these to always be arrays for convenience</p>
 
         
-          <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (response[parent] &amp;&amp; response[parent][child] &amp;&amp;
-			!response[parent][child].length) {
-			response[parent][child] = [response[parent][child]];
-		}
+          <div class='highlight'><pre>
+		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>);
+		<span class="hljs-keyword">var</span> allPartsButLast = _.initial(parts);
+		<span class="hljs-keyword">var</span> lastPart = _.last(parts);
+
+		<span class="hljs-keyword">var</span> parents = _.reduce(allPartsButLast, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(chain, part)</span> {</span>
+			<span class="hljs-keyword">return</span> chain.pluck(part).compact().flatten();
+		}, _([response])).value();
+
+		parents.map(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(parent)</span> {</span>
+			<span class="hljs-keyword">if</span> (parent[lastPart]) {
+				parent[lastPart] = arrayify(parent[lastPart]);
+			} <span class="hljs-keyword">else</span> {
+				parent[lastPart] = [];
+			}
+		});
 	});
 
-	<span class="hljs-keyword">if</span> (response.release &amp;&amp; response.release.formats
-		&amp;&amp; response.release.formats.format) {
-			formats = response.release.formats.format;
-			response.release.formats.format = arrayify(formats);
-	}
-
-	<span class="hljs-keyword">if</span> (response.list &amp;&amp; response.list.listItems
-		&amp;&amp; response.list.listItems.listItem) {
-			listItems = response.list.listItems.listItem;
-			response.list.listItems.listItem = arrayify(listItems);
-	}</pre></div>
-        
-      
-        
-        <p>basket is a special case: we want to fold basketItem into basketItems
-which is a redundant wrapper.</p>
-
-        
-          <div class='highlight'><pre>	<span class="hljs-keyword">if</span> (response.basket &amp;&amp; response.basket.basketItems &amp;&amp;
-		response.basket.basketItems.basketItem) {
-
-		items = response.basket.basketItems.basketItem;
-		items = arrayify(items);
-		response.basket.basketItems = items;
-	} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (response.basket &amp;&amp; response.basket.basketItems !== <span class="hljs-literal">undefined</span> &amp;&amp;
-			!_.isArray(response.basket.basketItems)) {
-		response.basket.basketItems = [];
+	<span class="hljs-keyword">var</span> basket = response.basket;
+	<span class="hljs-keyword">if</span> (basket) {
+		<span class="hljs-keyword">if</span> (basket.basketItems === <span class="hljs-string">''</span>) {
+			basket.basketItems = [];
+		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (basket.basketItems.basketItem) {
+			basket.basketItems = basket.basketItems.basketItem;
+		}
 	}
 
 	<span class="hljs-keyword">return</span> response;
