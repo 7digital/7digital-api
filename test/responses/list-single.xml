@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" status="ok" version="1.2" xsi:noNamespaceSchemaLocation="http://api.7digital.com/1.2/static/7digitalAPI.xsd">
+  <list id="15587">
+    <key>home1</key>
+    <listItems>
+      <listItem id="3705234">
+        <type>release</type>
+        <release id="3705234">
+          <title>LP1</title>
+          <version>Explicit</version>
+          <type>Album</type>
+          <barcode>889030111869</barcode>
+          <year>2014</year>
+          <explicitContent>true</explicitContent>
+          <artist id="1959981">
+            <name>FKA twigs</name>
+            <appearsAs>FKA twigs</appearsAs>
+            <url>http://www.7digital.com/artist/fka-twigs/?partner=0</url>
+          </artist>
+          <url>http://www.7digital.com/artist/fka-twigs/release/lp1-explicit-1/?partner=0</url>
+          <image>http://artwork-cdn.7static.com/static/img/sleeveart/00/037/052/0003705234_50.jpg</image>
+          <releaseDate>2014-08-11T00:00:00Z</releaseDate>
+          <addedDate>2014-08-04T11:59:47Z</addedDate>
+          <price>
+            <currency code="GBP"/>
+            <value>4.99</value>
+            <formattedPrice>£4.99</formattedPrice>
+            <rrp>7.99</rrp>
+            <formattedRrp>£7.99</formattedRrp>
+            <onSale>true</onSale>
+          </price>
+          <formats availableDrmFree="true">
+            <format id="17">
+              <fileFormat>MP3</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+            <format id="33">
+              <fileFormat>M4A</fileFormat>
+              <bitRate>320</bitRate>
+              <drmFree>true</drmFree>
+            </format>
+          </formats>
+          <label id="343160">
+            <name>Young Turks Recordings Ltd</name>
+          </label>
+          <licensor id="39">
+            <name>Beggars</name>
+          </licensor>
+          <trackCount>10</trackCount>
+        </release>
+      </listItem>
+    </listItems>
+  </list>
+</response>
