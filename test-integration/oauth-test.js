@@ -119,18 +119,3 @@ describe('api when oauth is required', function () {
 
 	});
 });
-
-describe('User management', function () {
-	var exec = require('child_process').exec,
-		path = require('path');
-
-	it('creates users', function(done) {
-		exec('node ' + path.join(__dirname, '../examples/create-user.js'),
-			function assertOutput(err, stdout, stderr) {
-				assert(!err);
-				assert.match(stdout, /lockerReleases/);
-				done();
-		});
-	});
-
-});
