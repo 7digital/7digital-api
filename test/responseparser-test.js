@@ -147,6 +147,18 @@ describe('responseparser', function() {
 		assert.instanceOf(response.basket.basketItems, Array);
 	});
 
+	it('handles the empty basket case', function () {
+		var response;
+		var callbackSpy = sinon.spy();
+		var xml = fs.readFileSync(path.join(__dirname +
+								'/responses/basket-empty.xml'), 'utf8');
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
+		assert(callbackSpy.calledOnce);
+		response = callbackSpy.lastCall.args[1];
+		assert.instanceOf(response.basket.basketItems, Array);
+		assert.lengthOf(response.basket.basketItems, 0);
+	});
+
 	it('names the payment card text node', function () {
 		var response, callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(path.join(__dirname +

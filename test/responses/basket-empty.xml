@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<response status="ok" version="1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://api.7digital.com/1.2/static/7digitalAPI.xsd" >
+	
+
+
+<basket id="544364e9-8d8b-4173-92ec-5f6d7d1f01ce">
+	<itemCount>0</itemCount>
+	
+
+<price> 
+	<currency code="GBP">&#163;</currency> 
+	<value>0</value> 
+	<formattedPrice>&#163;0.00</formattedPrice> 
+</price>
+
+
+	<basketItems>
+		
+
+	</basketItems>
+		<amountDue>
+			<currency code="GBP">&#163;</currency> 
+			<amount>0</amount> 
+			<formattedAmount>&#163;0.00</formattedAmount> 
+	</amountDue>
+</basket>
+
+	
+</response>
