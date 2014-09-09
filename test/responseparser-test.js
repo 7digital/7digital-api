@@ -76,17 +76,4 @@ describe('responseparser', function() {
 		assert.equal(error.message, 'Release not found');
 	});
 
-	it('names the payment card text node', function () {
-		var response, callbackSpy = sinon.spy();
-		var xml = fs.readFileSync(path.join(__dirname +
-			'/responses/payment-card-type.xml'), 'utf8');
-		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
-		assert(callbackSpy.calledOnce);
-
-		response = callbackSpy.lastCall.args[1];
-		assert.instanceOf(response.cardTypes.cardType, Array);
-		assert.equal(response.cardTypes.cardType[0].name, 'Mastercard');
-		assert.equal(response.cardTypes.cardType[0].id, 'MASTERCARD');
-	});
-
 });
