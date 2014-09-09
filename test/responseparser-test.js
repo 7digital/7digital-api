@@ -45,20 +45,6 @@ describe('responseparser', function() {
 		assert.instanceOf(callbackSpy.lastCall.args[0], ApiParseError);
 	});
 
-	it('removes xml cruft', function () {
-		var parsed, callbackSpy = sinon.spy();
-		var xml = fs.readFileSync(path.join(__dirname +
-					'/responses/release-tracks-singletrack.xml'), 'utf8');
-
-		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
-		assert(callbackSpy.calledOnce);
-		parsed = callbackSpy.lastCall.args[1];
-		assert.equal(typeof callbackSpy.lastCall.args[1], 'object');
-		assert.isUndefined(parsed['xmlns:xsi']);
-		assert.isUndefined(parsed['xmlns:xsd']);
-		assert.isUndefined(parsed['xsi:noNamespaceSchemaLocation:']);
-	});
-
 	it('calls back with the error when the status is error', function () {
 		var error, response, callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(

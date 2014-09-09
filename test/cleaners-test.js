@@ -85,4 +85,17 @@ describe('cleaners', function () {
 
 	});
 
+	describe('removeXmlNamespaceKeys', function () {
+
+		it('removes xml cruft', function () {
+			var response = require(
+				'./responses/parsed/release-tracks-singletrack.json');
+			var cleaned = cleaners.removeXmlNamespaceKeys(response);
+			assert.isUndefined(cleaned['xmlns:xsi']);
+			assert.isUndefined(cleaned['xmlns:xsd']);
+			assert.isUndefined(cleaned['xsi:noNamespaceSchemaLocation:']);
+		});
+
+	});
+
 });
