@@ -68,6 +68,8 @@ publish: publish-docs
 	$(assert_is_owner)
 	npm version $(version) --registry=http://registry.npmjs.org
 	git push origin master --tags
-	IN_MAKE=true npm publish --registry=http://registry.npmjs.org
+	npm publish --registry=http://registry.npmjs.org
+
+
 
 .PHONY: test check docs build publish-docs publish

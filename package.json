@@ -21,9 +21,7 @@
   ],
   "scripts": {
     "integration-test": "./node_modules/.bin/mocha --recursive -R spec test-integration/",
-    "test": "./node_modules/.bin/mocha --recursive -R spec test/",
-    "prepublish": 
-      "[ -z $IN_MAKE ] && echo 'You must publish with make publish' 1>&2 && exit 1"
+    "test": "./node_modules/.bin/mocha --recursive -R spec test/"
   },
   "main": "index.js",
   "dependencies": {
