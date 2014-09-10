@@ -13,6 +13,7 @@ describe('responseparser', function() {
 	function createOptsWithFormat(format) {
 		return {
 			format: format,
+			contentType: 'application/xml',
 			logger: { silly: function () {} }
 		};
 	}

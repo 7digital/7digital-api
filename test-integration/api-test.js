@@ -155,7 +155,10 @@ describe('api', function () {
 			var cache = {
 				set: function () {},
 				get: function (key, cb) {
-					return cb(null, res);
+					return cb(null, {
+						body: res,
+						headers: { 'content-type': 'application/xml' }
+					});
 				}
 			};
 			var releases = new api.Releases({
