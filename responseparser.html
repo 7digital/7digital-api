@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -162,124 +169,30 @@
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 <span class="hljs-keyword">var</span> ApiParseError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiParseError;
 <span class="hljs-keyword">var</span> ApiError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiError;
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">arrayify</span><span class="hljs-params">(items)</span> {</span>
-	<span class="hljs-keyword">return</span> items.length ? items : [items];
-}</pre></div>
-        
-      
-        
-        <p>The API returns resources as either a single object or an array.
-This makes responses fiddly to deal with for consumers as they
-manually check whether the resource has a length an access the
-property appropriately.  This method checks for an object and
-wraps it in an array if it is.</p>
-<ul>
-<li>@param {Object} response</li>
-<li>@return {Object} the normalised response</li>
-</ul>
-
-        
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">normaliseResourceArrays</span><span class="hljs-params">(response)</span> {</span>
-	<span class="hljs-keyword">var</span> items, formats, listItems;
-
-	_([
-		<span class="hljs-string">'tracks.track'</span>,
-		<span class="hljs-string">'artists.artist'</span>,
-		<span class="hljs-string">'chart.chartItem'</span>,
-		<span class="hljs-string">'releases.release'</span>,
-		<span class="hljs-string">'searchResults.searchResult'</span>,
-		<span class="hljs-string">'recommendations.recommendedItem'</span>,
-		<span class="hljs-string">'tags.tag'</span>,
-		<span class="hljs-string">'taggedResults.taggedItem'</span>,
-		<span class="hljs-string">'cardTypes.cardType'</span>,</pre></div>
+<span class="hljs-keyword">var</span> cleaners = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cleaners'</span>);
+<span class="hljs-keyword">var</span> collectionPaths = [
+	<span class="hljs-string">'artists.artist'</span>,
+	<span class="hljs-string">'chart.chartItem'</span>,
+	<span class="hljs-string">'releases.release'</span>,
+	<span class="hljs-string">'searchResults.searchResult'</span>,
+	<span class="hljs-string">'recommendations.recommendedItem'</span>,
+	<span class="hljs-string">'tags.tag'</span>,
+	<span class="hljs-string">'tracks.track'</span>,
+	<span class="hljs-string">'taggedResults.taggedItem'</span>,
+	<span class="hljs-string">'cardTypes.cardType'</span>,</pre></div>
         
       
         
         <p>NB: the outermost item to be arrayified must come first</p>
 
         
-          <div class='highlight'><pre>		<span class="hljs-string">'locker.lockerReleases.lockerRelease'</span>,
-		<span class="hljs-string">'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack'</span>,
-		<span class="hljs-string">'release.formats.format'</span>,
-		<span class="hljs-string">'list.listItems.listItem'</span>,
-		<span class="hljs-string">'basket.basketItems.basketItem'</span>
-	]).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkLength</span><span class="hljs-params">(item)</span> {</span></pre></div>
-        
-      
-        
-        <p>e.g. an artist/byTag/top with only one result then:
- typeof response.taggedResults.taggedItem === ‘object’
-but when there are many then:
- typeof response.taggedResults.taggedItem === ‘array’
-We want these to always be arrays for convenience</p>
-
-        
-          <div class='highlight'><pre>
-		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>);
-		<span class="hljs-keyword">var</span> allPartsButLast = _.initial(parts);
-		<span class="hljs-keyword">var</span> lastPart = _.last(parts);
-
-		<span class="hljs-keyword">var</span> parents = _.reduce(allPartsButLast, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(chain, part)</span> {</span>
-			<span class="hljs-keyword">return</span> chain.pluck(part).compact().flatten();
-		}, _([response])).value();
-
-		parents.map(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(parent)</span> {</span>
-			<span class="hljs-keyword">if</span> (parent[lastPart]) {
-				parent[lastPart] = arrayify(parent[lastPart]);
-			} <span class="hljs-keyword">else</span> {
-				parent[lastPart] = [];
-			}
-		});
-	});
-
-	<span class="hljs-keyword">var</span> basket = response.basket;
-	<span class="hljs-keyword">if</span> (basket) {
-		<span class="hljs-keyword">if</span> (basket.basketItems === <span class="hljs-string">''</span>) {
-			basket.basketItems = [];
-		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (basket.basketItems.basketItem) {
-			basket.basketItems = basket.basketItems.basketItem;
-		}
-	}
-
-	<span class="hljs-keyword">return</span> response;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNodes</span><span class="hljs-params">(response)</span> {</span>
-	_({
-		<span class="hljs-string">'cardTypes.cardType'</span> : <span class="hljs-string">'name'</span>
-	}).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNode</span><span class="hljs-params">(name, item)</span> {</span>
-		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>);
-		<span class="hljs-keyword">var</span> parent = parts[<span class="hljs-number">0</span>];
-		<span class="hljs-keyword">var</span> child = parts[<span class="hljs-number">1</span>];</pre></div>
-        
-      
-        
-        <p>Text nodes are given the key ‘_’ if there are attributes present on
-the node</p>
-
-        
-          <div class='highlight'><pre>		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doRename</span><span class="hljs-params">(obj)</span> {</span>
-			obj[name] = obj._;
-			<span class="hljs-keyword">delete</span> obj._;
-		}
-
-		<span class="hljs-keyword">if</span> (response[parent] &amp;&amp; response[parent][child]) {
-
-			<span class="hljs-keyword">var</span> node = response[parent][child];
-			<span class="hljs-keyword">if</span> (node.length !== <span class="hljs-literal">undefined</span>) {
-				_(node).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(subNode)</span> {</span>
-					doRename(subNode);
-				});
-			} <span class="hljs-keyword">else</span> {
-				doRename(node);
-			}
-
-		}
-	});
-
-	<span class="hljs-keyword">return</span> response;
-}</pre></div>
+          <div class='highlight'><pre>	<span class="hljs-string">'locker.lockerReleases.lockerRelease'</span>,
+	<span class="hljs-string">'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack'</span>,
+	<span class="hljs-string">'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack.downloadUrls.downloadUrl'</span>,
+	<span class="hljs-string">'release.formats.format'</span>,
+	<span class="hljs-string">'list.listItems.listItem'</span>,
+	<span class="hljs-string">'basket.basketItems.basketItem'</span>
+];</pre></div>
         
       
         
@@ -293,22 +206,39 @@ caller.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parse</span><span class="hljs-params">(response, opts, callback)</span> {</span>
-	<span class="hljs-keyword">var</span> parser;
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parse</span><span class="hljs-params">(response, opts, callback)</span> </span>{
+	<span class="hljs-keyword">var</span> parser, jsonParseError, result;
 
 	<span class="hljs-keyword">if</span> (opts.format.toUpperCase() === <span class="hljs-string">'XML'</span>) {
 		callback(<span class="hljs-literal">null</span>, response);
 		<span class="hljs-keyword">return</span>;
 	}
 
-	parser = <span class="hljs-keyword">new</span> xml2js.Parser({ mergeAttrs: <span class="hljs-literal">true</span>, explicitArray: <span class="hljs-literal">false</span> });
+	<span class="hljs-keyword">if</span> (opts.contentType.indexOf(<span class="hljs-string">'json'</span>) &gt;= <span class="hljs-number">0</span>) {
+		<span class="hljs-keyword">try</span> {
+			result = <span class="hljs-built_in">JSON</span>.parse(response);
+		} <span class="hljs-keyword">catch</span> (e) {
+			jsonParseError = e;
+		}
+		<span class="hljs-keyword">return</span> validateAndCleanResponse(jsonParseError, { response: result });
+	}
+
+	parser = <span class="hljs-keyword">new</span> xml2js.Parser({
+		mergeAttrs: <span class="hljs-literal">true</span>,
+		explicitArray: <span class="hljs-literal">false</span>
+	});
 
 	parser.parseString(response, validateAndCleanResponse);
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAndCleanResponse</span><span class="hljs-params">(err, result)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAndCleanResponse</span><span class="hljs-params">(err, result)</span> </span>{
 		<span class="hljs-keyword">var</span> cleanedResult;
-		<span class="hljs-keyword">var</span> clean;
+		<span class="hljs-keyword">var</span> clean;</pre></div>
+        
+      
+        
+        <p>Unparsable response text</p>
 
-		<span class="hljs-keyword">if</span> (err) {
+        
+          <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (err) {
 			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiParseError(
 				<span class="hljs-string">'error parsing api response: '</span> + err.message, response));
 		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!result.response) {
@@ -318,14 +248,10 @@ caller.</p>
         
       
         
-        <p>Manually remove the xml namespace bits</p>
+        <p>Reponse was a 7digital API error object</p>
 
         
-          <div class='highlight'><pre>		<span class="hljs-keyword">delete</span> result.response[<span class="hljs-string">'xmlns:xsi'</span>];
-		<span class="hljs-keyword">delete</span> result.response[<span class="hljs-string">'xmlns:xsd'</span>];
-		<span class="hljs-keyword">delete</span> result.response[<span class="hljs-string">'xsi:noNamespaceSchemaLocation'</span>];
-
-		<span class="hljs-keyword">if</span> (result.response.status === <span class="hljs-string">'error'</span>) {
+          <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (result.response.status === <span class="hljs-string">'error'</span>) {
 			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiError(result.response.error));
 		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.response.status !== <span class="hljs-string">'ok'</span>) {
 			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiParseError(
@@ -334,16 +260,16 @@ caller.</p>
 		}
 
 		clean = _.compose(
-			renameTextNodes,
-			normaliseResourceArrays);
+			cleaners.renameTextNodes,
+			cleaners.ensureCollections.bind(<span class="hljs-literal">null</span>, collectionPaths),
+			cleaners.removeXmlNamespaceKeys);
 
 		cleanedResult = clean(result.response);
 		<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, cleanedResult);
 	}
 }
 
-module.exports.parse = parse;
-module.exports.normaliseResourceArrays = normaliseResourceArrays;</pre></div>
+<span class="hljs-built_in">module</span>.exports.parse = parse;</pre></div>
         
       
       <div class="fleur">h</div>

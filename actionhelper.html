@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -160,19 +167,19 @@
 
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">templateParams</span><span class="hljs-params">(url)</span> {</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">templateParams</span><span class="hljs-params">(url)</span> </span>{
 	<span class="hljs-keyword">return</span> url.match(<span class="hljs-regexp">/:([^/]+)/g</span>);
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">template</span><span class="hljs-params">(url, params)</span> {</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">template</span><span class="hljs-params">(url, params)</span> </span>{
 	<span class="hljs-keyword">var</span> templated = url;
 	<span class="hljs-keyword">var</span> keys = _.keys(params);
-	<span class="hljs-keyword">var</span> loweredKeys = _.map(keys, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> {</span>
+	<span class="hljs-keyword">var</span> loweredKeys = _.map(keys, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> </span>{
 		<span class="hljs-keyword">return</span> key.toLowerCase();
 	});
 	<span class="hljs-keyword">var</span> keyLookup = _.zipObject(loweredKeys, keys);
 
-	_.each(templateParams(url), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">replaceParam</span><span class="hljs-params">(param)</span> {</span>
+	_.each(templateParams(url), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">replaceParam</span><span class="hljs-params">(param)</span> </span>{
 		<span class="hljs-keyword">var</span> normalisedParam = param.toLowerCase().substr(<span class="hljs-number">1</span>);
 
 		<span class="hljs-keyword">if</span> (!keyLookup[normalisedParam]) {
@@ -187,7 +194,7 @@
 	<span class="hljs-keyword">return</span> templated;
 }
 
-module.exports = exports = {
+<span class="hljs-built_in">module</span>.exports = exports = {
 	templateParams: templateParams,
 	template: template
 };</pre></div>

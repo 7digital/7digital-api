@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -186,7 +193,7 @@ country: ‘us’</p>
 
 
 step(
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createUser</span><span class="hljs-params">()</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createUser</span><span class="hljs-params">()</span> </span>{
 		<span class="hljs-keyword">this</span>.user = <span class="hljs-keyword">new</span> api.User();
 		<span class="hljs-keyword">this</span>.username = <span class="hljs-string">'node-client-test-'</span> + uuid.v4() + <span class="hljs-string">'@7digital.com'</span>;
 		<span class="hljs-keyword">this</span>.password = <span class="hljs-string">'top-secret'</span>;
@@ -195,7 +202,7 @@ step(
 			password: <span class="hljs-keyword">this</span>.password
 		}, <span class="hljs-keyword">this</span>);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">(err, userResponse)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">(err, userResponse)</span> </span>{
 		<span class="hljs-keyword">if</span> (err) {</pre></div>
         
       
@@ -203,13 +210,13 @@ step(
         <p>Something went wrong, show the user and exit</p>
 
         
-          <div class='highlight'><pre>			console.error(<span class="hljs-string">'Error creating the user'</span>);
-			console.error(util.inspect(err.stack, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+          <div class='highlight'><pre>			<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error creating the user'</span>);
+			<span class="hljs-built_in">console</span>.error(util.inspect(err.stack, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
 			process.exit(<span class="hljs-number">0</span>);
 		}
 
-		console.info(<span class="hljs-string">'Created user '</span> + <span class="hljs-keyword">this</span>.username);
-		console.info(userResponse);</pre></div>
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Created user '</span> + <span class="hljs-keyword">this</span>.username);
+		<span class="hljs-built_in">console</span>.info(userResponse);</pre></div>
         
       
         
@@ -218,7 +225,7 @@ step(
         
           <div class='highlight'><pre>		oauth.getRequestToken(<span class="hljs-string">'http://callbackurl.com/'</span>, <span class="hljs-keyword">this</span>);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span><span class="hljs-params">(err, requestToken, requestSecret)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span><span class="hljs-params">(err, requestToken, requestSecret)</span> </span>{
 		<span class="hljs-keyword">if</span> (err) {</pre></div>
         
       
@@ -226,8 +233,8 @@ step(
         <p>Something went wrong, show the user and exit</p>
 
         
-          <div class='highlight'><pre>			console.error(<span class="hljs-string">'Error getting the request token'</span>);
-			console.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+          <div class='highlight'><pre>			<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error getting the request token'</span>);
+			<span class="hljs-built_in">console</span>.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
 			process.exit(<span class="hljs-number">0</span>);
 		}</pre></div>
         
@@ -236,9 +243,9 @@ step(
         <p>Log the request token and secret</p>
 
         
-          <div class='highlight'><pre>		console.info(<span class="hljs-string">'Received Request Token and Secret'</span>);
-		console.info(<span class="hljs-string">'Request Token: %s'</span>, requestToken);
-		console.info(<span class="hljs-string">'Request Secret: %s'</span>, requestSecret);</pre></div>
+          <div class='highlight'><pre>		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Received Request Token and Secret'</span>);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Request Token: %s'</span>, requestToken);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Request Secret: %s'</span>, requestSecret);</pre></div>
         
       
         
@@ -255,7 +262,7 @@ user presses enter</p>
 			token: <span class="hljs-keyword">this</span>.requestToken
 		}, <span class="hljs-keyword">this</span>);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">continueAfterAuthorisation</span><span class="hljs-params">(err)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">continueAfterAuthorisation</span><span class="hljs-params">(err)</span> </span>{
 		<span class="hljs-keyword">if</span> (err) {</pre></div>
         
       
@@ -263,8 +270,8 @@ user presses enter</p>
         <p>Something went wrong, show the user and exit</p>
 
         
-          <div class='highlight'><pre>			console.error(<span class="hljs-string">'Error authorising the request token'</span>);
-			console.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+          <div class='highlight'><pre>			<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error authorising the request token'</span>);
+			<span class="hljs-built_in">console</span>.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
 			process.exit(<span class="hljs-number">0</span>);
 		}</pre></div>
         
@@ -279,7 +286,7 @@ request token and secret</p>
 			requestsecret: <span class="hljs-keyword">this</span>.requestSecret
 		}, <span class="hljs-keyword">this</span>);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logTheAccessToken</span><span class="hljs-params">(err, accessToken, accessSecret)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logTheAccessToken</span><span class="hljs-params">(err, accessToken, accessSecret)</span> </span>{
 		<span class="hljs-keyword">if</span> (err) {</pre></div>
         
       
@@ -287,8 +294,8 @@ request token and secret</p>
         <p>Something went wrong, show the user and exit</p>
 
         
-          <div class='highlight'><pre>			console.error(<span class="hljs-string">'Error getting the access token'</span>);
-			console.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+          <div class='highlight'><pre>			<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error getting the access token'</span>);
+			<span class="hljs-built_in">console</span>.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
 			process.exit(<span class="hljs-number">1</span>);
 		}</pre></div>
         
@@ -297,16 +304,16 @@ request token and secret</p>
         <p>Log the access token and secret</p>
 
         
-          <div class='highlight'><pre>		console.info(<span class="hljs-string">'Received Access Token and Secret'</span>);
-		console.info(<span class="hljs-string">'Access Token: %s'</span>, accessToken);
-		console.info(<span class="hljs-string">'Access Secret: %s'</span>, accessSecret);
+          <div class='highlight'><pre>		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Received Access Token and Secret'</span>);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Access Token: %s'</span>, accessToken);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Access Secret: %s'</span>, accessSecret);
 
 		<span class="hljs-keyword">this</span>.user.getLocker({
 			accesstoken: accessToken,
 			accesssecret: accessSecret,
 			pageSize: <span class="hljs-number">1</span>
 		}, <span class="hljs-keyword">this</span>);
-	},<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showLocker</span><span class="hljs-params">(err, lockerResponse)</span> {</span>
+	},<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showLocker</span><span class="hljs-params">(err, lockerResponse)</span> </span>{
 		<span class="hljs-keyword">if</span> (err) {</pre></div>
         
       
@@ -314,13 +321,13 @@ request token and secret</p>
         <p>Something went wrong, show the user and exit</p>
 
         
-          <div class='highlight'><pre>			console.error(<span class="hljs-string">'An error occurred: '</span>);
-			console.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+          <div class='highlight'><pre>			<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'An error occurred: '</span>);
+			<span class="hljs-built_in">console</span>.error(util.inspect(err, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
 			process.exit(<span class="hljs-number">1</span>);
 		}
 
-		console.log(<span class="hljs-string">'Successfully accessed the user\'s locker: '</span>);
-		console.log(util.inspect(lockerResponse, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully accessed the user\'s locker: '</span>);
+		<span class="hljs-built_in">console</span>.log(util.inspect(lockerResponse, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
 
 		process.exit(<span class="hljs-number">0</span>);
 	}

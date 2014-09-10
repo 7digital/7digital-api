@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -170,7 +177,7 @@ request</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateCacheKeyFromUrl</span><span class="hljs-params">(url)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateCacheKeyFromUrl</span><span class="hljs-params">(url)</span> </span>{
 	<span class="hljs-keyword">var</span> md5sum = crypto.createHash(<span class="hljs-string">'md5'</span>);
 	md5sum.update(url);
 
@@ -187,7 +194,7 @@ Cache-Control header in the response or false if it doesn’t exist.</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseMaxAgeHeader</span><span class="hljs-params">(response)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseMaxAgeHeader</span><span class="hljs-params">(response)</span> </span>{
 	<span class="hljs-keyword">var</span> cacheControl = response.headers[<span class="hljs-string">'cache-control'</span>];
 	<span class="hljs-keyword">var</span> maxAge;
 	<span class="hljs-keyword">if</span> (!cacheControl) {
@@ -202,8 +209,8 @@ Cache-Control header in the response or false if it doesn’t exist.</li>
 	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Number</span>(maxAge[<span class="hljs-number">1</span>]);
 }
 
-module.exports.generateCacheKeyFromUrl = generateCacheKeyFromUrl;
-module.exports.parseMaxAgeHeader = parseMaxAgeHeader;</pre></div>
+<span class="hljs-built_in">module</span>.exports.generateCacheKeyFromUrl = generateCacheKeyFromUrl;
+<span class="hljs-built_in">module</span>.exports.parseMaxAgeHeader = parseMaxAgeHeader;</pre></div>
         
       
       <div class="fleur">h</div>

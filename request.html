@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -179,7 +186,7 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">prepare</span><span class="hljs-params">(data, consumerkey)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">prepare</span><span class="hljs-params">(data, consumerkey)</span> </span>{
 	<span class="hljs-keyword">var</span> prop;
 	data = data || {};
 
@@ -204,7 +211,7 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHeaders</span><span class="hljs-params">(host, headers)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHeaders</span><span class="hljs-params">(host, headers)</span> </span>{
 	<span class="hljs-keyword">return</span> _.extend({}, headers, {
 		<span class="hljs-string">'host'</span>: host,
 		<span class="hljs-string">'User-Agent'</span> : USER_AGENT
@@ -220,8 +227,8 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logHeaders</span><span class="hljs-params">(logger, headers)</span> {</span>
-	<span class="hljs-keyword">return</span> _.each(_.keys(headers), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logHeaders</span><span class="hljs-params">(logger, headers)</span> </span>{
+	<span class="hljs-keyword">return</span> _.each(_.keys(headers), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> </span>{
 		logger.info(key + <span class="hljs-string">': '</span> + headers[key]);
 	});
 }</pre></div>
@@ -241,7 +248,7 @@
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, theCache,
-	callback)</span> {</span>
+	callback)</span> </span>{
 
 	<span class="hljs-keyword">var</span> normalisedData = prepare(requestData, credentials.consumerkey);
 	<span class="hljs-keyword">var</span> fullUrl = endpointInfo.url + <span class="hljs-string">'?'</span> + qs.stringify(normalisedData);
@@ -252,16 +259,18 @@
 	};
 
 	theCache.get(cacheKey, checkCacheResult);
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkCacheResult</span><span class="hljs-params">(err, res)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkCacheResult</span><span class="hljs-params">(err, cached)</span> </span>{
+		<span class="hljs-keyword">var</span> cachedResponse;
+
 		<span class="hljs-keyword">if</span> (err) {
 			logger.error(<span class="hljs-string">'Error checking cache for %s'</span>, cacheKey);
 			logger.error(err);
 			<span class="hljs-keyword">return</span> callback(err);
 		}
 
-		<span class="hljs-keyword">if</span> (res) {
+		<span class="hljs-keyword">if</span> (cached) {
 			logger.info(<span class="hljs-string">'Cache hit for %s'</span>, cacheKey);
-			<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, res);
+			<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, cached.body, { headers: cached.headers });
 		}</pre></div>
         
       
@@ -278,20 +287,25 @@
 				credentials, logger, cacheAndCallback);
 		}
 
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cacheAndCallback</span><span class="hljs-params">(err, requestData, response)</span> {</span>
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cacheAndCallback</span><span class="hljs-params">(err, requestData, response)</span> </span>{
+			<span class="hljs-keyword">var</span> ttl, cacheObj;
 			<span class="hljs-keyword">if</span> (err) {
 				<span class="hljs-keyword">return</span> callback(err);
 			}
 
-			<span class="hljs-keyword">var</span> ttl = cache.parseMaxAgeHeader(response);
+			ttl = cache.parseMaxAgeHeader(response);
 
 			<span class="hljs-keyword">if</span> (ttl) {
-				theCache.set(cacheKey, requestData, ttl, callbackWithResult);
+				cacheObj = {
+					headers: response.headers,
+					body: requestData
+				};
+				theCache.set(cacheKey, cacheObj, ttl, callbackWithResult);
 			} <span class="hljs-keyword">else</span> {
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, requestData, response);
 			}
 
-			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithResult</span><span class="hljs-params">(err)</span> {</span>
+			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithResult</span><span class="hljs-params">(err)</span> </span>{
 				<span class="hljs-keyword">if</span> (err) {
 					logger.error(<span class="hljs-string">'Error setting %s to cache'</span>, cacheKey);
 					logger.error(err);
@@ -318,7 +332,7 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, callback)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, callback)</span> </span>{
 	<span class="hljs-keyword">var</span> hostInfo = {
 		host: endpointInfo.host,
 		port: endpointInfo.port
@@ -348,7 +362,7 @@
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(url, httpMethod, requestData, headers, authtype,
-		hostInfo, credentials, logger, callback)</span> {</span>
+		hostInfo, credentials, logger, callback)</span> </span>{
 
 	hostInfo.port = hostInfo.port || <span class="hljs-number">443</span>;
 
@@ -390,7 +404,7 @@
 			<span class="hljs-string">'application/x-www-form-urlencoded'</span>, callbackWithDataAndResponse);
 	}
 
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> {</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> </span>{
 		<span class="hljs-keyword">if</span> (err) {
 			logger.error(err);
 			<span class="hljs-keyword">return</span> callback(err);
@@ -418,7 +432,7 @@ specification and applies approriate HTTP headers.</p>
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatch</span><span class="hljs-params">(url, httpMethod, data, headers, hostInfo, credentials,
-		logger, callback)</span> {</span>
+		logger, callback)</span> </span>{
 
 	hostInfo.port = hostInfo.port || <span class="hljs-number">80</span>;
 
@@ -482,18 +496,18 @@ currently does not set CORS headers.</p>
 		path: url,
 		port: hostInfo.port,
 		headers: mergedHeaders
-	}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleResponse</span><span class="hljs-params">(response)</span> {</span>
+	}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleResponse</span><span class="hljs-params">(response)</span> </span>{
 		<span class="hljs-keyword">var</span> responseBuffer = <span class="hljs-string">''</span>;
 
 		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> response.setEncoding === <span class="hljs-string">'function'</span>) {
 			response.setEncoding(<span class="hljs-string">"utf8"</span>);
 		}
 
-		response.on(<span class="hljs-string">"data"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bufferData</span><span class="hljs-params">(chunk)</span> {</span>
+		response.on(<span class="hljs-string">"data"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bufferData</span><span class="hljs-params">(chunk)</span> </span>{
 			responseBuffer += chunk;
 		});
 
-		response.on(<span class="hljs-string">"end"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endResponse</span><span class="hljs-params">()</span> {</span>
+		response.on(<span class="hljs-string">"end"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endResponse</span><span class="hljs-params">()</span> </span>{
 			<span class="hljs-keyword">if</span> (+response.statusCode &gt;= <span class="hljs-number">400</span>) {
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiHttpError(
 					response.statusCode, responseBuffer));
@@ -505,7 +519,7 @@ currently does not set CORS headers.</p>
 		});
 	});
 
-	apiRequest.on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logErrorAndCallback</span><span class="hljs-params">(data)</span> {</span></pre></div>
+	apiRequest.on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logErrorAndCallback</span><span class="hljs-params">(data)</span> </span>{</pre></div>
         
       
         
@@ -526,12 +540,12 @@ if we get an end event on the response.</p>
 	}
 }
 
-module.exports.get = get;
-module.exports.post = post;
-module.exports.createHeaders = createHeaders;
-module.exports.prepare = prepare;
-module.exports.dispatch = dispatch;
-module.exports.dispatchSecure = dispatchSecure;</pre></div>
+<span class="hljs-built_in">module</span>.exports.get = get;
+<span class="hljs-built_in">module</span>.exports.post = post;
+<span class="hljs-built_in">module</span>.exports.createHeaders = createHeaders;
+<span class="hljs-built_in">module</span>.exports.prepare = prepare;
+<span class="hljs-built_in">module</span>.exports.dispatch = dispatch;
+<span class="hljs-built_in">module</span>.exports.dispatchSecure = dispatchSecure;</pre></div>
         
       
       <div class="fleur">h</div>

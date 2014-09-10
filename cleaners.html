@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>cleaners.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>cleaners.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="create-user.html">
+                    create-user.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="customconfig.html">
+                    customconfig.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="default-action.html">
+                    default-action.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth.html">
+                    oauth.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="simpleclient.html">
+                    simpleclient.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="trackpreview.html">
+                    trackpreview.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="actionhelper.html">
+                    actionhelper.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="api.html">
+                    api.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cache.html">
+                    cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="errors.html">
+                    errors.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.html">
+                    helpers.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="logger.html">
+                    logger.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="noop-cache.html">
+                    noop-cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth.html">
+                    oauth.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="request.html">
+                    request.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="resource.html">
+                    resource.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="responseparser.html">
+                    responseparser.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">arrayify</span><span class="hljs-params">(items)</span> </span>{
+	<span class="hljs-keyword">return</span> items.length ? items : [items];
+}</pre></div>
+        
+      
+        
+        <p>The API returns resources as either a single object or an array.
+This makes responses fiddly to deal with for consumers as they
+manually check whether the resource has a length an access the
+property appropriately. This method checks the reponse for the
+existence of a property path and if it is an object wraps it in
+an array.</p>
+<ul>
+<li>@param {String} collectionPaths</li>
+<li>@param {Object} response</li>
+<li>@return {Object} the modified response</li>
+</ul>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ensureCollections</span><span class="hljs-params">(collectionPaths, response)</span> </span>{
+	<span class="hljs-keyword">var</span> items, formats, listItems, basket;
+
+	_(collectionPaths).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkLength</span><span class="hljs-params">(item)</span> </span>{
+		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>);
+		<span class="hljs-keyword">var</span> allPartsButLast = _.initial(parts);
+		<span class="hljs-keyword">var</span> lastPart = _.last(parts);
+		<span class="hljs-keyword">var</span> parents = _.reduce(allPartsButLast, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(chain, part)</span> </span>{
+			<span class="hljs-keyword">return</span> chain.pluck(part).compact().flatten();
+		}, _([response])).value();
+
+		parents.map(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(parent)</span> </span>{
+			<span class="hljs-keyword">if</span> (parent[lastPart]) {
+				parent[lastPart] = arrayify(parent[lastPart]);
+			} <span class="hljs-keyword">else</span> {
+				parent[lastPart] = [];
+			}
+		});
+	});
+
+	basket = response.basket;
+	<span class="hljs-keyword">if</span> (basket) {
+		<span class="hljs-keyword">if</span> (basket.basketItems.basketItem) {
+			basket.basketItems = basket.basketItems.basketItem;
+		} <span class="hljs-keyword">else</span> {
+			basket.basketItems = [];
+		}
+	}
+
+	<span class="hljs-keyword">return</span> response;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNodes</span><span class="hljs-params">(response)</span> </span>{
+	_({
+		<span class="hljs-string">'cardTypes.cardType'</span> : <span class="hljs-string">'name'</span>
+	}).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNode</span><span class="hljs-params">(name, item)</span> </span>{
+		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>);
+		<span class="hljs-keyword">var</span> parent = parts[<span class="hljs-number">0</span>];
+		<span class="hljs-keyword">var</span> child = parts[<span class="hljs-number">1</span>];</pre></div>
+        
+      
+        
+        <p>Text nodes are given the key ‘_’ if there are attributes present on
+the node</p>
+
+        
+          <div class='highlight'><pre>		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doRename</span><span class="hljs-params">(obj)</span> </span>{
+			obj[name] = obj._;
+			<span class="hljs-keyword">delete</span> obj._;
+		}
+
+		<span class="hljs-keyword">if</span> (response[parent] &amp;&amp; response[parent][child]) {
+
+			<span class="hljs-keyword">var</span> node = response[parent][child];
+			<span class="hljs-keyword">if</span> (node.length !== <span class="hljs-literal">undefined</span>) {
+				_(node).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(subNode)</span> </span>{
+					doRename(subNode);
+				});
+			} <span class="hljs-keyword">else</span> {
+				doRename(node);
+			}
+
+		}
+	});
+
+	<span class="hljs-keyword">return</span> response;
+}</pre></div>
+        
+      
+        
+        <p>Given a deserialized XML response this function will remove the xml
+specific nodes that aren’t interesting to consumers.</p>
+<ul>
+<li>@param {Object} response - the deserialized XML response object</li>
+<li>@return {Object} the reponse with the XMl namespace keys removed</li>
+</ul>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeXmlNamespaceKeys</span><span class="hljs-params">(response)</span> </span>{
+	<span class="hljs-keyword">delete</span> response[<span class="hljs-string">'xmlns:xsi'</span>];
+	<span class="hljs-keyword">delete</span> response[<span class="hljs-string">'xmlns:xsd'</span>];
+	<span class="hljs-keyword">delete</span> response[<span class="hljs-string">'xsi:noNamespaceSchemaLocation'</span>];
+	<span class="hljs-keyword">return</span> response;
+}
+
+<span class="hljs-built_in">module</span>.exports.ensureCollections = ensureCollections;
+<span class="hljs-built_in">module</span>.exports.renameTextNodes = renameTextNodes;
+<span class="hljs-built_in">module</span>.exports.removeXmlNamespaceKeys = removeXmlNamespaceKeys;</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

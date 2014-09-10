@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -166,12 +173,12 @@
         <p>Make a request using the wrapper and process the result</p>
 
         
-          <div class='highlight'><pre>artists.getReleases({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span><span class="hljs-params">(err, data)</span> {</span>
+          <div class='highlight'><pre>artists.getReleases({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span><span class="hljs-params">(err, data)</span> </span>{
 	<span class="hljs-keyword">if</span> (err) {
 		<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(err);
 	}
 
-	console.dir(data);
+	<span class="hljs-built_in">console</span>.dir(data);
 });</pre></div>
         
       

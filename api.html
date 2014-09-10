@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -190,7 +197,7 @@ see the assets/7digital-api-schema json file.</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span><span class="hljs-params">(options, schema)</span> {</span>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span><span class="hljs-params">(options, schema)</span> </span>{
 	<span class="hljs-keyword">var</span> prop, resourceOptions, resourceConstructor;
 	<span class="hljs-keyword">var</span> apiRoot = <span class="hljs-keyword">this</span>;</pre></div>
         
@@ -209,8 +216,8 @@ see the assets/7digital-api-schema json file.</li>
 this is syntactic sugar to allow callers to new up the resources.</p>
 
         
-          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createResourceConstructor</span><span class="hljs-params">(resourcePrototype)</span> {</span>
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">APIResource</span><span class="hljs-params">(resourceOptions)</span> {</span></pre></div>
+          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createResourceConstructor</span><span class="hljs-params">(resourcePrototype)</span> </span>{
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">APIResource</span><span class="hljs-params">(resourceOptions)</span> </span>{</pre></div>
         
       
         
@@ -270,7 +277,7 @@ new client</li>
 </ul>
 
         
-          <div class='highlight'><pre>Api.prototype.reconfigure = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reconfigure</span><span class="hljs-params">(newOptions)</span> {</span>
+          <div class='highlight'><pre>Api.prototype.reconfigure = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reconfigure</span><span class="hljs-params">(newOptions)</span> </span>{
 	<span class="hljs-keyword">var</span> mergedDefaultParams = _.extend({}, <span class="hljs-keyword">this</span>.options.defaultParams,
 		newOptions.defaultParams);
 	<span class="hljs-keyword">var</span> mergedHeaders = _.extend({}, <span class="hljs-keyword">this</span>.options.headers,
@@ -300,7 +307,7 @@ see the assets/7digital-api-schema json file.</li>
 </ul>
 
         
-          <div class='highlight'><pre>Api.build = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">build</span><span class="hljs-params">(options, schema)</span> {</span>
+          <div class='highlight'><pre>Api.build = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">build</span><span class="hljs-params">(options, schema)</span> </span>{
 	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(options, schema);
 };</pre></div>
         
@@ -311,13 +318,13 @@ We need a separate method with an inlined schemapath so that
 browserify can do the right thing for non-node environments.</p>
 
         
-          <div class='highlight'><pre>Api.buildDefault = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildDefault</span><span class="hljs-params">(options)</span> {</span>
+          <div class='highlight'><pre>Api.buildDefault = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildDefault</span><span class="hljs-params">(options)</span> </span>{
 	options = options || config;
 	<span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../assets/7digital-api-schema.json'</span>);
 	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Api(options, schema);
 };
 
-module.exports.Api = Api;</pre></div>
+<span class="hljs-built_in">module</span>.exports.Api = Api;</pre></div>
         
       
       <div class="fleur">h</div>

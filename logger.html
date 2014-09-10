@@ -93,6 +93,13 @@
               
                 
                 <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="errors.html">
                     errors.js
                   </a>
@@ -169,7 +176,7 @@ stdout or stderr.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeLogger</span><span class="hljs-params">(level, method)</span> {</span></pre></div>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeLogger</span><span class="hljs-params">(level, method)</span> </span>{</pre></div>
         
       
         
@@ -177,20 +184,20 @@ stdout or stderr.</p>
 and formats like console.log</p>
 
         
-          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logger</span><span class="hljs-params">()</span> {</span>
+          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logger</span><span class="hljs-params">()</span> </span>{
 		<span class="hljs-keyword">var</span> args = [].slice.call(<span class="hljs-built_in">arguments</span>);
 		<span class="hljs-keyword">var</span> format = level.toUpperCase() + <span class="hljs-string">': (api-client) '</span> + args.shift();
 		<span class="hljs-keyword">var</span> logArgs = [format].concat(args);
 
-		<span class="hljs-keyword">return</span> console[method].apply(console, logArgs);
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>[method].apply(<span class="hljs-built_in">console</span>, logArgs);
 	}
 
 	<span class="hljs-keyword">return</span> (level === <span class="hljs-string">'warn'</span> || level === <span class="hljs-string">'error'</span> || level === <span class="hljs-string">'info'</span>)
 		? logger
-		: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>};
+		: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{};
 }
 
-module.exports = {
+<span class="hljs-built_in">module</span>.exports = {
 	silly: makeLogger(<span class="hljs-string">'silly'</span>, <span class="hljs-string">'log'</span>),
 	verbose: makeLogger(<span class="hljs-string">'verbose'</span>, <span class="hljs-string">'log'</span>),
 	info: makeLogger(<span class="hljs-string">'info'</span>, <span class="hljs-string">'log'</span>),
