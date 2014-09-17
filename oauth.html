@@ -166,6 +166,7 @@
           <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
+<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 <span class="hljs-keyword">var</span> OAuthClient = <span class="hljs-built_in">require</span>(<span class="hljs-string">'oauth'</span>).OAuth;
 <span class="hljs-keyword">var</span> accessTokenUrl = <span class="hljs-string">'http://api.7digital.com/1.2/oauth/accesstoken'</span>;
 <span class="hljs-keyword">var</span> responseParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./responseparser'</span>);</pre></div>
@@ -398,37 +399,35 @@ no means of supplying the extra parameter via getOAuthAccessToken</p>
         
       
         
-        <p>Allows you to sign 2-legged GET requests manually.  The common case for this
-is to sign preview clip requests which are on a different host from the rest
-of the API.</p>
+        <p>Allows you to sign GET requests manually.  The common case for this
+is to access the media delivery API where you make a signed request
+and receive the media data directly in the reponse.</p>
 <ul>
 <li>@param {String} <code>url</code> The url to sign</li>
-<li>@param {Object} <code>parameters</code> Any extra parameters.</li>
+<li>@param {Object} <code>parameters</code> Any query parameters.</li>
 </ul>
 
         
           <div class='highlight'><pre>OAuth.prototype.sign = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sign</span><span class="hljs-params">(url, parameters)</span> </span>{
-	<span class="hljs-keyword">var</span> orderedParams;
-	<span class="hljs-keyword">var</span> params = {};
+	<span class="hljs-keyword">var</span> orderedParams, accesstoken, accesssecret;
 	<span class="hljs-keyword">var</span> query = <span class="hljs-string">''</span>;
-	<span class="hljs-keyword">var</span> parsedUrl= <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>).parse( url, <span class="hljs-literal">false</span> );
+	<span class="hljs-keyword">var</span> parsedUrl = <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>).parse(url, <span class="hljs-literal">false</span>);
 
-	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.defaultParams.country) {
-		params.country = <span class="hljs-keyword">this</span>.defaultParams.country;
-	}
+	_.defaults(parameters, <span class="hljs-keyword">this</span>.defaultParams);
 
-	<span class="hljs-keyword">if</span> (parameters &amp;&amp; parameters.country) {
-		params.country = parameters.country;
-	}
+	accesstoken = parameters.accesstoken || <span class="hljs-literal">null</span>;
+	<span class="hljs-keyword">delete</span> parameters.accesstoken;
+	accesssecret = parameters.accesssecret || <span class="hljs-literal">null</span>;
+	<span class="hljs-keyword">delete</span> parameters.accesssecret;
 
-	orderedParams = <span class="hljs-keyword">this</span>.client._prepareParameters(<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>,
-		<span class="hljs-string">'GET'</span>, url, params);
+	orderedParams = <span class="hljs-keyword">this</span>.client._prepareParameters(accesstoken, accesssecret,
+		<span class="hljs-string">'GET'</span>, url, parameters);
 
-	<span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i= <span class="hljs-number">0</span> ; i &lt; orderedParams.length; i++) {
-		query+= orderedParams[i][<span class="hljs-number">0</span>] + <span class="hljs-string">'='</span> +
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; orderedParams.length; i++) {
+		query += orderedParams[i][<span class="hljs-number">0</span>] + <span class="hljs-string">'='</span> +
 			<span class="hljs-keyword">this</span>.client._encodeData(orderedParams[i][<span class="hljs-number">1</span>]) + <span class="hljs-string">'&amp;'</span>;
 	}
-	query= query.substring(<span class="hljs-number">0</span>, query.length-<span class="hljs-number">1</span>);
+	query = query.substring(<span class="hljs-number">0</span>, query.length - <span class="hljs-number">1</span>);
 
 	<span class="hljs-keyword">return</span> parsedUrl.protocol + <span class="hljs-string">'//'</span>+ parsedUrl.host + parsedUrl.pathname +
 		<span class="hljs-string">'?'</span> + query;
