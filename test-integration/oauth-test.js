@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('chai').assert;
+var https = require('https');
 
 function die(msg) {
 	throw new Error(msg);
@@ -116,6 +117,24 @@ describe('api when oauth is required', function () {
 			assert.notOk(err, 'unexpected error: ' + errMsg);
 			done();
 		});
-
 	});
+
+	it('signs 3-legged locker stream urls', function (done) {
+		var oauth = new api.OAuth({
+			defaultParams: {
+				country: 'gb',
+				accesstoken: userToken,
+				accesssecret: userSecret
+			}
+		});
+		var signedUrl = oauth.sign(
+			'https://stream.svc.7digital.net/stream/locker',
+			{ trackId: 29286733, formatId: 26 });
+
+		https.get(signedUrl, function checkResponse(response) {
+			assert.equal(response.statusCode, 200);
+			done();
+		}).on('error', done);
+	});
+
 });

@@ -95,13 +95,14 @@ of the API endpoints and the parameters they accept.
 
 ## OAuth protected endpoints
 
-**NOTE: The oauth access method changed considerably in 0.19.0**
+**NOTE: The oauth access method changed considerably in 0.19.0, updating to
+the latest version is highly recommended**
 
-### Accessing previews
+### Accessing the media delivery api
 
-The preview endpoint behaves differently from the other endpoints as it returns
-you the bytes to to the clip.  It also resides on a different host.  You must
-sign your requests:
+The media delivery endpoints behave differently from the other endpoints as
+they return you the bytes to the content. You must sign all your requests like
+so:
 
 ```javascript
 var api = require('7digital-api').configure({
@@ -114,6 +115,17 @@ var api = require('7digital-api').configure({
 
 var oauth = new api.OAuth();
 var previewUrl = oauth.sign('http://previews/7digital.com/clip/12345');
+
+// For access to locker / subscription streaming without managed users you
+// will need to provide the accesstoken and secret for the user
+var signedUrl = oauth.sign('https://stream.svc.7digital.net/stream/locker', {
+	trackId: 1234,
+	formatId: 26,
+	accesstoken: 'ACCESS_TOKEN',
+	accesssecret: 'ACCESS_SECRET'
+});
+// Requesting this URL will now respond with the media data (or redirect to
+// an error).
 ```
 
 ### Making requests on behalf of a user to OAuth protected endpoints
