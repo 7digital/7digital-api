@@ -413,6 +413,7 @@ and receive the media data directly in the reponse.</p>
 	<span class="hljs-keyword">var</span> query = <span class="hljs-string">''</span>;
 	<span class="hljs-keyword">var</span> parsedUrl = <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>).parse(url, <span class="hljs-literal">false</span>);
 
+	parameters = parameters || {};
 	_.defaults(parameters, <span class="hljs-keyword">this</span>.defaultParams);
 
 	accesstoken = parameters.accesstoken || <span class="hljs-literal">null</span>;
