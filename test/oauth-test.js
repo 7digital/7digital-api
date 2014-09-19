@@ -26,4 +26,10 @@ describe('OAuth', function() {
 		assert.equal(oauth2.defaultParams.country, 'fr');
 	});
 
+	it('should allow 2-legged signing with no parameters', function () {
+		var url = oauth.sign('http://previews.7digital.com/clip/12345');
+		assert.match(url,
+			new RegExp('http://previews.7digital.com/clip/12345'));
+	});
+
 });
