@@ -2,24 +2,36 @@
 
 var fs = require('fs');
 var path = require('path');
+var assert = require('chai').assert;
+var _ = require('lodash');
+var winston = require('winston');
 var config = require('../config');
 
-var schema = require('../assets/7digital-api-schema');
+function createClient() {
+	var schema = _.clone(
+		require('../assets/7digital-api-schema.json'));
+	var port = 9876;
+	var logger = new winston.Logger({
+		transports: [
+			new winston.transports.Console({ level: 'error' })
+		]
+	});
 
-schema.host = 'localhost';
-schema.port = '3000';
-schema.prefix = undefined;
+	schema.host = 'localhost';
+	schema.port = port;
+	schema.prefix = undefined;
 
-var Api = require('../lib/api').Api;
+	var api = require('../').configure({
+		logger: logger
+	}, schema);
 
-var api = new Api({
-	format: 'json',
-	logger: require('../lib/logger')
-}, schema);
+	api.IS_STUB_CLIENT = true;
 
-var assert = require('chai').assert;
+	return api;
+}
 
 describe('api', function () {
+	var api;
 	var childProcess = require('child_process');
 	var serverProcess;
 	var processStarted;
@@ -48,6 +60,8 @@ describe('api', function () {
 		serverProcess.stderr.on('data', function (data) {
 			console.log('' + data);
 		});
+
+		api = createClient();
 	});
 
 	after(function () {
