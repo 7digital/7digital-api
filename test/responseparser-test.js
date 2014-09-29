@@ -63,4 +63,14 @@ describe('responseparser', function() {
 		assert.equal(error.message, 'Release not found');
 	});
 
+	it('assumes xml when no content type', function () {
+		var callbackSpy = sinon.spy();
+		var opts = createOptsWithFormat('json');
+		var xml = fs.readFileSync(path.join(__dirname +
+				'/responses/release-tracks-singletrack.xml'), 'utf8');
+		delete opts.contentType;
+		parser.parse(xml, opts, callbackSpy);
+		assert(callbackSpy.calledOnce);
+		assert.equal(typeof callbackSpy.lastCall.args[1], 'object');
+	});
 });
