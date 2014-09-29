@@ -114,7 +114,7 @@ var api = require('7digital-api').configure({
 });
 
 var oauth = new api.OAuth();
-var previewUrl = oauth.sign('http://previews/7digital.com/clip/12345');
+var previewUrl = oauth.sign('http://previews.7digital.com/clip/12345');
 
 // For access to locker / subscription streaming without managed users you
 // will need to provide the accesstoken and secret for the user
