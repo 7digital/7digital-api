@@ -23,13 +23,6 @@
               
                 
                 <li>
-                  <a class="source" href="create-user.html">
-                    create-user.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -58,15 +51,29 @@
               
                 
                 <li>
-                  <a class="source" href="trackpreview.html">
-                    trackpreview.js
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="two-legged.html">
-                    two-legged.js
+                  <a class="source" href="user-authentication.html">
+                    user-authentication.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-locker.html">
+                    user-locker.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-management.html">
+                    user-management.js
                   </a>
                 </li>
               
@@ -251,7 +258,7 @@ or a hash if they differ.</li>
 	<span class="hljs-keyword">var</span> fnName = <span class="hljs-keyword">this</span>.chooseMethodName(actionDefinition);
 	<span class="hljs-keyword">var</span> action = <span class="hljs-keyword">typeof</span> actionDefinition.apiCall === <span class="hljs-string">'undefined'</span> ?
 			actionDefinition : actionDefinition.apiCall;
-	<span class="hljs-keyword">var</span> httpMethod = (actionDefinition.method || <span class="hljs-string">'GET'</span>);
+	<span class="hljs-keyword">var</span> httpMethod = (actionDefinition.method || <span class="hljs-string">'GET'</span>).toUpperCase();
 	<span class="hljs-keyword">var</span> host = actionDefinition.host || <span class="hljs-keyword">this</span>.host;
 	<span class="hljs-keyword">var</span> port = actionDefinition.port || <span class="hljs-keyword">this</span>.port;
 	<span class="hljs-keyword">var</span> prefix = actionDefinition.prefix || <span class="hljs-keyword">this</span>.prefix;
@@ -283,23 +290,6 @@ or a hash if they differ.</li>
 			requestData = {};
 		}
 
-		<span class="hljs-keyword">if</span> (httpMethod.toLowerCase() === <span class="hljs-string">'get'</span>) {</pre></div>
-        
-      
-        
-        <p>Add the default parameters to the request data</p>
-
-        
-          <div class='highlight'><pre>			_.defaults(requestData, <span class="hljs-keyword">this</span>.defaultParams);
-			request.get(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers, credentials,
-				<span class="hljs-keyword">this</span>.logger, <span class="hljs-keyword">this</span>.cache, checkAndParse);
-		}
-
-		<span class="hljs-keyword">if</span> (httpMethod.toLowerCase() === <span class="hljs-string">'post'</span>) {
-			request.post(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers, credentials,
-				<span class="hljs-keyword">this</span>.logger, checkAndParse);
-		}
-
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkAndParse</span><span class="hljs-params">(err, data, response)</span> </span>{
 			<span class="hljs-keyword">if</span> (err) {
 				<span class="hljs-keyword">return</span> callback(err);
@@ -321,6 +311,25 @@ or a hash if they differ.</li>
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, parsed);
 			});
 		}
+
+		<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {</pre></div>
+        
+      
+        
+        <p>Add the default parameters to the request data</p>
+
+        
+          <div class='highlight'><pre>			_.defaults(requestData, <span class="hljs-keyword">this</span>.defaultParams);
+			<span class="hljs-keyword">return</span> request.get(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers, credentials,
+				<span class="hljs-keyword">this</span>.logger, <span class="hljs-keyword">this</span>.cache, checkAndParse);
+		}
+
+		<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'POST'</span> || httpMethod === <span class="hljs-string">'PUT'</span>) {
+			<span class="hljs-keyword">return</span> request.postOrPut(httpMethod, endpointInfo, requestData,
+				<span class="hljs-keyword">this</span>.headers, credentials, <span class="hljs-keyword">this</span>.logger, checkAndParse);
+		}
+
+		<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Unsupported HTTP verb: '</span> + httpMethod));
 	}
 
 	invokeAction.action = action;

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>cache.js</title>
+  <title>user-authentication.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -13,7 +13,7 @@
 
       <div class="header">
         
-          <h1>cache.js</h1>
+          <h1>user-authentication.js</h1>
         
 
         
@@ -168,56 +168,74 @@
 
       
         
-        
-        
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+        <p>Module dependencies</p>
 
-<span class="hljs-keyword">var</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">'crypto'</span>);</pre></div>
+        
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> async = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-uuid'</span>);</pre></div>
         
       
         
-        <p>Generates a cache key for a request based on the full URL used to make the
-request</p>
-<ul>
-<li>@param {String} url - The full url of the request</li>
-<li>@return {String} - The cache key</li>
-</ul>
+        <p>Consumer key and secret
+Replace these with your key</p>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateCacheKeyFromUrl</span><span class="hljs-params">(url)</span> </span>{
-	<span class="hljs-keyword">var</span> md5sum = crypto.createHash(<span class="hljs-string">'md5'</span>);
-	md5sum.update(url);
-
-	<span class="hljs-keyword">return</span> <span class="hljs-string">'7digital-api:'</span> + md5sum.digest(<span class="hljs-string">'hex'</span>);
-}</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
+<span class="hljs-keyword">var</span> consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET;
+<span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
+	consumerkey: consumerkey,
+	consumersecret: consumersecret,
+	defaultParams: {</pre></div>
         
       
         
-        <p>Parses the max-age value from the cache-control header in the response</p>
-<ul>
-<li>@param {Response} HttpResponse - The response to parse</li>
-<li>@return {Number|Boolean} - Either the value of the max-age property of the
-Cache-Control header in the response or false if it doesn’t exist.</li>
-</ul>
+        <p>If your key is locked to a country you must add it here:
+country: ‘us’</p>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseMaxAgeHeader</span><span class="hljs-params">(response)</span> </span>{
-	<span class="hljs-keyword">var</span> cacheControl = response.headers[<span class="hljs-string">'cache-control'</span>];
-	<span class="hljs-keyword">var</span> maxAge;
-	<span class="hljs-keyword">if</span> (!cacheControl) {
-		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-	}
+          <div class='highlight'><pre>	}
+});
+<span class="hljs-keyword">var</span> oauth = <span class="hljs-keyword">new</span> api.OAuth();
+<span class="hljs-keyword">var</span> user = <span class="hljs-keyword">new</span> api.User();
+<span class="hljs-keyword">var</span> username = <span class="hljs-string">'node-client-test-'</span> + uuid.v4() + <span class="hljs-string">'@7digital.com'</span>;
+<span class="hljs-keyword">var</span> password = <span class="hljs-string">'top-secret'</span>;
+<span class="hljs-keyword">var</span> requestToken, requestSecret, userId;
 
-	maxAge = <span class="hljs-regexp">/max-age=(\d+)/</span>.exec(cacheControl);
-	<span class="hljs-keyword">if</span> (!maxAge) {
-		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-	}
-
-	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Number</span>(maxAge[<span class="hljs-number">1</span>]);
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stringify</span><span class="hljs-params">(obj)</span> </span>{
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(obj, <span class="hljs-literal">null</span>, <span class="hljs-string">'  '</span>);
 }
 
-<span class="hljs-built_in">module</span>.exports.generateCacheKeyFromUrl = generateCacheKeyFromUrl;
-<span class="hljs-built_in">module</span>.exports.parseMaxAgeHeader = parseMaxAgeHeader;</pre></div>
+async.waterfall([
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createUser</span><span class="hljs-params">(cb)</span> </span>{
+		user.signup({
+			emailAddress: username,
+			password: password
+		}, cb);
+	},
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authenticateUser</span><span class="hljs-params">(res, cb)</span> </span>{
+		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully created user'</span>);
+		user.authenticate({
+			emailAddress: username,
+			password: password
+		}, cb);
+	},
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAuthentication</span><span class="hljs-params">(res, cb)</span> </span>{
+		<span class="hljs-keyword">if</span> (res.user.emailAddress !== username) {
+			<span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Authenticated response email didn\'t match'</span>));
+		}
+		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully authenticated user'</span>);
+		<span class="hljs-built_in">console</span>.log(stringify(res));
+		cb();
+	}
+], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err)</span> </span>{
+	<span class="hljs-keyword">if</span> (err) {
+		<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'An error occurred:'</span>);
+		<span class="hljs-built_in">console</span>.error(stringify(err));
+		<span class="hljs-keyword">return</span> process.exit(<span class="hljs-number">1</span>);
+	}
+	process.exit(<span class="hljs-number">0</span>);
+});</pre></div>
         
       
       <div class="fleur">h</div>

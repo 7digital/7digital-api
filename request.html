@@ -23,13 +23,6 @@
               
                 
                 <li>
-                  <a class="source" href="create-user.html">
-                    create-user.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -58,15 +51,29 @@
               
                 
                 <li>
-                  <a class="source" href="trackpreview.html">
-                    trackpreview.js
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="two-legged.html">
-                    two-legged.js
+                  <a class="source" href="user-authentication.html">
+                    user-authentication.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-locker.html">
+                    user-locker.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-management.html">
+                    user-management.js
                   </a>
                 </li>
               
@@ -321,8 +328,9 @@
         
       
         
-        <p>Makes a POST request to the API.</p>
+        <p>Makes a POST/PUT request to the API.</p>
 <ul>
+<li>@param {String} httpMethod - POST or PUT.</li>
 <li>@param {Object} endpointInfo - Generic metadata about the endpoint to hit.</li>
 <li>@param {Object} requestData - Parameters for this specific request.</li>
 <li>@param {Object} headers - Headers for this request.</li>
@@ -332,19 +340,27 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, callback)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postOrPut</span><span class="hljs-params">(httpMethod, endpointInfo, requestData, headers, credentials, logger, callback)</span> </span>{
 	<span class="hljs-keyword">var</span> hostInfo = {
 		host: endpointInfo.host,
 		port: endpointInfo.port
 	};
 
 	<span class="hljs-keyword">if</span> (endpointInfo.authtype) {
-		dispatchSecure(endpointInfo.url, <span class="hljs-string">'POST'</span>, requestData, headers,
+		dispatchSecure(endpointInfo.url, httpMethod, requestData, headers,
 			endpointInfo.authtype, hostInfo, credentials, logger, callback);
 	} <span class="hljs-keyword">else</span> {
-		dispatch(endpointInfo.url, <span class="hljs-string">'POST'</span>, requestData, headers, hostInfo,
+		dispatch(endpointInfo.url, httpMethod, requestData, headers, hostInfo,
 			credentials, logger, callback);
 	}
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildSecureUrl</span><span class="hljs-params">(httpMethod, hostInfo, path, requestData)</span> </span>{
+	<span class="hljs-keyword">var</span> querystring = httpMethod === <span class="hljs-string">'GET'</span>
+		? <span class="hljs-string">'?'</span> + qs.stringify(requestData)
+		: <span class="hljs-string">''</span>;
+	path = actionhelper.template(path, requestData);
+	<span class="hljs-keyword">return</span> <span class="hljs-string">'https://'</span> + hostInfo.host + <span class="hljs-string">':'</span> + hostInfo.port + path + querystring;
 }</pre></div>
         
       
@@ -361,18 +377,22 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(url, httpMethod, requestData, headers, authtype,
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(path, httpMethod, requestData, headers, authtype,
 		hostInfo, credentials, logger, callback)</span> </span>{
-
-	hostInfo.port = hostInfo.port || <span class="hljs-number">443</span>;
-
+	<span class="hljs-keyword">var</span> url;
 	<span class="hljs-keyword">var</span> is2Legged = authtype === <span class="hljs-string">'2-legged'</span>;
 	<span class="hljs-keyword">var</span> token = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesstoken;
 	<span class="hljs-keyword">var</span> secret = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesssecret;
 	<span class="hljs-keyword">var</span> mergedHeaders = createHeaders(hostInfo.host, headers);
 	<span class="hljs-keyword">var</span> oauthClient = oauthHelper.createOAuthWrapper(credentials.consumerkey,
 			credentials.consumersecret, mergedHeaders);
-	<span class="hljs-keyword">var</span> fullUrl;
+	<span class="hljs-keyword">var</span> methodLookup = {
+		<span class="hljs-string">'POST'</span> : oauthClient.post.bind(oauthClient),
+		<span class="hljs-string">'PUT'</span> : oauthClient.put.bind(oauthClient)
+	};
+	<span class="hljs-keyword">var</span> oauthMethod = methodLookup[httpMethod];
+
+	hostInfo.port = hostInfo.port || <span class="hljs-number">443</span>;
 
 	requestData = prepare(requestData, credentials.consumerkey);
 
@@ -381,38 +401,31 @@
 		<span class="hljs-keyword">delete</span> requestData.accesssecret;
 	}
 
-	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {
-		logger.info(<span class="hljs-string">'token: '</span> + token + <span class="hljs-string">' secret: '</span> + secret);
+	url = buildSecureUrl(httpMethod, hostInfo, path, requestData);
 
-		url = actionhelper.template(url, requestData);
-		fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + <span class="hljs-string">':'</span> + hostInfo.port + url;
-		fullUrl = fullUrl + <span class="hljs-string">'?'</span> + qs.stringify(requestData);
-		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
-		logHeaders(logger, mergedHeaders);
+	logger.info(<span class="hljs-string">'token: '</span> + token + <span class="hljs-string">' secret: '</span> + secret);
+	logger.info(httpMethod + <span class="hljs-string">': '</span> + url + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
+	logHeaders(logger, mergedHeaders);
 
-		<span class="hljs-keyword">return</span> oauthClient.get(fullUrl, token, secret,
-			callbackWithDataAndResponse);
-	}
-
-	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'POST'</span>) {
-		fullUrl = <span class="hljs-string">'https://'</span> + hostInfo.host + <span class="hljs-string">':'</span> + hostInfo.port + url;
-		logger.info(httpMethod + <span class="hljs-string">': '</span> + fullUrl + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
-		logger.info(<span class="hljs-string">'DATA: '</span> + qs.stringify(requestData));
-		logHeaders(logger, mergedHeaders);
-
-		<span class="hljs-keyword">return</span> oauthClient.post(fullUrl, token, secret, requestData,
-			<span class="hljs-string">'application/x-www-form-urlencoded'</span>, callbackWithDataAndResponse);
-	}
-
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cbWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> </span>{
 		<span class="hljs-keyword">if</span> (err) {
 			logger.error(err);
 			<span class="hljs-keyword">return</span> callback(err);
 		}
-
 		<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, data, response);
 	}
 
+	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {
+		<span class="hljs-keyword">return</span> oauthClient.get(url, token, secret, cbWithDataAndResponse);
+	}
+
+	<span class="hljs-keyword">if</span> ( oauthMethod ) {
+		logger.info(<span class="hljs-string">'DATA: '</span> + qs.stringify(requestData));
+		<span class="hljs-keyword">return</span> oauthMethod(url, token, secret, requestData,
+			<span class="hljs-string">'application/x-www-form-urlencoded'</span>, cbWithDataAndResponse);
+	}
+
+	<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Unsupported HTTP verb: '</span> + httpMethod));
 }</pre></div>
         
       
@@ -448,7 +461,7 @@ the XML response back instead of a redirect to the track download.</p>
 
         
           <div class='highlight'><pre>	<span class="hljs-keyword">if</span> (url.indexOf(<span class="hljs-string">'track/preview'</span>) &gt;= <span class="hljs-number">0</span>) {
-		data.redirect = <span class="hljs-string">"false"</span>;
+		data.redirect = <span class="hljs-string">'false'</span>;
 	}
 
 	<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {
@@ -500,14 +513,14 @@ currently does not set CORS headers.</p>
 		<span class="hljs-keyword">var</span> responseBuffer = <span class="hljs-string">''</span>;
 
 		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> response.setEncoding === <span class="hljs-string">'function'</span>) {
-			response.setEncoding(<span class="hljs-string">"utf8"</span>);
+			response.setEncoding(<span class="hljs-string">'utf8'</span>);
 		}
 
-		response.on(<span class="hljs-string">"data"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bufferData</span><span class="hljs-params">(chunk)</span> </span>{
+		response.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bufferData</span><span class="hljs-params">(chunk)</span> </span>{
 			responseBuffer += chunk;
 		});
 
-		response.on(<span class="hljs-string">"end"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endResponse</span><span class="hljs-params">()</span> </span>{
+		response.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endResponse</span><span class="hljs-params">()</span> </span>{
 			<span class="hljs-keyword">if</span> (+response.statusCode &gt;= <span class="hljs-number">400</span>) {
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiHttpError(
 					response.statusCode, responseBuffer));
@@ -541,7 +554,7 @@ if we get an end event on the response.</p>
 }
 
 <span class="hljs-built_in">module</span>.exports.get = get;
-<span class="hljs-built_in">module</span>.exports.post = post;
+<span class="hljs-built_in">module</span>.exports.postOrPut = postOrPut;
 <span class="hljs-built_in">module</span>.exports.createHeaders = createHeaders;
 <span class="hljs-built_in">module</span>.exports.prepare = prepare;
 <span class="hljs-built_in">module</span>.exports.dispatch = dispatch;

@@ -23,13 +23,6 @@
               
                 
                 <li>
-                  <a class="source" href="create-user.html">
-                    create-user.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -58,15 +51,29 @@
               
                 
                 <li>
-                  <a class="source" href="trackpreview.html">
-                    trackpreview.js
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="two-legged.html">
-                    two-legged.js
+                  <a class="source" href="user-authentication.html">
+                    user-authentication.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-locker.html">
+                    user-locker.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-management.html">
+                    user-management.js
                   </a>
                 </li>
               
@@ -189,7 +196,7 @@ secret and the necessary options for authenticating with the
 	oauthsecret, headers)</span> </span>{
 
 	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OAuthClient(
-				<span class="hljs-string">'http://api.7digital.com/1.2/oauth/requesttoken'</span>,
+				<span class="hljs-string">'https://api.7digital.com/1.2/oauth/requesttoken'</span>,
 				accessTokenUrl,
 				oauthkey, oauthsecret, <span class="hljs-string">'1.0'</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">'HMAC-SHA1'</span>, <span class="hljs-number">32</span>, headers);
 }

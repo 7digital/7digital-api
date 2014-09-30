@@ -23,13 +23,6 @@
               
                 
                 <li>
-                  <a class="source" href="create-user.html">
-                    create-user.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -58,15 +51,29 @@
               
                 
                 <li>
-                  <a class="source" href="trackpreview.html">
-                    trackpreview.js
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="two-legged.html">
-                    two-legged.js
+                  <a class="source" href="user-authentication.html">
+                    user-authentication.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-locker.html">
+                    user-locker.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-management.html">
+                    user-management.js
                   </a>
                 </li>
               
@@ -214,7 +221,7 @@ caller.</p>
 		<span class="hljs-keyword">return</span>;
 	}
 
-	<span class="hljs-keyword">if</span> (opts.contentType.indexOf(<span class="hljs-string">'json'</span>) &gt;= <span class="hljs-number">0</span>) {
+	<span class="hljs-keyword">if</span> (opts.contentType &amp;&amp; opts.contentType.indexOf(<span class="hljs-string">'json'</span>) &gt;= <span class="hljs-number">0</span>) {
 		<span class="hljs-keyword">try</span> {
 			result = <span class="hljs-built_in">JSON</span>.parse(response);
 		} <span class="hljs-keyword">catch</span> (e) {

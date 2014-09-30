@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>user-locker.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>user-locker.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="customconfig.html">
+                    customconfig.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="default-action.html">
+                    default-action.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth.html">
+                    oauth.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="simpleclient.html">
+                    simpleclient.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-authentication.html">
+                    user-authentication.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-locker.html">
+                    user-locker.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-management.html">
+                    user-management.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="actionhelper.html">
+                    actionhelper.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="api.html">
+                    api.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cache.html">
+                    cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="errors.html">
+                    errors.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.html">
+                    helpers.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="logger.html">
+                    logger.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="noop-cache.html">
+                    noop-cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth.html">
+                    oauth.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="request.html">
+                    request.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="resource.html">
+                    resource.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="responseparser.html">
+                    responseparser.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>Module dependencies</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> async = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-uuid'</span>);</pre></div>
+        
+      
+        
+        <p>Consumer key and secret
+Replace these with your key</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
+<span class="hljs-keyword">var</span> consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET;
+<span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
+	consumerkey: consumerkey,
+	consumersecret: consumersecret,
+	defaultParams: {</pre></div>
+        
+      
+        
+        <p>If your key is locked to a country you must add it here:
+country: ‘us’</p>
+
+        
+          <div class='highlight'><pre>	}
+});
+<span class="hljs-keyword">var</span> oauth = <span class="hljs-keyword">new</span> api.OAuth();
+<span class="hljs-keyword">var</span> user = <span class="hljs-keyword">new</span> api.User();
+<span class="hljs-keyword">var</span> username, password, requestToken, requestSecret;
+
+async.waterfall([
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createUser</span><span class="hljs-params">(cb)</span> </span>{
+		username = <span class="hljs-string">'node-client-test-'</span> + uuid.v4() + <span class="hljs-string">'@7digital.com'</span>;
+		password = <span class="hljs-string">'top-secret'</span>;
+		user.signup({
+			emailAddress: username,
+			password: password
+		}, cb);
+	},
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">(userResponse, cb)</span> </span>{
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Created user '</span> + username);
+		<span class="hljs-built_in">console</span>.info(userResponse);</pre></div>
+        
+      
+        
+        <p>Get a request token using the oauth helper</p>
+
+        
+          <div class='highlight'><pre>		oauth.getRequestToken(<span class="hljs-string">'http://callbackurl.com/'</span>, cb);
+	},
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span><span class="hljs-params">(reqTok, reqSec, authUrl, cb)</span> </span>{</pre></div>
+        
+      
+        
+        <p>Log the request token and secret</p>
+
+        
+          <div class='highlight'><pre>		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Received Request Token and Secret'</span>);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Request Token: %s'</span>, reqTok);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Request Secret: %s'</span>, reqSec);
+
+		requestToken = reqTok;
+		requestSecret = reqSec;</pre></div>
+        
+      
+        
+        <p>NOTE: this simulates the step where the user is sent to
+account.7digital.com to authorise the 3-legged access</p>
+
+        
+          <div class='highlight'><pre>		oauth.authoriseRequestToken({
+			username: username,
+			password: password,
+			token: requestToken
+		}, cb);
+	},
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">continueAfterAuthorisation</span><span class="hljs-params">(cb)</span> </span>{</pre></div>
+        
+      
+        
+        <p>Get an access token using the oauth helper using the authorised
+request token and secret</p>
+
+        
+          <div class='highlight'><pre>		oauth.getAccessToken({
+			requesttoken: requestToken,
+			requestsecret: requestSecret
+		}, cb);
+	},
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logTheAccessToken</span><span class="hljs-params">(accessToken, accessSecret, cb)</span> </span>{</pre></div>
+        
+      
+        
+        <p>Log the access token and secret</p>
+
+        
+          <div class='highlight'><pre>		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Received Access Token and Secret'</span>);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Access Token: %s'</span>, accessToken);
+		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Access Secret: %s'</span>, accessSecret);
+
+		user.getLocker({
+			accesstoken: accessToken,
+			accesssecret: accessSecret,
+			pageSize: <span class="hljs-number">1</span>
+		}, cb);
+	},
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showLocker</span><span class="hljs-params">(lockerResponse, cb)</span> </span>{
+		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully accessed the user\'s locker: '</span>);
+		<span class="hljs-built_in">console</span>.log(util.inspect(lockerResponse, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+
+		cb();
+	}
+], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err)</span> </span>{
+	<span class="hljs-keyword">if</span> (err) {
+		<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'An error occurred:'</span>);
+		<span class="hljs-built_in">console</span>.error(util.inspect(err.stack, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+		<span class="hljs-keyword">return</span> process.exit(<span class="hljs-number">1</span>);
+	}
+	process.exit(<span class="hljs-number">0</span>);
+});</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -23,13 +23,6 @@
               
                 
                 <li>
-                  <a class="source" href="create-user.html">
-                    create-user.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -58,15 +51,29 @@
               
                 
                 <li>
-                  <a class="source" href="trackpreview.html">
-                    trackpreview.js
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="two-legged.html">
-                    two-legged.js
+                  <a class="source" href="user-authentication.html">
+                    user-authentication.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-locker.html">
+                    user-locker.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-management.html">
+                    user-management.js
                   </a>
                 </li>
               
@@ -165,33 +172,49 @@
     var api= require(‘7digital-api’);</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>);
-<span class="hljs-keyword">var</span> basket = <span class="hljs-keyword">new</span> api.Basket();</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> voucherCode = process.env.NODE_API_CLIENT_TESTS_VOUCHER_CODE;
+<span class="hljs-keyword">var</span> consumerKey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
+<span class="hljs-keyword">var</span> consumerSecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET;
+<span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
+	consumerkey: consumerKey,
+	consumersecret: consumerSecret
+});
+<span class="hljs-keyword">var</span> basket = <span class="hljs-keyword">new</span> api.Basket();
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logResult</span><span class="hljs-params">(err, res)</span> </span>{
+	<span class="hljs-keyword">if</span> (err) {
+		<span class="hljs-built_in">console</span>.error(err);
+	}
+	<span class="hljs-built_in">console</span>.dir(res);
+}</pre></div>
         
       
         
         <p>Make a request using the wrapper and process the result</p>
 
         
-          <div class='highlight'><pre>basket.create({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span><span class="hljs-params">(err, data)</span> </span>{
+          <div class='highlight'><pre>basket.create({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span><span class="hljs-params">(err, res)</span> </span>{
 	<span class="hljs-keyword">var</span> basketId;
-	<span class="hljs-keyword">if</span> (err) {
-		<span class="hljs-built_in">console</span>.log(err);
-		<span class="hljs-keyword">return</span>;
-	}
-	<span class="hljs-built_in">console</span>.dir(data);
+	logResult(err, res);
+	<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span>; }
 
-	basketId = data.basket.id;
+	basketId = res.basket.id;
 
-	basket.applyVoucher({ baketId: basketId, voucherCode: <span class="hljs-string">''</span> },
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, result)</span> </span>{
-			<span class="hljs-keyword">if</span> (err) {
-				<span class="hljs-built_in">console</span>.log(err);
-				<span class="hljs-keyword">return</span>;
-			}
+	basket.addItem({
+		basketId: basketId,
+		releaseId: <span class="hljs-number">769006</span>,
+		trackId: <span class="hljs-number">13166687</span> <span class="hljs-comment">// Test content</span>
+	}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, res)</span> </span>{
+		logResult(err, res);
+		<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span>; }
 
-			<span class="hljs-built_in">console</span>.dir(result);
-		});
+		basket.applyVoucher({ basketId: basketId, voucherCode: voucherCode },
+			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, result)</span> </span>{
+				logResult(err, result);
+				<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span>; }
+			});
+
+	});
 });</pre></div>
         
       
