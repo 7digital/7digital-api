@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var assert = require('chai').assert;
 var request = require('../lib/request');
 
@@ -30,6 +31,17 @@ describe('request', function () {
 			assert.equal(preparedData.someParam, '20050603');
 		});
 
+	});
+
+	describe('dispatchSecure', function () {
+
+		it('calls back with an error for unknown verbs', function (done) {
+			var logger = { info: _.noop, error: _.noop };
+			request.dispatchSecure('', 'BLAH', {}, {}, null, {}, {}, logger, function (err) {
+				assert(err);
+				done();
+			});
+		});
 	});
 
 });

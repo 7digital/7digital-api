@@ -166,7 +166,6 @@
 						"oauth": "2-legged",
 						"method": "GET"
 					}
-
 				]
 			},
 		"Users":
@@ -177,6 +176,12 @@
 					{
 						"apiCall" : "",
 						"methodName" : "find"
+					},
+					{
+						"apiCall": ":id/update",
+						"methodName": "update",
+						"oauth": "3-legged",
+						"method": "PUT"
 					}
 				]
 			},
