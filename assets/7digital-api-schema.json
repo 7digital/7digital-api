@@ -165,8 +165,13 @@
 						"methodName": "getDetails",
 						"oauth": "2-legged",
 						"method": "GET"
+					},
+					{
+						"apiCall": "authenticate",
+						"methodName": "authenticate",
+						"oauth": "2-legged",
+						"method": "POST"
 					}
-
 				]
 			},
 		"Users":
@@ -177,6 +182,12 @@
 					{
 						"apiCall" : "",
 						"methodName" : "find"
+					},
+					{
+						"apiCall": ":id/update",
+						"methodName": "update",
+						"oauth": "3-legged",
+						"method": "PUT"
 					}
 				]
 			},
