@@ -165,6 +165,12 @@
 						"methodName": "getDetails",
 						"oauth": "2-legged",
 						"method": "GET"
+					},
+					{
+						"apiCall": "authenticate",
+						"methodName": "authenticate",
+						"oauth": "2-legged",
+						"method": "POST"
 					}
 				]
 			},
