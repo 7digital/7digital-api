@@ -182,7 +182,8 @@
 					{
 						"apiCall" : "",
 						"methodName" : "find",
-						"oauth": "3-legged"
+						"oauth": "2-legged",
+						"method": "GET"
 					},
 					{
 						"apiCall": ":id/update",
