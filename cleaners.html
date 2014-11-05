@@ -175,7 +175,7 @@
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">arrayify</span><span class="hljs-params">(items)</span> </span>{
-	<span class="hljs-keyword">return</span> items.length ? items : [items];
+	<span class="hljs-keyword">return</span> (items.length !== <span class="hljs-literal">undefined</span>) ? items : [items];
 }</pre></div>
         
       
