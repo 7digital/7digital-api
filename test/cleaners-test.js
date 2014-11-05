@@ -71,6 +71,22 @@ describe('cleaners', function () {
 			assert.lengthOf(cleaned.basket.basketItems, 0);
 		});
 
+		it('returns an empty collection for empty locker case', function () {
+			var response = require('./responses/parsed/locker-release-no-tracks.json');
+			var cleaned = cleaners.ensureCollections([
+				'locker.lockerReleases.lockerRelease',
+				'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack'
+			], response);
+			assert.instanceOf(cleaned.locker.lockerReleases.lockerRelease, Array);
+			assert.lengthOf(cleaned.locker.lockerReleases.lockerRelease, 1);
+			assert.instanceOf(
+				cleaned.locker.lockerReleases.lockerRelease[0].lockerTracks.lockerTrack,
+				Array);
+			assert.lengthOf(
+				cleaned.locker.lockerReleases.lockerRelease[0].lockerTracks.lockerTrack,
+				0);
+		});
+
 	});
 
 	describe('renameTextNodes', function () {
