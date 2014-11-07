@@ -1,17 +1,17 @@
 'use strict';
 var assert = require('chai').assert;
-var actionhelper = require('../lib/actionhelper');
+var parameters = require('../lib/parameters');
 
 describe('templateParams', function () {
 
 	it('returns a parameters for a templated url', function () {
 		var url = 'foo/:bar/baz';
-		assert.deepEqual(actionhelper.templateParams(url), [ ':bar' ]);
+		assert.deepEqual(parameters.templateParams(url), [ ':bar' ]);
 	});
 
 	it('should return false for a url with out params', function () {
 		var url = 'foo/bar/baz';
-		assert.isNull(actionhelper.templateParams(url));
+		assert.isNull(parameters.templateParams(url));
 	});
 
 });
@@ -26,7 +26,7 @@ describe('template', function () {
 			remaining: 'param'
 		};
 
-		assert.strictEqual(actionhelper.template(template, params),
+		assert.strictEqual(parameters.template(template, params),
 			'foo/hello/baz/world');
 		assert.deepEqual(params, { remaining: 'param' });
 	});
@@ -38,7 +38,7 @@ describe('template', function () {
 		};
 
 		assert.throws(function () {
-			actionhelper.template(template, params);
+			parameters.template(template, params);
 		});
 	});
 
