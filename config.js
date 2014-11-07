@@ -1,7 +1,6 @@
 'use strict';
 
-var path = require('path'),
-	noopCache = require('./lib/noop-cache');
+var path = require('path');
 
 module.exports = {
 	// Your API consumer key for accessing oauth secured endpoints
@@ -34,10 +33,6 @@ module.exports = {
 	//
 	// @type {Boolean} whether user management is enabled for your key.
 	userManagement: false,
-	// A response cache client
-	//
-	// @type {Object} An object providing get and set functions.
-	cache: require('./lib/noop-cache'),
 	// A hash of parameters to provide with every GET request made to the API
 	//
 	// @type {Object} A hash contining querystring parameters

@@ -89,11 +89,11 @@ describe('cleaners', function () {
 
 	});
 
-	describe('renameTextNodes', function () {
+	describe('renameCardTypes', function () {
 
 		it('names the payment card text node', function () {
 			var response = require('./responses/parsed/payment-card-type.json');
-			var cleaned = cleaners.renameTextNodes(response);
+			var cleaned = cleaners.renameCardTypes(response);
 			assert.instanceOf(cleaned.cardTypes.cardType, Array);
 			assert.equal(cleaned.cardTypes.cardType[0].name, 'Mastercard');
 			assert.equal(cleaned.cardTypes.cardType[0].id, 'MASTERCARD');
