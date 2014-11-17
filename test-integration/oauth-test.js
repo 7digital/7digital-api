@@ -2,6 +2,7 @@
 
 var assert = require('chai').assert;
 var https = require('https');
+var uncachedRequire = require('../test/util').uncachedRequire;
 
 function die(msg) {
 	throw new Error(msg);
@@ -12,31 +13,28 @@ function fromEnvOrDie(key) {
 }
 
 describe('api when oauth is required', function () {
-	var consumerKey, consumerSecret, voucherCode, preOAuthedToken, userToken,
-		userSecret, api;
+	var voucherCode, userToken, userSecret, api;
 
 	before(function () {
-		consumerKey = fromEnvOrDie('NODE_API_CLIENT_TESTS_CONSUMER_KEY');
-		consumerSecret = fromEnvOrDie('NODE_API_CLIENT_TESTS_CONSUMER_SECRET');
-		voucherCode = fromEnvOrDie('NODE_API_CLIENT_TESTS_VOUCHER_CODE');
-		userToken = fromEnvOrDie('NODE_API_CLIENT_TESTS_USER_TOKEN');
-		userSecret = fromEnvOrDie('NODE_API_CLIENT_TESTS_USER_SECRET');
+		fromEnvOrDie('_7D_API_CLIENT_CONSUMER_KEY');
+		fromEnvOrDie('_7D_API_CLIENT_CONSUMER_SECRET');
+		voucherCode = fromEnvOrDie('_7D_API_CLIENT_TEST_VOUCHER_CODE');
+		userToken = fromEnvOrDie('_7D_API_CLIENT_USER_TOKEN');
+		userSecret = fromEnvOrDie('_7D_API_CLIENT_USER_SECRET');
 
-		// Clear the module cache to get a fresh API - other int tests mutate
-		// the schema
-		require('module')._cache = {};
-		api = require('../index').configure({
-			consumerkey: consumerKey,
-			consumersecret: consumerSecret
-		});
+		api = uncachedRequire('../index');
 	});
 
 	it('propagates errors when unauthorised (2-legged)', function (done) {
-		var unauthedApi = require('../index');
+		var unauthedApi = uncachedRequire('../index').configure({
+			consumerkey: '',
+			consumersecret: ''
+		});
 		var basketApi = new unauthedApi.Basket();
 
 		basketApi.applyVoucher({}, function (err, rs) {
 			assert.ok(err, 'no error returned from api');
+			console.log(err);
 			assert.match(err.data, /oauth/i,
 				'error message did not mention oauth');
 			done();
