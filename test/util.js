@@ -6,7 +6,7 @@ function uncachedRequire(id) {
 }
 
 function withEnv(key, value, fn) {
-	var envVarMap, err;
+	var envVarMap, err, retVal;
 
 	if (typeof key === 'object') {
 		envVarMap = key;
@@ -21,7 +21,7 @@ function withEnv(key, value, fn) {
 	});
 
 	try {
-		fn();
+		retVal = fn();
 	} catch(e) {
 		err = e;
 	} finally {
@@ -33,6 +33,8 @@ function withEnv(key, value, fn) {
 	if (err) {
 		throw err;
 	}
+
+	return retVal;
 }
 
 module.exports = exports = {
