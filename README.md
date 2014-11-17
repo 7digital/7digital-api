@@ -210,6 +210,25 @@ api.User().create({
 });
 ```
 
+### Using the environment to configure the client
+
+The client will check the environment for the following variables which makes
+it easy to keep your key/secret secret:
+
+- '_7D_API_CLIENT_CONSUMER_KEY' - defaults to 'YOUR_KEY_HERE'
+- '_7D_API_CLIENT_CONSUMER_SECRET' - defaults to 'YOUR_SECRET_HERE'
+
+The client will check the environment for the following variables which makes
+controlling the behaviour per-environment easier (e.g. in tests) with out 
+having to branch in your application code:
+
+- '_7D_API_CLIENT_HOST' - defaults to 'api.7digital.com'
+- '_7D_API_CLIENT_PORT' - defaults to 80
+- '_7D_API_CLIENT_PREFIX' - defaults to '1.2'
+
+Note that these variables have the lowest precedence (apart from defaults).
+I.E. overriding them in application code will take precendence.
+
 ### Running the tests
 
 To run the unit tests:
