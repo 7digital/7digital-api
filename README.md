@@ -210,6 +210,27 @@ api.User().create({
 });
 ```
 
+### Using the environment to configure the client
+
+The client will check the environment for the following variables which makes
+it possible to keep your key and secret actually secret:
+
+- `_7D_API_CLIENT_CONSUMER_KEY` - defaults to 'YOUR_KEY_HERE'
+- `_7D_API_CLIENT_CONSUMER_SECRET` - defaults to 'YOUR_SECRET_HERE'
+- `_7D_API_CLIENT_USER_TOKEN` - is not set by default
+- `_7D_API_CLIENT_USER_SECRET` - is not set by default
+
+The client will check the environment for the following variables which makes
+controlling the behaviour per-environment easier (e.g. in tests) with out 
+having to branch in your application code:
+
+- `_7D_API_CLIENT_HOST` - defaults to 'api.7digital.com'
+- `_7D_API_CLIENT_PORT` - defaults to 80
+- `_7D_API_CLIENT_PREFIX` - defaults to '1.2'
+
+Note that these variables have the lowest precedence (apart from defaults).
+I.E. overriding them in application code will take precendence.
+
 ### Running the tests
 
 To run the unit tests:
@@ -223,27 +244,14 @@ with:
     npm install git://github.com/7digital/api-stub.git
 
 Some of the integration tests (around the client's handling of OAuth) run
-against the real 7d api. In order for these tests to work, several environment
-variables need to be set:
+against the real 7d api. In order for these tests to work, you'll need to set
+the environment variables outlined above. As well as the following:
 
-- `NODE_API_CLIENT_TESTS_CONSUMER_KEY`
-- `NODE_API_CLIENT_TESTS_CONSUMER_SECRET`
-
-Your 7d api key and secret, which can be obtained from
-https://api-signup.7digital.com
-
-- `NODE_API_CLIENT_TESTS_VOUCHER_CODE`
+- `_7D_API_CLIENT_TEST_VOUCHER_CODE`
 
 The code for a voucher which can be applied to a basket containing an item of
 1p, used for a two-legged OAuth test.
 
-- `NODE_API_CLIENT_TESTS_USER_TOKEN`
-- `NODE_API_CLIENT_TESTS_USER_SECRET`
+The tests can then be run with:
 
-A token and secret for access to any user's resources for a given consumer key
-and secret. These are used for 3-legged OAuth tests, and can be obtained by
-running `node ./examples/oauth.js` and following the prompts.
-
-If these vars are set, the tests can then be run with:
-
-    mocha spec-integration/
+    npm run integration-test

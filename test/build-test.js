@@ -1,10 +1,12 @@
 'use strict';
 
+var _ = require('lodash');
 var assert = require('chai').assert;
 var Api = require('../lib/api').Api;
+var withEnv = require('./util').withEnv;
 
-describe('API.build', function() {
-	var schema = {
+function createSchema() {
+	return _.cloneDeep({
 		"host": "api.example.com",
 		"prefix": "1.0",
 		"resources":
@@ -33,9 +35,14 @@ describe('API.build', function() {
 					]
 				}
 			}
-		}, api, testApi;
+		});
+}
+
+describe('API.build', function() {
+	var schema, api, testApi;
 
 	beforeEach(function() {
+		schema = createSchema();
 		api = Api.build({
 			consumerkey: 'YOUR_KEY_HERE',
 			consumersecret: 'YOUR_SECRET_HERE',
@@ -96,6 +103,64 @@ describe('API.build', function() {
 		assert.strictEqual(other.isOverridden.host, 'api.acme.com');
 		assert.strictEqual(other.isOverridden.prefix, 'foo');
 		assert.strictEqual(other.isOverridden.port, 3000);
+	});
+
+	it('overrides the API host, prefix and port from the environment',
+		function () {
+		var vars = {
+			'_7D_API_CLIENT_HOST': 'localhost',
+			'_7D_API_CLIENT_PORT': '8000',
+			'_7D_API_CLIENT_PREFIX': 'empty'
+		};
+
+		withEnv(vars, function () {
+			var api = Api.build({
+			consumerkey: 'testkey',
+			consumersecret: 'testsecret',
+			format: 'json',
+			logger: { silly: function () {} }
+		}, schema);
+			var testApi = new api.Test();
+			assert.strictEqual(testApi.host, 'localhost');
+			assert.strictEqual(testApi.prefix, '');
+			assert.strictEqual(testApi.port, 8000);
+		});
+	});
+
+	it('ignores non-number ports from the environment',
+		function () {
+		var vars = {
+			'_7D_API_CLIENT_PORT': 'not-a-number'
+		};
+
+		withEnv(vars, function () {
+			var api = Api.build({
+			consumerkey: 'testkey',
+			consumersecret: 'testsecret',
+			format: 'json',
+			logger: { silly: function () {} }
+		}, schema);
+			var testApi = new api.Test();
+			assert.isUndefined(testApi.port);
+		});
+	});
+
+	it('sets prefix to empty string when environment is \'empty\'',
+		function () {
+		var vars = {
+			'_7D_API_CLIENT_PREFIX': 'empty'
+		};
+
+		withEnv(vars, function () {
+			var api = Api.build({
+			consumerkey: 'testkey',
+			consumersecret: 'testsecret',
+			format: 'json',
+			logger: { silly: function () {} }
+		}, schema);
+			var testApi = new api.Test();
+			assert.strictEqual(testApi.prefix, '');
+		});
 	});
 
 	it('creates a method for each action', function() {
