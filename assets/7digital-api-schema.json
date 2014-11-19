@@ -1,5 +1,6 @@
 {
 	"host": "api.7digital.com",
+	"sslHost": "api.7digital.com",
 	"prefix": "1.2",
 	"resources":
 		{
