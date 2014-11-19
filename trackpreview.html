@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>default-action.js</title>
+  <title>trackpreview.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -13,13 +13,20 @@
 
       <div class="header">
         
-          <h1>default-action.js</h1>
+          <h1>trackpreview.js</h1>
         
 
         
           <div class="toc">
             <h3>Table of Contents</h3>
             <ol>
+              
+                
+                <li>
+                  <a class="source" href="create-user.html">
+                    create-user.js
+                  </a>
+                </li>
               
                 
                 <li>
@@ -51,6 +58,13 @@
               
                 
                 <li>
+                  <a class="source" href="trackpreview.html">
+                    trackpreview.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="two-legged.html">
                     two-legged.js
                   </a>
@@ -58,22 +72,8 @@
               
                 
                 <li>
-                  <a class="source" href="user-authentication.html">
-                    user-authentication.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="user-locker.html">
-                    user-locker.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="user-management.html">
-                    user-management.js
+                  <a class="source" href="actionhelper.html">
+                    actionhelper.js
                   </a>
                 </li>
               
@@ -81,6 +81,13 @@
                 <li>
                   <a class="source" href="api.html">
                     api.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cache.html">
+                    cache.js
                   </a>
                 </li>
               
@@ -114,15 +121,15 @@
               
                 
                 <li>
-                  <a class="source" href="oauth.html">
-                    oauth.js
+                  <a class="source" href="noop-cache.html">
+                    noop-cache.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="parameters.html">
-                    parameters.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
@@ -159,14 +166,14 @@
 
         
           <div class='highlight'><pre><span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>);
-<span class="hljs-keyword">var</span> tags = <span class="hljs-keyword">new</span> api.Tags();</pre></div>
+<span class="hljs-keyword">var</span> tracks = <span class="hljs-keyword">new</span> api.Tracks();</pre></div>
         
       
         
         <p>Make a request using the wrapper and process the result</p>
 
         
-          <div class='highlight'><pre>tags.all({}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processTags</span><span class="hljs-params">(err, data)</span> </span>{
+          <div class='highlight'><pre>tracks.getPreview({ trackId: <span class="hljs-number">12345</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processPreview</span><span class="hljs-params">(err, data)</span> </span>{
 	<span class="hljs-keyword">if</span> (err) {
 		<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(err);
 	}

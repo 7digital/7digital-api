@@ -79,22 +79,8 @@
               
                 
                 <li>
-                  <a class="source" href="actionhelper.html">
-                    actionhelper.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="api.html">
                     api.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="cache.html">
-                    cache.js
                   </a>
                 </li>
               
@@ -128,15 +114,15 @@
               
                 
                 <li>
-                  <a class="source" href="noop-cache.html">
-                    noop-cache.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="oauth.html">
-                    oauth.js
+                  <a class="source" href="parameters.html">
+                    parameters.js
                   </a>
                 </li>
               
@@ -174,9 +160,8 @@
 
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
 <span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
-<span class="hljs-keyword">var</span> actionhelper = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./actionhelper'</span>);
+<span class="hljs-keyword">var</span> parameters = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./parameters'</span>);
 <span class="hljs-keyword">var</span> ApiHttpError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiHttpError;
-<span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cache'</span>);
 <span class="hljs-keyword">var</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 <span class="hljs-keyword">var</span> helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>);
@@ -249,80 +234,33 @@
 <li>@param {Object} headers - Custom headers for this request.</li>
 <li>@param {Object} credentials - OAuth consumerkey and consumersecret.</li>
 <li>@param {Object} logger - An object implementing the npm log levels.</li>
-<li>@param {Object} theCache - A response cache.</li>
 <li>@param {Function} callback - The callback to call with the response.</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger, theCache,
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger,
 	callback)</span> </span>{
 
 	<span class="hljs-keyword">var</span> normalisedData = prepare(requestData, credentials.consumerkey);
 	<span class="hljs-keyword">var</span> fullUrl = endpointInfo.url + <span class="hljs-string">'?'</span> + qs.stringify(normalisedData);
-	<span class="hljs-keyword">var</span> cacheKey = cache.generateCacheKeyFromUrl(fullUrl);
 	<span class="hljs-keyword">var</span> hostInfo = {
 		host: endpointInfo.host,
 		port: endpointInfo.port
-	};
-
-	theCache.get(cacheKey, checkCacheResult);
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkCacheResult</span><span class="hljs-params">(err, cached)</span> </span>{
-		<span class="hljs-keyword">var</span> cachedResponse;
-
-		<span class="hljs-keyword">if</span> (err) {
-			logger.error(<span class="hljs-string">'Error checking cache for %s'</span>, cacheKey);
-			logger.error(err);
-			<span class="hljs-keyword">return</span> callback(err);
-		}
-
-		<span class="hljs-keyword">if</span> (cached) {
-			logger.info(<span class="hljs-string">'Cache hit for %s'</span>, cacheKey);
-			<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, cached.body, { headers: cached.headers });
-		}</pre></div>
+	};</pre></div>
         
       
         
         <p>Decide whether to make an oauth signed request or not</p>
 
         
-          <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (endpointInfo.authtype) {
-			dispatchSecure(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData, headers,
-				endpointInfo.authtype, hostInfo, credentials, logger,
-				cacheAndCallback);
-		} <span class="hljs-keyword">else</span> {
-			dispatch(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData, headers, hostInfo,
-				credentials, logger, cacheAndCallback);
-		}
-
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cacheAndCallback</span><span class="hljs-params">(err, requestData, response)</span> </span>{
-			<span class="hljs-keyword">var</span> ttl, cacheObj;
-			<span class="hljs-keyword">if</span> (err) {
-				<span class="hljs-keyword">return</span> callback(err);
-			}
-
-			ttl = cache.parseMaxAgeHeader(response);
-
-			<span class="hljs-keyword">if</span> (ttl) {
-				cacheObj = {
-					headers: response.headers,
-					body: requestData
-				};
-				theCache.set(cacheKey, cacheObj, ttl, callbackWithResult);
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, requestData, response);
-			}
-
-			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackWithResult</span><span class="hljs-params">(err)</span> </span>{
-				<span class="hljs-keyword">if</span> (err) {
-					logger.error(<span class="hljs-string">'Error setting %s to cache'</span>, cacheKey);
-					logger.error(err);
-					<span class="hljs-keyword">return</span> callback(err);
-				}
-
-				logger.info(<span class="hljs-string">'Cached %s for %s seconds'</span>, cacheKey, ttl);
-				<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, requestData, response);
-			}
-		}
+          <div class='highlight'><pre>	<span class="hljs-keyword">if</span> (endpointInfo.authtype) {
+		hostInfo.host = endpointInfo.sslHost;
+		dispatchSecure(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData, headers,
+			endpointInfo.authtype, hostInfo, credentials, logger,
+			callback);
+	} <span class="hljs-keyword">else</span> {
+		dispatch(endpointInfo.url, <span class="hljs-string">'GET'</span>, requestData, headers, hostInfo,
+			credentials, logger, callback);
 	}
 }</pre></div>
         
@@ -340,13 +278,16 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postOrPut</span><span class="hljs-params">(httpMethod, endpointInfo, requestData, headers, credentials, logger, callback)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postOrPut</span><span class="hljs-params">(httpMethod, endpointInfo, requestData, headers, credentials,
+	logger, callback)</span> </span>{
+
 	<span class="hljs-keyword">var</span> hostInfo = {
 		host: endpointInfo.host,
 		port: endpointInfo.port
 	};
 
 	<span class="hljs-keyword">if</span> (endpointInfo.authtype) {
+		hostInfo.host = endpointInfo.sslHost;
 		dispatchSecure(endpointInfo.url, httpMethod, requestData, headers,
 			endpointInfo.authtype, hostInfo, credentials, logger, callback);
 	} <span class="hljs-keyword">else</span> {
@@ -359,7 +300,7 @@
 	<span class="hljs-keyword">var</span> querystring = httpMethod === <span class="hljs-string">'GET'</span>
 		? <span class="hljs-string">'?'</span> + qs.stringify(requestData)
 		: <span class="hljs-string">''</span>;
-	path = actionhelper.template(path, requestData);
+	path = parameters.template(path, requestData);
 	<span class="hljs-keyword">return</span> <span class="hljs-string">'https://'</span> + hostInfo.host + <span class="hljs-string">':'</span> + hostInfo.port + path + querystring;
 }</pre></div>
         

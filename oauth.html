@@ -79,22 +79,8 @@
               
                 
                 <li>
-                  <a class="source" href="actionhelper.html">
-                    actionhelper.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="api.html">
                     api.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="cache.html">
-                    cache.js
                   </a>
                 </li>
               
@@ -128,15 +114,15 @@
               
                 
                 <li>
-                  <a class="source" href="noop-cache.html">
-                    noop-cache.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="oauth.html">
-                    oauth.js
+                  <a class="source" href="parameters.html">
+                    parameters.js
                   </a>
                 </li>
               
@@ -262,15 +248,15 @@ oAuth.getRequestToken(<span class="hljs-string">'http://acme.com/oauth_cb'</span
         <p>Authorises a request token from the 7digital API for consumers who have
 access to the user management API.  If there is no error the requesttoken
 may be used to gain an access token using <code>getAccessToken</code>.</p>
+<ul>
+<li>@param {Object} requestData</li>
+<li>@param {Function} callback</li>
+</ul>
 <p>The requestData parameter should contain the following</p>
 <ul>
 <li><code>username</code> the email address of the user</li>
 <li><code>password</code> the password for the user’s account</li>
 <li><code>token</code> the request token received from <code>getRequestToken</code></li>
-</ul>
-<ul>
-<li>@param {Object} requestData</li>
-<li>@param {Function} callback</li>
 </ul>
 
         
@@ -329,14 +315,14 @@ oAuth.getAccessToken({
     }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accessSignedEndpoints</span><span class="hljs-params">(err, accessToken, accessSecret)</span> </span>{
         <span class="hljs-comment">// Access the user's locker etc</span>
 });
-</code></pre><p>The requestData parameter should contain the following</p>
+</code></pre><ul>
+<li>@param {Object} requestData</li>
+<li>@param {Function} callback</li>
+</ul>
+<p>The requestData parameter should contain the following</p>
 <ul>
 <li><code>requesttoken</code> an authorised OAuth request token</li>
 <li><code>requestsecret</code> the corresponding OAuth request secret</li>
-</ul>
-<ul>
-<li>@param {Object} requestData</li>
-<li>@param {Function} callback</li>
 </ul>
 
         

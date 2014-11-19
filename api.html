@@ -79,22 +79,8 @@
               
                 
                 <li>
-                  <a class="source" href="actionhelper.html">
-                    actionhelper.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="api.html">
                     api.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="cache.html">
-                    cache.js
                   </a>
                 </li>
               
@@ -128,15 +114,15 @@
               
                 
                 <li>
-                  <a class="source" href="noop-cache.html">
-                    noop-cache.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="oauth.html">
-                    oauth.js
+                  <a class="source" href="parameters.html">
+                    parameters.js
                   </a>
                 </li>
               
@@ -179,8 +165,34 @@
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
 <span class="hljs-keyword">var</span> capitalize = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>).capitalize;
 <span class="hljs-keyword">var</span> _ =  <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
-<span class="hljs-keyword">var</span> noopCache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./noop-cache'</span>);
-<span class="hljs-keyword">var</span> api;</pre></div>
+<span class="hljs-keyword">var</span> api;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configureSchemaFromEnv</span><span class="hljs-params">(schema)</span> </span>{
+	<span class="hljs-keyword">var</span> port;
+
+	<span class="hljs-keyword">if</span> (process.env[ <span class="hljs-string">'_7D_API_CLIENT_HOST'</span>]) {
+		schema.host = process.env[<span class="hljs-string">'_7D_API_CLIENT_HOST'</span>];
+	}
+
+	<span class="hljs-keyword">if</span> (process.env[ <span class="hljs-string">'_7D_API_CLIENT_SSL_HOST'</span>]) {
+		schema.sslHost = process.env[<span class="hljs-string">'_7D_API_CLIENT_SSL_HOST'</span>];
+	}
+
+	<span class="hljs-keyword">if</span> (process.env[<span class="hljs-string">'_7D_API_CLIENT_PORT'</span>]) {
+		port = <span class="hljs-built_in">Number</span>(process.env[<span class="hljs-string">'_7D_API_CLIENT_PORT'</span>]);
+		<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">isNaN</span>(port)) {
+			schema.port = port;
+		}
+	}
+
+	<span class="hljs-keyword">if</span> (process.env[<span class="hljs-string">'_7D_API_CLIENT_PREFIX'</span>]) {
+		<span class="hljs-keyword">if</span> (process.env[<span class="hljs-string">'_7D_API_CLIENT_PREFIX'</span>].toLowerCase() === <span class="hljs-string">'empty'</span>) {
+			schema.prefix = <span class="hljs-string">''</span>;
+		} <span class="hljs-keyword">else</span> {
+			schema.prefix = process.env[<span class="hljs-string">'_7D_API_CLIENT_PREFIX'</span>];
+		}
+	}
+}</pre></div>
         
       
         
@@ -188,19 +200,19 @@
 <p>Creates a new API wrapper from a schema definition</p>
 <ul>
 <li>@param {Object} options - The API options, see below</li>
-<li>@param {Object} schema - The definition of the api resources and actions
-see the assets/7digital-api-schema json file.</li>
+<li><p>@param {Object} schema - The definition of the api resources and actions
+see the assets/7digital-api-schema json file.</p>
+</li>
+<li><p>@constructor</p>
+</li>
+<li>@param {Object} options</li>
 </ul>
 <p>The options parameter should have the following properties:</p>
 <ul>
 <li><code>consumerkey</code> your application’s oauth consumer key</li>
 <li><code>consumersecret</code> your application’s oauth consumer secret</li>
 <li><code>format</code> the response format</li>
-<li><p><code>logger</code> a logger instance for output</p>
-</li>
-<li><p>@constructor</p>
-</li>
-<li>@param {Object} options</li>
+<li><code>logger</code> a logger instance for output</li>
 </ul>
 
         
@@ -215,7 +227,9 @@ see the assets/7digital-api-schema json file.</li>
         
           <div class='highlight'><pre>	_.defaults(options, config);
 	<span class="hljs-keyword">this</span>.options = options;
-	<span class="hljs-keyword">this</span>.schema = schema;</pre></div>
+	<span class="hljs-keyword">this</span>.schema = schema;
+
+	configureSchemaFromEnv(<span class="hljs-keyword">this</span>.schema);</pre></div>
         
       
         
@@ -248,7 +262,6 @@ this is syntactic sugar to allow callers to new up the resources.</p>
 				apiRoot.options.headers);
 			_.defaults(resourceOptions, apiRoot.options);
 
-			<span class="hljs-keyword">this</span>.cache = resourceOptions.cache;
 			<span class="hljs-keyword">this</span>.format = resourceOptions.format;
 			<span class="hljs-keyword">this</span>.logger = resourceOptions.logger;
 			<span class="hljs-keyword">this</span>.defaultParams = resourceOptions.defaultParams;

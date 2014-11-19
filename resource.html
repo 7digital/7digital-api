@@ -79,22 +79,8 @@
               
                 
                 <li>
-                  <a class="source" href="actionhelper.html">
-                    actionhelper.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="api.html">
                     api.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="cache.html">
-                    cache.js
                   </a>
                 </li>
               
@@ -128,15 +114,15 @@
               
                 
                 <li>
-                  <a class="source" href="noop-cache.html">
-                    noop-cache.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="oauth.html">
-                    oauth.js
+                  <a class="source" href="parameters.html">
+                    parameters.js
                   </a>
                 </li>
               
@@ -182,15 +168,19 @@
         <p>A resource on the API, instances of this are used as the prototype of
 instances of each API resource.  This constructor will build up a method
 for each action that can be performed on the resource.</p>
+<ul>
+<li>@param {Object} options</li>
+<li>@param {Object} schema</li>
+</ul>
 <p>The <code>options</code> argument should have the following properties:</p>
 <ul>
-<li>*resourceDefinition - the definition of the resource and its actions from<pre><code>                  the schema definition.
-</code></pre></li>
-<li><em>consumerkey</em> - the oauth consumerkey</li>
-<li><em>consumersecret</em> the oauth consumersecret</li>
-<li><em>schema</em> - the schema defintion</li>
-<li><em>format</em> - the desired response format</li>
-<li><em>logger</em> - for logging output</li>
+<li><code>resourceDefinition</code> - the definition of the resource and its actions from
+the schema definition.</li>
+<li><code>consumerkey</code> - the oauth consumerkey</li>
+<li><code>consumersecret</code> the oauth consumersecret</li>
+<li><code>schema</code> - the schema defintion</li>
+<li><code>format</code> - the desired response format</li>
+<li><code>logger</code> - for logging output</li>
 </ul>
 
         
@@ -198,6 +188,7 @@ for each action that can be performed on the resource.</p>
 	<span class="hljs-keyword">this</span>.logger = options.logger;
 	<span class="hljs-keyword">this</span>.resourceName = options.resourceDefinition.resource;
 	<span class="hljs-keyword">this</span>.host = options.resourceDefinition.host || schema.host;
+	<span class="hljs-keyword">this</span>.sslHost = options.resourceDefinition.sslHost || schema.sslHost;
 	<span class="hljs-keyword">this</span>.port = options.resourceDefinition.port || schema.port;
 	<span class="hljs-keyword">this</span>.prefix = options.resourceDefinition.prefix || schema.prefix;
 	<span class="hljs-keyword">this</span>.consumerkey = options.consumerkey;
@@ -260,6 +251,7 @@ or a hash if they differ.</li>
 			actionDefinition : actionDefinition.apiCall;
 	<span class="hljs-keyword">var</span> httpMethod = (actionDefinition.method || <span class="hljs-string">'GET'</span>).toUpperCase();
 	<span class="hljs-keyword">var</span> host = actionDefinition.host || <span class="hljs-keyword">this</span>.host;
+	<span class="hljs-keyword">var</span> sslHost = actionDefinition.sslHost || <span class="hljs-keyword">this</span>.sslHost;
 	<span class="hljs-keyword">var</span> port = actionDefinition.port || <span class="hljs-keyword">this</span>.port;
 	<span class="hljs-keyword">var</span> prefix = actionDefinition.prefix || <span class="hljs-keyword">this</span>.prefix;
 	<span class="hljs-keyword">var</span> authType = (actionDefinition.oauth
@@ -274,6 +266,7 @@ or a hash if they differ.</li>
 		<span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
 		<span class="hljs-keyword">var</span> endpointInfo = {
 			host: invokeAction.host,
+			sslHost: invokeAction.sslHost || sslHost,
 			port: invokeAction.port,
 			prefix: invokeAction.prefix,
 			authtype: authType,
@@ -320,8 +313,8 @@ or a hash if they differ.</li>
 
         
           <div class='highlight'><pre>			_.defaults(requestData, <span class="hljs-keyword">this</span>.defaultParams);
-			<span class="hljs-keyword">return</span> request.get(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers, credentials,
-				<span class="hljs-keyword">this</span>.logger, <span class="hljs-keyword">this</span>.cache, checkAndParse);
+			<span class="hljs-keyword">return</span> request.get(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers,
+				credentials, <span class="hljs-keyword">this</span>.logger, checkAndParse);
 		}
 
 		<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'POST'</span> || httpMethod === <span class="hljs-string">'PUT'</span>) {
@@ -335,6 +328,7 @@ or a hash if they differ.</li>
 	invokeAction.action = action;
 	invokeAction.authtype = authType;
 	invokeAction.host = host;
+	invokeAction.sslHost = sslHost;
 	invokeAction.port = port;
 	invokeAction.prefix = prefix;
 	<span class="hljs-keyword">this</span>[fnName] = invokeAction;

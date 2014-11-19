@@ -79,22 +79,8 @@
               
                 
                 <li>
-                  <a class="source" href="actionhelper.html">
-                    actionhelper.js
-                  </a>
-                </li>
-              
-                
-                <li>
                   <a class="source" href="api.html">
                     api.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="cache.html">
-                    cache.js
                   </a>
                 </li>
               
@@ -128,15 +114,15 @@
               
                 
                 <li>
-                  <a class="source" href="noop-cache.html">
-                    noop-cache.js
+                  <a class="source" href="oauth.html">
+                    oauth.js
                   </a>
                 </li>
               
                 
                 <li>
-                  <a class="source" href="oauth.html">
-                    oauth.js
+                  <a class="source" href="parameters.html">
+                    parameters.js
                   </a>
                 </li>
               
@@ -225,38 +211,13 @@ an array.</p>
 	<span class="hljs-keyword">return</span> response;
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNodes</span><span class="hljs-params">(response)</span> </span>{
-	_({
-		<span class="hljs-string">'cardTypes.cardType'</span> : <span class="hljs-string">'name'</span>
-	}).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameTextNode</span><span class="hljs-params">(name, item)</span> </span>{
-		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>);
-		<span class="hljs-keyword">var</span> parent = parts[<span class="hljs-number">0</span>];
-		<span class="hljs-keyword">var</span> child = parts[<span class="hljs-number">1</span>];</pre></div>
-        
-      
-        
-        <p>Text nodes are given the key ‘_’ if there are attributes present on
-the node</p>
-
-        
-          <div class='highlight'><pre>		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doRename</span><span class="hljs-params">(obj)</span> </span>{
-			obj[name] = obj._;
-			<span class="hljs-keyword">delete</span> obj._;
-		}
-
-		<span class="hljs-keyword">if</span> (response[parent] &amp;&amp; response[parent][child]) {
-
-			<span class="hljs-keyword">var</span> node = response[parent][child];
-			<span class="hljs-keyword">if</span> (node.length !== <span class="hljs-literal">undefined</span>) {
-				_(node).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(subNode)</span> </span>{
-					doRename(subNode);
-				});
-			} <span class="hljs-keyword">else</span> {
-				doRename(node);
-			}
-
-		}
-	});
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameCardTypes</span><span class="hljs-params">(response)</span> </span>{
+	<span class="hljs-keyword">if</span> (response.cardTypes &amp;&amp; response.cardTypes.cardType) {
+		_(response.cardTypes.cardType).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rename</span><span class="hljs-params">(cardType)</span> </span>{
+			cardType.name = cardType._;
+			<span class="hljs-keyword">delete</span> cardType._;
+		});
+	}
 
 	<span class="hljs-keyword">return</span> response;
 }</pre></div>
@@ -279,7 +240,7 @@ specific nodes that aren’t interesting to consumers.</p>
 }
 
 <span class="hljs-built_in">module</span>.exports.ensureCollections = ensureCollections;
-<span class="hljs-built_in">module</span>.exports.renameTextNodes = renameTextNodes;
+<span class="hljs-built_in">module</span>.exports.renameCardTypes = renameCardTypes;
 <span class="hljs-built_in">module</span>.exports.removeXmlNamespaceKeys = removeXmlNamespaceKeys;</pre></div>
         
       

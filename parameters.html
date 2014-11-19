@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>default-action.js</title>
+  <title>parameters.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -13,7 +13,7 @@
 
       <div class="header">
         
-          <h1>default-action.js</h1>
+          <h1>parameters.js</h1>
         
 
         
@@ -154,25 +154,64 @@
 
       
         
-        <p>Require the API wrapper, if you have npm installed it this would be:
-    var api= require(‘7digital-api’);</p>
-
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>);
-<span class="hljs-keyword">var</span> tags = <span class="hljs-keyword">new</span> api.Tags();</pre></div>
+        
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);</pre></div>
         
       
         
-        <p>Make a request using the wrapper and process the result</p>
+        <p>Given a url extracts any named template parameters beginning with a colon.</p>
+<p>E.g. /foo/:bar/baz/:quux —-&gt;  [ ‘bar’, ‘quux’ ]</p>
+<ul>
+<li>@param {String} url - the url to parse</li>
+<li>@return {Array} an array of named parameters</li>
+</ul>
 
         
-          <div class='highlight'><pre>tags.all({}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processTags</span><span class="hljs-params">(err, data)</span> </span>{
-	<span class="hljs-keyword">if</span> (err) {
-		<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(err);
-	}
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">templateParams</span><span class="hljs-params">(url)</span> </span>{
+	<span class="hljs-keyword">return</span> url.match(<span class="hljs-regexp">/:([^/]+)/g</span>);
+}</pre></div>
+        
+      
+        
+        <p>Given a url and some parameters replaces all named parameters with those
+supplied.</p>
+<ul>
+<li>@param {String} url - the url to be modified</li>
+<li>@param {Object} params - a hash of parameters to be put in the URL</li>
+<li>@return {String} The url with the parameters replaced</li>
+</ul>
 
-	<span class="hljs-built_in">console</span>.dir(data);
-});</pre></div>
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">template</span><span class="hljs-params">(url, params)</span> </span>{
+	<span class="hljs-keyword">var</span> templated = url;
+	<span class="hljs-keyword">var</span> keys = _.keys(params);
+	<span class="hljs-keyword">var</span> loweredKeys = _.map(keys, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> </span>{
+		<span class="hljs-keyword">return</span> key.toLowerCase();
+	});
+	<span class="hljs-keyword">var</span> keyLookup = _.zipObject(loweredKeys, keys);
+
+	_.each(templateParams(url), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">replaceParam</span><span class="hljs-params">(param)</span> </span>{
+		<span class="hljs-keyword">var</span> normalisedParam = param.toLowerCase().substr(<span class="hljs-number">1</span>);
+
+		<span class="hljs-keyword">if</span> (!keyLookup[normalisedParam]) {
+			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Missing '</span> + normalisedParam);
+		}
+
+		templated = templated.replace(param,
+			params[keyLookup[normalisedParam]]);
+		<span class="hljs-keyword">delete</span> params[keyLookup[normalisedParam]];
+	});
+
+	<span class="hljs-keyword">return</span> templated;
+}
+
+<span class="hljs-built_in">module</span>.exports = exports = {
+	templateParams: templateParams,
+	template: template
+};</pre></div>
         
       
       <div class="fleur">h</div>
