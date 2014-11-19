@@ -12,11 +12,18 @@ describe('config', function() {
 	});
 
 	it('should have the default consumer key', function () {
-		assert.equal(config.consumerkey, 'YOUR_KEY_HERE');
+		withEnv('_7D_API_CLIENT_CONSUMER_KEY', '', function () {
+			config = uncachedRequire('../config');
+			assert.equal(config.consumerkey, 'YOUR_KEY_HERE');
+		});
 	});
 
 	it('should have an empty oauthsecret', function () {
-		assert.equal(config.consumersecret, 'YOUR_SECRET_HERE');
+		withEnv('_7D_API_CLIENT_CONSUMER_SECRET', '',
+			function () {
+			config = uncachedRequire('../config');
+			assert.equal(config.consumersecret, 'YOUR_SECRET_HERE');
+		});
 	});
 
 	it('should get the consumer key from the environment', function () {
