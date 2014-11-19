@@ -225,6 +225,7 @@ controlling the behaviour per-environment easier (e.g. in tests) with out
 having to branch in your application code:
 
 - `_7D_API_CLIENT_HOST` - defaults to 'api.7digital.com'
+- `_7D_API_CLIENT_SSL_HOST` - defaults to 'api.7digital.com'
 - `_7D_API_CLIENT_PORT` - defaults to 80
 - `_7D_API_CLIENT_PREFIX` - defaults to '1.2'
 
