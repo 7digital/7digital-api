@@ -14,11 +14,11 @@ describe('cleaners', function () {
 
 	describe('ensureCollections', function () {
 
-		it('ensures collections one level deep', function() {
+		it('ensures collections one level deep', function () {
 			var response = require(
 				'./responses/parsed/release-tracks-singletrack.json');
 			var cleaned = cleaners.ensureCollections(
-				[ 'tracks.track' ], response);
+				['tracks.track'], response);
 			assert.instanceOf(cleaned.tracks.track, Array);
 		});
 
@@ -26,7 +26,7 @@ describe('cleaners', function () {
 			var response = require(
 				'./responses/parsed/release-single-format.json');
 			var cleaned = cleaners.ensureCollections(
-				[ 'release.formats.format' ], response);
+				['release.formats.format'], response);
 			assert.instanceOf(cleaned.release.formats.format, Array);
 		});
 
@@ -49,7 +49,7 @@ describe('cleaners', function () {
 		it('preserves collections when they are already arrays', function () {
 			var response = require('./responses/parsed/list-multiple.json');
 			var cleaned = cleaners.ensureCollections(
-				[ 'list.listItems.listItem' ], response);
+				['list.listItems.listItem'], response);
 			assert.instanceOf(cleaned.list.listItems.listItem, Array);
 		});
 
@@ -59,14 +59,14 @@ describe('cleaners', function () {
 			var response = require('./responses/parsed/basket-additem.json');
 
 			var cleaned = cleaners.ensureCollections(
-				[ 'basket.basketItems' ], response);
+				['basket.basketItems'], response);
 			assert.instanceOf(cleaned.basket.basketItems, Array);
 		});
 
 		it('returns an empty collection for empty basket case', function () {
 			var response = require('./responses/parsed/basket-empty.json');
 			var cleaned = cleaners.ensureCollections(
-				[ 'basket.basketItems' ], response);
+				['basket.basketItems'], response);
 			assert.instanceOf(cleaned.basket.basketItems, Array);
 			assert.lengthOf(cleaned.basket.basketItems, 0);
 		});
@@ -112,6 +112,27 @@ describe('cleaners', function () {
 			assert.isUndefined(cleaned['xsi:noNamespaceSchemaLocation:']);
 		});
 
+	});
+
+	describe('nullifyNils', function () {
+		it('converts tags with xsi:nil attributes to "null"', function () {
+			var response = {
+				a: {
+					b: { c: { 'xsi:nil': 'true' } },
+					d: 'hello'
+				},
+				e: {'xsi:nil': 'true'},
+				f: 'there',
+				g: [{ 'xsi:nil': 'true' }, { h: 'blah' }]
+			};
+
+			var cleaned = cleaners.nullifyNils(response);
+			assert.equal(cleaned.a.d, 'hello');
+			assert.isNull(cleaned.a.b.c);
+			assert.isNull(cleaned.e);
+			assert.isNull(cleaned.g[0]);
+			assert.equal(cleaned.g[1].h, 'blah');
+		});
 	});
 
 });

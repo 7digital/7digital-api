@@ -8,7 +8,7 @@ var sinon = require('sinon');
 var ApiParseError = require('../lib/errors').ApiParseError;
 var ApiError = require('../lib/errors').ApiError;
 
-describe('responseparser', function() {
+describe('responseparser', function () {
 
 	function createOptsWithFormat(format) {
 		return {
@@ -18,7 +18,7 @@ describe('responseparser', function() {
 		};
 	}
 
-	it('returns xml when format is xml', function() {
+	it('returns xml when format is xml', function () {
 		var callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(path.join(__dirname +
 				'/responses/release-tracks-singletrack.xml'), 'utf8');
@@ -27,7 +27,7 @@ describe('responseparser', function() {
 		assert(callbackSpy.calledWith(null, xml));
 	});
 
-	it('returns javascript object when format is not xml', function() {
+	it('returns javascript object when format is not xml', function () {
 		var callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(path.join(__dirname +
 			'/responses/release-tracks-singletrack.xml'), 'utf8');
