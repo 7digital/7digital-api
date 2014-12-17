@@ -35,7 +35,7 @@ describe('api when oauth is required', function () {
 		basketApi.applyVoucher({}, function (err, rs) {
 			assert.ok(err, 'no error returned from api');
 			console.log(err);
-			assert.match(err.data, /oauth/i,
+			assert.match(err.message, /oauth/i,
 				'error message did not mention oauth');
 			done();
 		});
@@ -96,7 +96,7 @@ describe('api when oauth is required', function () {
 
 		user.getLocker({}, function (err, res) {
 			assert.ok(err, 'expected an error');
-			assert.match(err.data, /oauth.*token/i,
+			assert.match(err.message, /oauth.*token/i,
 				'error message did not mention oauth or tokens');
 			done();
 		});
