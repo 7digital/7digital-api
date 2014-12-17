@@ -349,10 +349,31 @@
 	logHeaders(logger, mergedHeaders);
 
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cbWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> </span>{
-		<span class="hljs-keyword">if</span> (err) {
-			logger.error(err);
+		<span class="hljs-keyword">var</span> apiError;
+
+		<span class="hljs-keyword">if</span> (err) {</pre></div>
+        
+      
+        
+        <p>API server error</p>
+
+        
+          <div class='highlight'><pre>			<span class="hljs-keyword">if</span> (err.statusCode &amp;&amp; err.statusCode &gt;= <span class="hljs-number">400</span>) {
+				apiError = <span class="hljs-keyword">new</span> ApiHttpError(
+					response.statusCode, err.data);
+
+				<span class="hljs-keyword">return</span> callback(apiError);
+			}</pre></div>
+        
+      
+        
+        <p>Something unknown went wrong</p>
+
+        
+          <div class='highlight'><pre>			logger.error(err);
 			<span class="hljs-keyword">return</span> callback(err);
 		}
+
 		<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, data, response);
 	}
 

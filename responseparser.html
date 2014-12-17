@@ -163,27 +163,47 @@
 <span class="hljs-keyword">var</span> ApiParseError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiParseError;
 <span class="hljs-keyword">var</span> ApiError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiError;
 <span class="hljs-keyword">var</span> cleaners = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cleaners'</span>);
-<span class="hljs-keyword">var</span> collectionPaths = [
-	<span class="hljs-string">'artists.artist'</span>,
-	<span class="hljs-string">'chart.chartItem'</span>,
-	<span class="hljs-string">'releases.release'</span>,
-	<span class="hljs-string">'searchResults.searchResult'</span>,
-	<span class="hljs-string">'recommendations.recommendedItem'</span>,
-	<span class="hljs-string">'tags.tag'</span>,
-	<span class="hljs-string">'tracks.track'</span>,
-	<span class="hljs-string">'taggedResults.taggedItem'</span>,
-	<span class="hljs-string">'cardTypes.cardType'</span>,</pre></div>
+<span class="hljs-keyword">var</span> collectionPaths = [</pre></div>
         
       
         
         <p>NB: the outermost item to be arrayified must come first</p>
 
         
-          <div class='highlight'><pre>	<span class="hljs-string">'locker.lockerReleases.lockerRelease'</span>,
+          <div class='highlight'><pre>	<span class="hljs-string">'artists.artist'</span>,
+	<span class="hljs-string">'chart.chartItem'</span>,
+	<span class="hljs-string">'chart.chartItem.release.download.packages.package'</span>,
+	<span class="hljs-string">'chart.chartItem.release.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'chart.chartItem.track.download.packages.package'</span>,
+	<span class="hljs-string">'chart.chartItem.track.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'releases.release'</span>,
+	<span class="hljs-string">'releases.release.download.packages.package'</span>,
+	<span class="hljs-string">'releases.release.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'searchResults.searchResult'</span>,
+	<span class="hljs-string">'searchResults.searchResult.release.download.packages.package'</span>,
+	<span class="hljs-string">'searchResults.searchResult.release.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'searchResults.searchResult.track.download.packages.package'</span>,
+	<span class="hljs-string">'searchResults.searchResult.track.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'recommendations.recommendedItem'</span>,
+	<span class="hljs-string">'recommendations.recommendedItem.release.download.packages.package'</span>,
+	<span class="hljs-string">'recommendations.recommendedItem.release.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'tags.tag'</span>,
+	<span class="hljs-string">'tracks.track'</span>,
+	<span class="hljs-string">'tracks.track.download.packages.package'</span>,
+	<span class="hljs-string">'tracks.track.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'taggedResults.taggedItem'</span>,
+	<span class="hljs-string">'taggedResults.taggedItem.release.download.packages.package'</span>,
+	<span class="hljs-string">'taggedResults.taggedItem.release.download.packages.package.formats.format'</span>,
+	<span class="hljs-string">'cardTypes.cardType'</span>,
+	<span class="hljs-string">'locker.lockerReleases.lockerRelease'</span>,
 	<span class="hljs-string">'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack'</span>,
 	<span class="hljs-string">'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack.downloadUrls.downloadUrl'</span>,
 	<span class="hljs-string">'release.formats.format'</span>,
+	<span class="hljs-string">'release.download.packages.package'</span>,
+	<span class="hljs-string">'release.download.packages.package.formats.format'</span>,
 	<span class="hljs-string">'list.listItems.listItem'</span>,
+	<span class="hljs-string">'list.listItems.listItem.release.download.packages.package'</span>,
+	<span class="hljs-string">'list.listItems.listItem.release.download.packages.package.formats.format'</span>,
 	<span class="hljs-string">'basket.basketItems.basketItem'</span>,
 	<span class="hljs-string">'cards.card'</span>
 ];</pre></div>
@@ -256,7 +276,8 @@ caller.</p>
 		clean = _.compose(
 			cleaners.renameCardTypes,
 			cleaners.ensureCollections.bind(<span class="hljs-literal">null</span>, collectionPaths),
-			cleaners.removeXmlNamespaceKeys);
+			cleaners.removeXmlNamespaceKeys,
+			cleaners.nullifyNils);
 
 		cleanedResult = clean(result.response);
 		<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, cleanedResult);

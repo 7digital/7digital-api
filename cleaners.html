@@ -220,6 +220,29 @@ an array.</p>
 	}
 
 	<span class="hljs-keyword">return</span> response;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">nullifyNilsRecursive</span><span class="hljs-params">(parent, key)</span> </span>{
+	<span class="hljs-keyword">var</span> value = parent[key];
+
+	<span class="hljs-keyword">if</span> (value[<span class="hljs-string">'xsi:nil'</span>] === <span class="hljs-string">'true'</span>) {
+		parent[key] = <span class="hljs-literal">null</span>;
+		<span class="hljs-keyword">return</span>;
+	}
+
+	<span class="hljs-keyword">if</span> (_.isArray(value) || _.isObject(value)) {
+		_.forEach(value, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(v, k)</span> </span>{
+			<span class="hljs-keyword">return</span> nullifyNilsRecursive(value, k);
+		});
+	}
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">nullifyNils</span><span class="hljs-params">(response)</span> </span>{
+	_.forEach(response, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(v, k)</span> </span>{
+		nullifyNilsRecursive(response, k);
+	});
+
+	<span class="hljs-keyword">return</span> response;
 }</pre></div>
         
       
@@ -241,7 +264,8 @@ specific nodes that aren’t interesting to consumers.</p>
 
 <span class="hljs-built_in">module</span>.exports.ensureCollections = ensureCollections;
 <span class="hljs-built_in">module</span>.exports.renameCardTypes = renameCardTypes;
-<span class="hljs-built_in">module</span>.exports.removeXmlNamespaceKeys = removeXmlNamespaceKeys;</pre></div>
+<span class="hljs-built_in">module</span>.exports.removeXmlNamespaceKeys = removeXmlNamespaceKeys;
+<span class="hljs-built_in">module</span>.exports.nullifyNils = nullifyNils;</pre></div>
         
       
       <div class="fleur">h</div>
