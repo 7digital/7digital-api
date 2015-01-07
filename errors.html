@@ -162,6 +162,18 @@
         
       
         
+        <p>IdendifiedApiError</p>
+<p>Marker class for errors that have been identified as known errors
+communicating with the API.  You should <em>not</em> instantiate these
+directly.</p>
+<p>@constructor</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">IdentifiedApiError</span><span class="hljs-params">()</span></span>{}
+util.inherits(IdentifiedApiError, <span class="hljs-built_in">Error</span>);</pre></div>
+        
+      
+        
         <p>ApiHttpError</p>
 <p>Creates a new ApiHttpError supplied to callbacks when an error response is
 received at transport level.</p>
@@ -185,7 +197,7 @@ received at transport level.</p>
 	}
 }
 
-util.inherits(ApiHttpError, <span class="hljs-built_in">Error</span>);</pre></div>
+util.inherits(ApiHttpError, IdentifiedApiError);</pre></div>
         
       
         
@@ -211,7 +223,7 @@ describing the nature of the parse error.</li>
 	}
 }
 
-util.inherits(ApiParseError, <span class="hljs-built_in">Error</span>);</pre></div>
+util.inherits(ApiParseError, IdentifiedApiError);</pre></div>
         
       
         
@@ -236,12 +248,13 @@ received.</p>
 	}
 }
 
-util.inherits(ApiError, <span class="hljs-built_in">Error</span>);
+util.inherits(ApiError, IdentifiedApiError);
 
 <span class="hljs-built_in">module</span>.exports = {
 	ApiHttpError: ApiHttpError,
 	ApiParseError: ApiParseError,
-	ApiError: ApiError
+	ApiError: ApiError,
+	IdentifiedApiError: IdentifiedApiError
 };</pre></div>
         
       
