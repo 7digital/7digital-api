@@ -4,6 +4,7 @@ var assert = require('chai').assert;
 var ApiHttpError = require('../lib/errors').ApiHttpError;
 var ApiParseError = require('../lib/errors').ApiParseError;
 var ApiError = require('../lib/errors').ApiError;
+var IdentifiedApiError = require('../lib/errors').IdentifiedApiError;
 
 describe('API HTTP Error', function() {
 
@@ -35,6 +36,12 @@ describe('API HTTP Error', function() {
 
 		assert(err.stack);
 	});
+
+	it('is an identified API error', function() {
+		var err = new ApiHttpError(400);
+		assert.instanceOf(err, IdentifiedApiError,
+			'expected instance of IdentifiedApiError');
+	});
 });
 
 describe('API Parse Error', function () {
@@ -52,9 +59,15 @@ describe('API Parse Error', function () {
 	});
 
 	it('has a stack trace', function() {
-		var err = new ApiParseError(401);
+		var err = new ApiParseError();
 
 		assert(err.stack);
+	});
+
+	it('is an identified API error', function() {
+		var err = new ApiParseError();
+		assert.instanceOf(err, IdentifiedApiError,
+			'expected instance of IdentifiedApiError');
 	});
 });
 
@@ -79,9 +92,21 @@ describe('Api Response Error', function () {
 	});
 
 	it('has a stack trace', function() {
-		var err = new ApiError(401);
+		var err = new ApiError({
+			errorMessage: 'api error message',
+			code: 1234
+		});
 
 		assert(err.stack);
+	});
+
+	it('is an identified API error', function() {
+		var err = new ApiError({
+			errorMessage: 'api error message',
+			code: 1234
+		});
+		assert.instanceOf(err, IdentifiedApiError,
+			'expected instance of IdentifiedApiError');
 	});
 });
 
