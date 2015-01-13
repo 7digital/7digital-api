@@ -135,7 +135,8 @@ describe('api', function () {
 			function (err, data) {
 
 			assert(err);
-			assert.equal(err.message, 'unexpected response returned by api');
+			assert.equal(err.message,
+				'Unexpected response status from: /release/details');
 			done();
 		});
 	});
@@ -146,7 +147,8 @@ describe('api', function () {
 			function (err, data) {
 
 			assert(err);
-			assert.match(err.message, /^unrecognised response status/);
+			assert.equal(err.message,
+					'Unexpected response status from: /release/details');
 			done();
 		});
 	});
