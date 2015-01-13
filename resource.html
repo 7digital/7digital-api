@@ -291,8 +291,10 @@ or a hash if they differ.</li>
 			<span class="hljs-keyword">return</span> responseParser.parse(data, {
 				format: self.format,
 				logger: self.logger,
+				url: endpointInfo.url,
 				contentType: response.headers[<span class="hljs-string">'content-type'</span>]
-			}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLocationForRedirectsAndCallback</span><span class="hljs-params">(err, parsed)</span> </span>{
+			}, getLocationForRedirectsAndCallback);
+			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLocationForRedirectsAndCallback</span><span class="hljs-params">(err, parsed)</span> </span>{
 				<span class="hljs-keyword">if</span> (err) {
 					<span class="hljs-keyword">return</span> callback(err);
 				}
@@ -302,7 +304,7 @@ or a hash if they differ.</li>
 				}
 
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-literal">null</span>, parsed);
-			});
+			}
 		}
 
 		<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {</pre></div>

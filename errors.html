@@ -166,7 +166,9 @@
 <p>Marker class for errors that have been identified as known errors
 communicating with the API.  You should <em>not</em> instantiate these
 directly.</p>
-<p>@constructor</p>
+<ul>
+<li>@constructor</li>
+</ul>
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">IdentifiedApiError</span><span class="hljs-params">()</span></span>{}
@@ -181,14 +183,15 @@ received at transport level.</p>
 <li>@constructor</li>
 <li>@param {Number} statusCode - The HTTP status code of the request.</li>
 <li>@param {String} response - (Optional) The response body.</li>
+<li>@param {String} message - (Optional) The message</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiHttpError</span><span class="hljs-params">(statusCode, response)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiHttpError</span><span class="hljs-params">(statusCode, response, message)</span> </span>{
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"ApiHttpError"</span>;
 	<span class="hljs-keyword">this</span>.statusCode = statusCode;
 	<span class="hljs-keyword">this</span>.response = response;
-	<span class="hljs-keyword">this</span>.message = response
+	<span class="hljs-keyword">this</span>.message = message || response
 		|| util.format(<span class="hljs-string">'Unexpected %s status code'</span>, statusCode);
 
 	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">Error</span>.captureStackTrace
@@ -227,18 +230,45 @@ util.inherits(ApiParseError, IdentifiedApiError);</pre></div>
         
       
         
+        <p>OAuthError</p>
+<p>Creates a new ApiError supplied to callbacks when a valid error response is
+received.</p>
+<ul>
+<li>@constructor</li>
+<li>@param {Object} errorResponse - The parsed API error response</li>
+<li>@param {Object} message - The message</li>
+</ul>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OAuthError</span><span class="hljs-params">(errorResponse, message)</span> </span>{
+	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"OAuthError"</span>;
+	<span class="hljs-keyword">this</span>.message = message || errorResponse.errorMessage;
+	<span class="hljs-keyword">this</span>.code = errorResponse.code;
+	<span class="hljs-keyword">this</span>.response = errorResponse;
+
+	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">Error</span>.captureStackTrace
+		&amp;&amp; <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Error</span>.captureStackTrace === <span class="hljs-string">'function'</span>) {
+		<span class="hljs-built_in">Error</span>.captureStackTrace(<span class="hljs-keyword">this</span>, OAuthError);
+	}
+}
+
+util.inherits(ApiError, IdentifiedApiError);</pre></div>
+        
+      
+        
         <p>ApiError</p>
 <p>Creates a new ApiError supplied to callbacks when a valid error response is
 received.</p>
 <ul>
 <li>@constructor</li>
 <li>@param {Object} errorResponse - The parsed API error response</li>
+<li>@param {Object} message - The message</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiError</span><span class="hljs-params">(errorResponse)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiError</span><span class="hljs-params">(errorResponse, message)</span> </span>{
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"ApiError"</span>;
-	<span class="hljs-keyword">this</span>.message = errorResponse.errorMessage;
+	<span class="hljs-keyword">this</span>.message = message || errorResponse.errorMessage;
 	<span class="hljs-keyword">this</span>.code = errorResponse.code;
 	<span class="hljs-keyword">this</span>.response = errorResponse;
 
@@ -253,6 +283,7 @@ util.inherits(ApiError, IdentifiedApiError);
 <span class="hljs-built_in">module</span>.exports = {
 	ApiHttpError: ApiHttpError,
 	ApiParseError: ApiParseError,
+	OAuthError: OAuthError,
 	ApiError: ApiError,
 	IdentifiedApiError: IdentifiedApiError
 };</pre></div>

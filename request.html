@@ -162,6 +162,7 @@
 <span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
 <span class="hljs-keyword">var</span> parameters = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./parameters'</span>);
 <span class="hljs-keyword">var</span> ApiHttpError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiHttpError;
+<span class="hljs-keyword">var</span> OAuthError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).OAuthError;
 <span class="hljs-keyword">var</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 <span class="hljs-keyword">var</span> helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>);
@@ -358,9 +359,21 @@
         <p>API server error</p>
 
         
-          <div class='highlight'><pre>			<span class="hljs-keyword">if</span> (err.statusCode &amp;&amp; err.statusCode &gt;= <span class="hljs-number">400</span>) {
-				apiError = <span class="hljs-keyword">new</span> ApiHttpError(
-					response.statusCode, err.data);
+          <div class='highlight'><pre>			<span class="hljs-keyword">if</span> (err.statusCode &amp;&amp; err.statusCode &gt;= <span class="hljs-number">400</span>) {</pre></div>
+        
+      
+        
+        <p>non 200 status and string for response body is usually an
+oauth error from one of the endpoints</p>
+
+        
+          <div class='highlight'><pre>				<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> err.data === <span class="hljs-string">'string'</span> &amp;&amp; <span class="hljs-regexp">/oauth/i</span>.test(err.data)) {
+					apiError = <span class="hljs-keyword">new</span> OAuthError(err.data, err.data + <span class="hljs-string">': '</span> +
+						path);
+				} <span class="hljs-keyword">else</span> {
+					apiError = <span class="hljs-keyword">new</span> ApiHttpError(
+					response.statusCode, err.data, path);
+				}
 
 				<span class="hljs-keyword">return</span> callback(apiError);
 			}</pre></div>
@@ -413,6 +426,7 @@ specification and applies approriate HTTP headers.</p>
 
 	<span class="hljs-keyword">var</span> apiRequest, prop, hasErrored;
 	<span class="hljs-keyword">var</span> mergedHeaders = createHeaders(hostInfo.host, headers);
+	<span class="hljs-keyword">var</span> apiPath = url;
 
 	data = prepare(data, credentials.consumerkey);</pre></div>
         
@@ -485,7 +499,7 @@ currently does not set CORS headers.</p>
 		response.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endResponse</span><span class="hljs-params">()</span> </span>{
 			<span class="hljs-keyword">if</span> (+response.statusCode &gt;= <span class="hljs-number">400</span>) {
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiHttpError(
-					response.statusCode, responseBuffer));
+					response.statusCode, responseBuffer, apiPath));
 			}
 
 			<span class="hljs-keyword">if</span> (!hasErrored) {

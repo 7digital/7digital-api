@@ -162,6 +162,7 @@
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 <span class="hljs-keyword">var</span> ApiParseError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiParseError;
 <span class="hljs-keyword">var</span> ApiError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).ApiError;
+<span class="hljs-keyword">var</span> OAuthError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./errors'</span>).OAuthError;
 <span class="hljs-keyword">var</span> cleaners = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./cleaners'</span>);
 <span class="hljs-keyword">var</span> collectionPaths = [</pre></div>
         
@@ -245,7 +246,7 @@ caller.</p>
 	parser.parseString(response, validateAndCleanResponse);
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAndCleanResponse</span><span class="hljs-params">(err, result)</span> </span>{
 		<span class="hljs-keyword">var</span> cleanedResult;
-		<span class="hljs-keyword">var</span> clean;</pre></div>
+		<span class="hljs-keyword">var</span> clean, error;</pre></div>
         
       
         
@@ -254,10 +255,10 @@ caller.</p>
         
           <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (err) {
 			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiParseError(
-				<span class="hljs-string">'error parsing api response: '</span> + err.message, response));
+				<span class="hljs-string">'Unparsable api response from: '</span> + opts.url, response));
 		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!result.response) {
 			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiParseError(
-				<span class="hljs-string">'unexpected response returned by api'</span>, response));
+				<span class="hljs-string">'Unexpected response status from: '</span> + opts.url, response));
 		}</pre></div>
         
       
@@ -266,11 +267,17 @@ caller.</p>
 
         
           <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (result.response.status === <span class="hljs-string">'error'</span>) {
-			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiError(result.response.error));
+			error = result.response.error;
+			<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/oauth/i</span>.test(error.errorMessage)) {
+				<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> OAuthError(error,
+					error.errorMessage + <span class="hljs-string">': '</span> + opts.url));
+			}
+
+			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiError(error,
+				error.errorMessage + <span class="hljs-string">': '</span> + opts.url));
 		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.response.status !== <span class="hljs-string">'ok'</span>) {
 			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiParseError(
-				<span class="hljs-string">'unrecognised response status "'</span> +
-				result.response.status + <span class="hljs-string">'" from api'</span>, response));
+				<span class="hljs-string">'Unexpected response status from: '</span> + opts.url, response));
 		}
 
 		clean = _.compose(
