@@ -49,6 +49,16 @@ describe('when parsing responses', function () {
 			'Unparsable api response from: /foo');
 	});
 
+	it('calls back with parse error when response is empty', function () {
+		var callbackSpy = sinon.spy();
+
+		parser.parse('', createOptsWithFormat('js'), callbackSpy);
+		assert(callbackSpy.calledOnce);
+		assert.instanceOf(callbackSpy.lastCall.args[0], ApiParseError);
+		assert.strictEqual(callbackSpy.lastCall.args[0].message,
+			'Empty response from: /foo');
+	});
+
 	it('calls back with the error when the status is error', function () {
 		var error, response, callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(
