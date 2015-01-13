@@ -246,7 +246,11 @@ caller.</p>
 	parser.parseString(response, validateAndCleanResponse);
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAndCleanResponse</span><span class="hljs-params">(err, result)</span> </span>{
 		<span class="hljs-keyword">var</span> cleanedResult;
-		<span class="hljs-keyword">var</span> clean, error;</pre></div>
+		<span class="hljs-keyword">var</span> clean, error;
+
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeParseErr</span><span class="hljs-params">(msg)</span> </span>{
+			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiParseError(msg + <span class="hljs-string">' from: '</span> + opts.url, response);
+		}</pre></div>
         
       
         
@@ -254,11 +258,13 @@ caller.</p>
 
         
           <div class='highlight'><pre>		<span class="hljs-keyword">if</span> (err) {
-			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiParseError(
-				<span class="hljs-string">'Unparsable api response from: '</span> + opts.url, response));
-		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!result.response) {
-			<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiParseError(
-				<span class="hljs-string">'Unexpected response status from: '</span> + opts.url, response));
+			<span class="hljs-keyword">return</span> callback(makeParseErr(<span class="hljs-string">'Unparsable api response'</span>));
+		}
+		<span class="hljs-keyword">if</span> (!result) {
+			<span class="hljs-keyword">return</span> callback(makeParseErr(<span class="hljs-string">'Empty response'</span>));
+		}
+		<span class="hljs-keyword">if</span> (!result.response) {
+			<span class="hljs-keyword">return</span> callback(makeParseErr(<span class="hljs-string">'Missing response node'</span>));
 		}</pre></div>
         
       
