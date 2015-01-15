@@ -292,6 +292,7 @@ or a hash if they differ.</li>
 				format: self.format,
 				logger: self.logger,
 				url: endpointInfo.url,
+				params: requestData,
 				contentType: response.headers[<span class="hljs-string">'content-type'</span>]
 			}, getLocationForRedirectsAndCallback);
 			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLocationForRedirectsAndCallback</span><span class="hljs-params">(err, parsed)</span> </span>{
