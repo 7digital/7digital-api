@@ -122,9 +122,11 @@ describe('api', function () {
 
 	it('handles missing resources from the api', function (done) {
 		var releases = new api.Releases();
-		releases.getDetails({ releaseId: 'missing' }, function (err, data) {
+		var params = { releaseId: 'missing' };
+		releases.getDetails(params, function (err, data) {
 			assert(err);
 			assert.equal(err.code, '2001');
+			assert.deepEqual(err.params, params);
 			done();
 		});
 	});
