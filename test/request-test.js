@@ -37,7 +37,9 @@ describe('request', function () {
 
 		it('calls back with an error for unknown verbs', function (done) {
 			var logger = { info: _.noop, error: _.noop };
-			request.dispatchSecure('', 'BLAH', {}, {}, null, {}, {}, logger, function (err) {
+			request.dispatchSecure('', 'BLAH', {}, {}, null, {}, {}, logger,
+				function (err) {
+
 				assert(err);
 				done();
 			});

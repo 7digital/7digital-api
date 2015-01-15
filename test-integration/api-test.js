@@ -136,7 +136,7 @@ describe('api', function () {
 
 			assert(err);
 			assert.equal(err.message,
-				'Unexpected response status from: /release/details');
+				'Missing response node from: /release/details');
 			done();
 		});
 	});
