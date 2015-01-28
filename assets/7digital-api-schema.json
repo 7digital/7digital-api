@@ -75,7 +75,8 @@
 						"methodName": "addPricedItem",
 						"oauth": "2-legged",
 						"method": "GET"
-					}
+					},
+					{ "apiCall": "paypalurl", "methodName": "getPayPalUrl" }
 				]
 			},
 		"User":
