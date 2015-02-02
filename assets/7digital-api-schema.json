@@ -76,7 +76,13 @@
 						"oauth": "2-legged",
 						"method": "GET"
 					},
-					{ "apiCall": "paypalurl", "methodName": "getPayPalUrl" }
+					{ "apiCall": "paypalurl", "methodName": "getPayPalUrl" },
+					{
+						"apiCall": "completepaypalpurchase",
+						"methodName": "completePayPalPurchase",
+						"oauth": "3-legged",
+						"method": "POST"
+					}
 				]
 			},
 		"User":
