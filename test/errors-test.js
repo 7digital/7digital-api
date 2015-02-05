@@ -2,6 +2,7 @@
 
 var assert = require('chai').assert;
 var ApiHttpError = require('../lib/errors').ApiHttpError;
+var OAuthError = require('../lib/errors').OAuthError;
 var ApiParseError = require('../lib/errors').ApiParseError;
 var ApiError = require('../lib/errors').ApiError;
 var IdentifiedApiError = require('../lib/errors').IdentifiedApiError;
@@ -66,6 +67,17 @@ describe('API Parse Error', function () {
 
 	it('is an identified API error', function() {
 		var err = new ApiParseError();
+		assert.instanceOf(err, IdentifiedApiError,
+			'expected instance of IdentifiedApiError');
+	});
+});
+
+describe('OAuthError', function () {
+	it('is an identified API error', function() {
+		var err = new OAuthError({
+			errorMessage: 'api error message',
+			code: 1234
+		});
 		assert.instanceOf(err, IdentifiedApiError,
 			'expected instance of IdentifiedApiError');
 	});
