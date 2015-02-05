@@ -16,8 +16,7 @@ examples.forEach(function (name) {
 	describe(name, function () {
 		it('does not error', function (done) {
 			this.timeout(10000);
-			runExample(name, assertOutput);
-			function assertOutput(err, stdout, stderr) {
+			runExample(name, function assertOutput(err, stdout, stderr) {
 				assert(!err, 'Expected example not to error');
 				assert.notEqual(stdout, '', 'Expected some output');
 				assert.notMatch(stdout, /error/gi,
@@ -25,7 +24,7 @@ examples.forEach(function (name) {
 				assert.notMatch(stderr, /error/gi,
 					'Expected no error in output');
 				done();
-			}
+			});
 		});
 	});
 });
