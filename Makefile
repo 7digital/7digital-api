@@ -20,7 +20,7 @@ define assert_master_branch
 endef
 
 define assert_remote
-	@git remote -v | grep origin | /
+	@git remote -v | grep origin | \
 	grep "raoulmillais/node-7digital-api" > /dev/null 2>&1 || \
 	(echo "Your origin must be the source repository " \
 	"raoulmillais/node-7digital-api" && exit 1)
