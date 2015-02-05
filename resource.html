@@ -23,6 +23,13 @@
               
                 
                 <li>
+                  <a class="source" href="api-reconfigure.html">
+                    api-reconfigure.js
+                  </a>
+                </li>
+              
+                
+                <li>
                   <a class="source" href="customconfig.html">
                     customconfig.js
                   </a>
@@ -308,6 +315,8 @@ or a hash if they differ.</li>
 			}
 		}
 
+		_.defaults(requestData, <span class="hljs-keyword">this</span>.defaultParams);
+
 		<span class="hljs-keyword">if</span> (httpMethod === <span class="hljs-string">'GET'</span>) {</pre></div>
         
       
@@ -315,8 +324,7 @@ or a hash if they differ.</li>
         <p>Add the default parameters to the request data</p>
 
         
-          <div class='highlight'><pre>			_.defaults(requestData, <span class="hljs-keyword">this</span>.defaultParams);
-			<span class="hljs-keyword">return</span> request.get(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers,
+          <div class='highlight'><pre>			<span class="hljs-keyword">return</span> request.get(endpointInfo, requestData, <span class="hljs-keyword">this</span>.headers,
 				credentials, <span class="hljs-keyword">this</span>.logger, checkAndParse);
 		}
 
