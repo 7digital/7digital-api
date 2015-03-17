@@ -8,10 +8,11 @@ describe('request', function () {
 
 	describe('createHeaders', function () {
 
-		it('adds the user agent and host headers', function () {
+		it('adds the expected headers', function () {
 			var headers  = request.createHeaders('api.7digital.com');
 			assert.equal(headers.host, 'api.7digital.com');
 			assert.equal(headers['User-Agent'], 'Node.js HTTP Client');
+			assert.equal(headers['Accept'], 'application/xml');
 		});
 
 	});

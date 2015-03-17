@@ -276,6 +276,19 @@
 					"method": "GET"
 				}
 			]
+			},
+		"Playlists":
+		{
+			"resource": "playlists",
+			"actions":
+				[
+				{
+					"apiCall": "",
+					"methodName": "get",
+					"oauth": "3-legged",
+					"method": "GET"
+				}
+			]
 		}
-	}
+		}
 }
