@@ -98,12 +98,12 @@ describe('Playlist api', function () {
 				});
 			},
 			function getPlaylists(accessToken, accessSecret, cb) {
-				playlists.get({
+				playlists.getAll({
 					user: 'id:' + userId,
 					accesstoken: accessToken,
 					accesssecret: accessSecret
 				},
-				function assertOnFinalPlaylists(err, playlistRes) {
+				function assertOnPlaylists(err, playlistRes) {
 					if (err) {
 						cb(err);
 					}
@@ -116,6 +116,17 @@ describe('Playlist api', function () {
 					assert.equal(actualPlaylist.visibility, visibility);
 					assert.equal(actualPlaylist.trackCount, 1);
 					assert.isDefined(actualPlaylist.id);
+					cb(null, actualPlaylist.id);
+				});
+			},
+			function getPlaylist(playlistId, cb) {
+				playlists.get({ playlistId: playlistId }, function (err, playlistRes) {
+					if (err) {
+						cb(err);
+					}
+					assert.ok(playlistRes);
+					assert.lengthOf(playlistRes.tracks, 1);
+					console.log('got single playlist:', playlistRes);
 					cb(null);
 				});
 			}

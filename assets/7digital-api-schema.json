@@ -284,7 +284,7 @@
 			[
 				{
 					"apiCall": "",
-					"methodName": "get",
+					"methodName": "getAll",
 					"oauth": "3-legged",
 					"method": "GET"
 				},
@@ -297,6 +297,12 @@
 						{
 							"Content-Type": "application/json"
 						}
+				},
+				{
+					"apiCall": ":playlistId",
+					"methodName": "get",
+					"oauth": "3-legged",
+					"method": "GET"
 				}
 			]
 		}
