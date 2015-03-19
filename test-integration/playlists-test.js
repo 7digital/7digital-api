@@ -116,19 +116,50 @@ describe('Playlist api', function () {
 					assert.equal(actualPlaylist.visibility, visibility);
 					assert.equal(actualPlaylist.trackCount, 1);
 					assert.isDefined(actualPlaylist.id);
-					cb(null, actualPlaylist.id);
+					cb(null, accessToken, accessSecret, actualPlaylist.id);
 				});
 			},
-			function getPlaylist(playlistId, cb) {
+			function getPlaylist(accessToken, accessSecret, playlistId, cb) {
 				playlists.get({ playlistId: playlistId }, function (err, playlistRes) {
 					if (err) {
 						cb(err);
 					}
 					assert.ok(playlistRes);
-					assert.lengthOf(playlistRes.tracks, 1);
-					console.log('got single playlist:', playlistRes);
-					cb(null);
+					console.log('got single playlist:', stringify(playlistRes));
+					assert.lengthOf(playlistRes.playlist.tracks, 1);
+					cb(null, accessToken, accessSecret, playlistId);
 				});
+			},
+			function replacePlaylist(accessToken, accessSecret, playlistId, cb) {
+				var newName = 'Original Dubplate Burners';
+				playlists.replace({
+					playlistId: playlistId,
+					accesstoken: accessToken,
+					accesssecret: accessSecret,
+					name: newName,
+					visibility: visibility,
+					tracks: [{
+						trackId: '10514418',
+						trackTitle: 'The Helicopter Tune',
+						trackVersion: 'Original Version',
+						artistAppearsAs: 'Deep Blue',
+						releaseId: '955861',
+						releaseTitle: 'Drum & Bass Arena: Anthology',
+						releaseAritistAppearsAs: 'Various Artists',
+						releaseVersion: 'Original Version',
+						source: '7digital'
+					}]
+				}, function (err, playlistRes) {
+					if (err) {
+						cb(err);
+					}
+					assert.ok(playlistRes);
+					console.log('updated playlist:', stringify(playlistRes));
+					assert.equal(playlistRes.playlist.name, newName);
+					assert.lengthOf(playlistRes.playlist.tracks, 1);
+					assert.equal(playlistRes.playlist.tracks[0].track.trackTitle, 'The Helicopter Tune');
+					cb(err);
+                });
 			}
 		],
 		function (err) {

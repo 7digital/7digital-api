@@ -303,6 +303,16 @@
 					"methodName": "get",
 					"oauth": "3-legged",
 					"method": "GET"
+				},
+				{
+					"apiCall": ":playlistId",
+					"methodName": "replace",
+					"oauth": "3-legged",
+					"method": "POST",
+					"headers":
+						{
+							"Content-Type": "application/json"
+						}
 				}
 			]
 		}
