@@ -276,6 +276,45 @@
 					"method": "GET"
 				}
 			]
+		},
+		"Playlists":
+		{
+			"resource": "playlists",
+			"actions":
+			[
+				{
+					"apiCall": "",
+					"methodName": "getAll",
+					"oauth": "3-legged",
+					"method": "GET"
+				},
+				{
+					"apiCall": "",
+					"methodName": "create",
+					"oauth": "3-legged",
+					"method": "POST",
+					"headers":
+						{
+							"Content-Type": "application/json"
+						}
+				},
+				{
+					"apiCall": ":playlistId",
+					"methodName": "get",
+					"oauth": "3-legged",
+					"method": "GET"
+				},
+				{
+					"apiCall": ":playlistId",
+					"methodName": "replace",
+					"oauth": "3-legged",
+					"method": "POST",
+					"headers":
+						{
+							"Content-Type": "application/json"
+						}
+				}
+			]
 		}
 	}
 }
