@@ -17,7 +17,11 @@
 					{ "apiCall": "search", "methodName": "search" },
 					{ "apiCall": "tracks", "methodName": "getTracks" },
 					{ "apiCall": "tags", "methodName": "getTags" },
-					{ "apiCall": "match/byId", "methodName": "matchById" },
+					{
+						"apiCall": "match/byId",
+						"methodName": "matchById",
+						"oauth": "2-legged"
+					},
 					{ "apiCall": "bytag/new", "methodName": "getNewByTags" },
 					{ "apiCall": "bytag/top", "methodName": "getTopByTags" }
 				]
@@ -35,7 +39,11 @@
 						{ "apiCall": "search", "methodName": "search" },
 						{ "apiCall": "topTracks", "methodName": "getTopTracks" },
 						{ "apiCall": "tags", "methodName": "getTags" },
-						{ "apiCall": "match/byId", "methodName": "matchById" },
+						{
+							"apiCall": "match/byId",
+							"methodName": "matchById",
+							"oauth": "2-legged"
+						},
 						{ "apiCall": "bytag/top", "methodName": "getTopByTags"}
 					]
 			},
@@ -47,7 +55,11 @@
 						{ "apiCall": "chart", "methodName": "getChart" },
 						{ "apiCall": "details", "methodName": "getDetails" },
 						{ "apiCall": "search", "methodName": "search" },
-						{ "apiCall": "match/byId", "methodName": "matchById" }
+						{
+							"apiCall": "match/byId",
+							"methodName": "matchById",
+							"oauth": "2-legged"
+						}
 					]
 			},
 		"Tags":
