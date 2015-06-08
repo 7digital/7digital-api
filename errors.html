@@ -178,7 +178,9 @@ directly.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">IdentifiedApiError</span><span class="hljs-params">()</span></span>{}
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">IdentifiedApiError</span><span class="hljs-params">()</span></span>{
+	<span class="hljs-keyword">this</span>.identifiedApiError = <span class="hljs-literal">true</span>;
+}
 util.inherits(IdentifiedApiError, <span class="hljs-built_in">Error</span>);</pre></div>
         
       
