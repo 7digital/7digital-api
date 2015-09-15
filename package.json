@@ -2,10 +2,10 @@
   "name": "7digital-api",
   "version": "0.34.2",
   "description": "7digital API client for nodeJS",
-  "homepage": "https://github.com/raoulmillais/node-7digital-api",
+  "homepage": "https://github.com/raoulmillais/7digital-api",
   "repository": {
     "type": "git",
-    "url": "git://github.com/raoulmillais/node-7digital-api.git"
+    "url": "git://github.com/raoulmillais/7digital-api.git"
   },
   "keywords": [
     "api",
