@@ -1,6 +1,6 @@
 {
   "name": "7digital-api",
-  "version": "0.34.2",
+  "version": "0.35.1",
   "description": "7digital API client for nodeJS",
   "homepage": "https://github.com/raoulmillais/7digital-api",
   "repository": {
@@ -13,11 +13,9 @@
     "7digital"
   ],
   "author": "Raoul Millais <raoul@raoulmillais.com> (http://www.raoulmillais.com/)",
-  "licenses": [
-    "ISC"
-  ],
+  "license": "ISC",
   "engines": [
-    "node >= 0.6.0"
+    "node >= 0.10.40"
   ],
   "scripts": {
     "integration-test": "./node_modules/.bin/mocha --recursive -R spec test-integration/",
@@ -25,21 +23,21 @@
   },
   "main": "index.js",
   "dependencies": {
-    "lodash": "~2.4.1",
-    "oauth": "0.9.12",
+    "lodash": "~3.10.1",
+    "oauth": "0.9.14",
     "step": "~0.0.5",
     "xml2js": "~0.4.3"
   },
   "devDependencies": {
-    "async": "^0.9.0",
-    "browserify": "~3.33.0",
-    "chai": "~1.10.0",
-    "docco": "~0.6.3",
-    "jshint": "~2.4.0",
-    "mocha": "~1.15.1",
-    "mocha-teamcity-reporter": "0.0.4",
-    "sinon": "~1.7.3",
-    "winston": "^0.8.0"
+    "async": "^1.5.0",
+    "browserify": "~12.0.1",
+    "chai": "~3.4.1",
+    "docco": "~0.7.0",
+    "jshint": "~2.8.0",
+    "mocha": "~2.3.4",
+    "mocha-teamcity-reporter": "1.0.0",
+    "sinon": "~1.17.2",
+    "winston": "^2.1.1"
   },
   "optionalDependencies": {
     "node-uuid": "^1.4.1"
