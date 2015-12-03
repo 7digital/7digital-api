@@ -164,7 +164,7 @@
         <p>Module dependencies</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> async = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> <span class="hljs-keyword">async</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
 <span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-uuid'</span>);</pre></div>
         
@@ -193,8 +193,8 @@ country: ‘us’</p>
 <span class="hljs-keyword">var</span> user = <span class="hljs-keyword">new</span> api.User();
 <span class="hljs-keyword">var</span> username, password, requestToken, requestSecret;
 
-async.waterfall([
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createUser</span><span class="hljs-params">(cb)</span> </span>{
+<span class="hljs-keyword">async</span>.waterfall([
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createUser</span>(<span class="hljs-params">cb</span>) </span>{
 		username = <span class="hljs-string">'node-client-test-'</span> + uuid.v4() + <span class="hljs-string">'@7digital.com'</span>;
 		password = <span class="hljs-string">'top-secret'</span>;
 		user.signup({
@@ -202,7 +202,7 @@ async.waterfall([
 			password: password
 		}, cb);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span><span class="hljs-params">(userResponse, cb)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span>(<span class="hljs-params">userResponse, cb</span>) </span>{
 		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Created user '</span> + username);
 		<span class="hljs-built_in">console</span>.info(userResponse);</pre></div>
         
@@ -213,7 +213,7 @@ async.waterfall([
         
           <div class='highlight'><pre>		oauth.getRequestToken(<span class="hljs-string">'http://callbackurl.com/'</span>, cb);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span><span class="hljs-params">(reqTok, reqSec, authUrl, cb)</span> </span>{</pre></div>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorise</span>(<span class="hljs-params">reqTok, reqSec, authUrl, cb</span>) </span>{</pre></div>
         
       
         
@@ -239,7 +239,7 @@ account.7digital.com to authorise the 3-legged access</p>
 			token: requestToken
 		}, cb);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">continueAfterAuthorisation</span><span class="hljs-params">(cb)</span> </span>{</pre></div>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">continueAfterAuthorisation</span>(<span class="hljs-params">cb</span>) </span>{</pre></div>
         
       
         
@@ -252,7 +252,7 @@ request token and secret</p>
 			requestsecret: requestSecret
 		}, cb);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logTheAccessToken</span><span class="hljs-params">(accessToken, accessSecret, cb)</span> </span>{</pre></div>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logTheAccessToken</span>(<span class="hljs-params">accessToken, accessSecret, cb</span>) </span>{</pre></div>
         
       
         
@@ -269,13 +269,13 @@ request token and secret</p>
 			pageSize: <span class="hljs-number">1</span>
 		}, cb);
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showLocker</span><span class="hljs-params">(lockerResponse, cb)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showLocker</span>(<span class="hljs-params">lockerResponse, cb</span>) </span>{
 		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully accessed the user\'s locker: '</span>);
 		<span class="hljs-built_in">console</span>.log(util.inspect(lockerResponse, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
 
 		cb();
 	}
-], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err)</span> </span>{
+], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
 	<span class="hljs-keyword">if</span> (err) {
 		<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'An error occurred:'</span>);
 		<span class="hljs-built_in">console</span>.error(util.inspect(err.stack, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));

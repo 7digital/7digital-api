@@ -163,7 +163,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+          <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> xml2js = <span class="hljs-built_in">require</span>(<span class="hljs-string">'xml2js'</span>);
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
@@ -230,7 +230,7 @@ caller.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parse</span><span class="hljs-params">(response, opts, callback)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parse</span>(<span class="hljs-params">response, opts, callback</span>) </span>{
 	<span class="hljs-keyword">var</span> parser, jsonParseError, result;
 
 	<span class="hljs-keyword">if</span> (opts.format.toUpperCase() === <span class="hljs-string">'XML'</span>) {
@@ -253,11 +253,11 @@ caller.</p>
 	});
 
 	parser.parseString(response, validateAndCleanResponse);
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAndCleanResponse</span><span class="hljs-params">(err, result)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAndCleanResponse</span>(<span class="hljs-params">err, result</span>) </span>{
 		<span class="hljs-keyword">var</span> cleanedResult;
 		<span class="hljs-keyword">var</span> clean, error, apiError;
 
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeParseErr</span><span class="hljs-params">(msg)</span> </span>{
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeParseErr</span>(<span class="hljs-params">msg</span>) </span>{
 			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiParseError(msg + <span class="hljs-string">' from: '</span> + opts.url, response);
 		}</pre></div>
         

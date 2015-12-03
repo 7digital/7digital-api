@@ -163,7 +163,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+          <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);</pre></div>
         
@@ -178,7 +178,7 @@ directly.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">IdentifiedApiError</span><span class="hljs-params">()</span></span>{}
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">IdentifiedApiError</span>(<span class="hljs-params"></span>)</span>{}
 util.inherits(IdentifiedApiError, <span class="hljs-built_in">Error</span>);</pre></div>
         
       
@@ -194,7 +194,7 @@ received at transport level.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiHttpError</span><span class="hljs-params">(statusCode, response, message)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiHttpError</span>(<span class="hljs-params">statusCode, response, message</span>) </span>{
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"ApiHttpError"</span>;
 	<span class="hljs-keyword">this</span>.statusCode = statusCode;
 	<span class="hljs-keyword">this</span>.response = response;
@@ -222,7 +222,7 @@ describing the nature of the parse error.</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiParseError</span><span class="hljs-params">(parseErrorMessage, response)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiParseError</span>(<span class="hljs-params">parseErrorMessage, response</span>) </span>{
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"ApiParseError"</span>;
 	<span class="hljs-keyword">this</span>.response = response;
 	<span class="hljs-keyword">this</span>.message = parseErrorMessage;
@@ -247,7 +247,7 @@ received.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OAuthError</span><span class="hljs-params">(errorResponse, message)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">OAuthError</span>(<span class="hljs-params">errorResponse, message</span>) </span>{
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"OAuthError"</span>;
 	<span class="hljs-keyword">this</span>.message = message || errorResponse.errorMessage;
 	<span class="hljs-keyword">this</span>.code = errorResponse.code;
@@ -273,7 +273,7 @@ received.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiError</span><span class="hljs-params">(errorResponse, message)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ApiError</span>(<span class="hljs-params">errorResponse, message</span>) </span>{
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"ApiError"</span>;
 	<span class="hljs-keyword">this</span>.message = message || errorResponse.errorMessage;
 	<span class="hljs-keyword">this</span>.code = errorResponse.code;

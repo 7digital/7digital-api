@@ -163,7 +163,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> async = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> <span class="hljs-keyword">async</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);</pre></div>
         
       
         
@@ -181,16 +181,16 @@
 <span class="hljs-keyword">var</span> basketId;
 
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Api configured with shopId %d'</span>, api.options.defaultParams.shopId);
-async.waterfall([
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBasket</span><span class="hljs-params">(cb)</span> </span>{
-		api.Basket().create({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span><span class="hljs-params">(err, res)</span> </span>{
+<span class="hljs-keyword">async</span>.waterfall([
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBasket</span>(<span class="hljs-params">cb</span>) </span>{
+		api.Basket().create({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span>(<span class="hljs-params">err, res</span>) </span>{
 			<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span> cb(err); }
 			basketId = res.basket.id;
 			<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Created basket'</span>, basketId);
 			<span class="hljs-keyword">return</span> cb();
 		});
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reconfigureApiShop</span><span class="hljs-params">(cb)</span> </span>{</pre></div>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reconfigureApiShop</span>(<span class="hljs-params">cb</span>) </span>{</pre></div>
         
       
         
@@ -201,12 +201,12 @@ async.waterfall([
 		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Api configured with shopId %d'</span>, api.options.defaultParams.shopId);
 		<span class="hljs-keyword">return</span> cb();
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToBasket</span><span class="hljs-params">(cb)</span> </span>{ <span class="hljs-comment">// Check GET is reconfigured</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToBasket</span>(<span class="hljs-params">cb</span>) </span>{ <span class="hljs-comment">// Check GET is reconfigured</span>
 		api.Basket().addItem({
 			basketId: basketId,
 			releaseId: <span class="hljs-number">769006</span>,
 			trackId: <span class="hljs-number">13166687</span> <span class="hljs-comment">// Test content</span>
-		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, res)</span> </span>{
+		}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, res</span>) </span>{
 			<span class="hljs-keyword">if</span> (err &amp;&amp; err.code === <span class="hljs-string">'2002'</span>) {</pre></div>
         
       
@@ -220,11 +220,11 @@ async.waterfall([
 			<span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'First shop reconfiguration unsuccessful for GET'</span>));
 		});
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyVoucher</span><span class="hljs-params">(cb)</span> </span>{ <span class="hljs-comment">// Check POST is reconfigured</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyVoucher</span>(<span class="hljs-params">cb</span>) </span>{ <span class="hljs-comment">// Check POST is reconfigured</span>
 		api.Basket().applyVoucher({
 			basketId: basketId,
 			voucherCode: <span class="hljs-string">'some-voucher'</span>
-		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err)</span> </span>{
+		}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
 			<span class="hljs-keyword">if</span> (err &amp;&amp; err.code === <span class="hljs-string">'2002'</span>) {</pre></div>
         
       
@@ -238,7 +238,7 @@ async.waterfall([
 			<span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'First shop reconfiguration unsuccessful for POST'</span>));
 		});
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">restoreOriginApiShop</span><span class="hljs-params">(cb)</span> </span>{</pre></div>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">restoreOriginApiShop</span>(<span class="hljs-params">cb</span>) </span>{</pre></div>
         
       
         
@@ -249,12 +249,12 @@ async.waterfall([
 		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Api configured with shopId %d'</span>, api.options.defaultParams.shopId);
 		<span class="hljs-keyword">return</span> cb();
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToBasket</span><span class="hljs-params">(cb)</span> </span>{ <span class="hljs-comment">// Check GET is reconfigured again</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToBasket</span>(<span class="hljs-params">cb</span>) </span>{ <span class="hljs-comment">// Check GET is reconfigured again</span>
 		api.Basket().addItem({
 			basketId: basketId,
 			releaseId: <span class="hljs-number">769006</span>,
 			trackId: <span class="hljs-number">13166687</span> <span class="hljs-comment">// Test content</span>
-		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, res)</span> </span>{
+		}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, res</span>) </span>{
 			<span class="hljs-keyword">if</span> (err) {
 				<span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Second shop reconfiguration unsuccessful for GET: '</span> + err));
 			}
@@ -262,11 +262,11 @@ async.waterfall([
 			<span class="hljs-keyword">return</span> cb();
 		});
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyVoucher</span><span class="hljs-params">(cb)</span> </span>{ <span class="hljs-comment">// Check POST is reconfigured again</span>
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyVoucher</span>(<span class="hljs-params">cb</span>) </span>{ <span class="hljs-comment">// Check POST is reconfigured again</span>
 		api.Basket().applyVoucher({
 			basketId: basketId,
 			voucherCode: <span class="hljs-string">'some-voucher'</span>
-		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err)</span> </span>{
+		}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
 			<span class="hljs-keyword">if</span> (err &amp;&amp; err.code === <span class="hljs-string">'2001'</span>) {</pre></div>
         
       
@@ -280,7 +280,7 @@ async.waterfall([
 			<span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Second shop reconfiguration unsuccessful for POST'</span>));
 		});
 	}
-], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err)</span> </span>{
+], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
 	<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">throw</span> err; }
 	<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Example completed successfully'</span>);
 });</pre></div>

@@ -163,7 +163,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;</pre></div>
+          <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;</pre></div>
         
       
         
@@ -176,7 +176,7 @@ stdout or stderr.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeLogger</span><span class="hljs-params">(level, method)</span> </span>{</pre></div>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeLogger</span>(<span class="hljs-params">level, method</span>) </span>{</pre></div>
         
       
         
@@ -184,7 +184,7 @@ stdout or stderr.</p>
 and formats like console.log</p>
 
         
-          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logger</span><span class="hljs-params">()</span> </span>{
+          <div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logger</span>(<span class="hljs-params"></span>) </span>{
 		<span class="hljs-keyword">var</span> args = [].slice.call(<span class="hljs-built_in">arguments</span>);
 		<span class="hljs-keyword">var</span> format = level.toUpperCase() + <span class="hljs-string">': (api-client) '</span> + args.shift();
 		<span class="hljs-keyword">var</span> logArgs = [format].concat(args);
@@ -194,7 +194,7 @@ and formats like console.log</p>
 
 	<span class="hljs-keyword">return</span> (level === <span class="hljs-string">'warn'</span> || level === <span class="hljs-string">'error'</span> || level === <span class="hljs-string">'info'</span>)
 		? logger
-		: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{};
+		: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{};
 }
 
 <span class="hljs-built_in">module</span>.exports = {

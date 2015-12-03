@@ -163,7 +163,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-keyword">var</span> async = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">var</span> <span class="hljs-keyword">async</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);</pre></div>
         
       
         
@@ -185,37 +185,37 @@
         <p>Make a request using the wrapper and process the result</p>
 
         
-          <div class='highlight'><pre>async.waterfall([
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBasket</span><span class="hljs-params">(cb)</span> </span>{
-		api.Basket().create({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span><span class="hljs-params">(err, res)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-keyword">async</span>.waterfall([
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createBasket</span>(<span class="hljs-params">cb</span>) </span>{
+		api.Basket().create({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processReleases</span>(<span class="hljs-params">err, res</span>) </span>{
 			<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span> cb(err); }
 			basketId = res.basket.id;
 			<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Created basket'</span>, basketId);
 			<span class="hljs-keyword">return</span> cb();
 		});
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToBasket</span><span class="hljs-params">(cb)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addToBasket</span>(<span class="hljs-params">cb</span>) </span>{
 		api.Basket().addItem({
 			basketId: basketId,
 			releaseId: <span class="hljs-number">769006</span>,
 			trackId: <span class="hljs-number">13166687</span> <span class="hljs-comment">// Test content</span>
-		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, res)</span> </span>{
+		}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, res</span>) </span>{
 			<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span> cb(err); }
 			<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Added to basket: '</span>, res.basket.basketItems[<span class="hljs-number">0</span>]);
 			<span class="hljs-keyword">return</span> cb();
 		});
 	},
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyVoucher</span><span class="hljs-params">(cb)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyVoucher</span>(<span class="hljs-params">cb</span>) </span>{
 		api.Basket().applyVoucher({
 			basketId: basketId,
 			voucherCode: voucherCode
-		}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, res)</span> </span>{
+		}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, res</span>) </span>{
 			<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span> cb(err); }
 			<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Applied voucher to: '</span>, res.basket.basketItems[<span class="hljs-number">0</span>]);
 			<span class="hljs-keyword">return</span> cb();
 		});
 	}
-], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err)</span> </span>{
+], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
 	<span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">throw</span> err; }
 	<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Example completed successfully'</span>);
 });</pre></div>

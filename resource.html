@@ -163,7 +163,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+          <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 <span class="hljs-keyword">var</span> helpers = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./helpers'</span>);
@@ -191,7 +191,7 @@ the schema definition.</li>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Resource</span><span class="hljs-params">(options, schema)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Resource</span>(<span class="hljs-params">options, schema</span>) </span>{
 	<span class="hljs-keyword">this</span>.logger = options.logger;
 	<span class="hljs-keyword">this</span>.resourceName = options.resourceDefinition.resource;
 	<span class="hljs-keyword">this</span>.host = options.resourceDefinition.host || schema.host;
@@ -205,7 +205,7 @@ the schema definition.</li>
 					<span class="hljs-keyword">this</span>.resourceName);
 
 	_.each(options.resourceDefinition.actions,
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processAction</span><span class="hljs-params">(action)</span> </span>{
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processAction</span>(<span class="hljs-params">action</span>) </span>{
 			<span class="hljs-keyword">this</span>.createAction(action, options.userManagement);
 		}, <span class="hljs-keyword">this</span>);
 }</pre></div>
@@ -222,7 +222,7 @@ or a hash if they differ.</li>
 </ul>
 
         
-          <div class='highlight'><pre>Resource.prototype.chooseMethodName = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(actionDefinition)</span> </span>{
+          <div class='highlight'><pre>Resource.prototype.chooseMethodName = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">actionDefinition</span>) </span>{
 	<span class="hljs-keyword">var</span> fnName;</pre></div>
         
       
@@ -251,7 +251,7 @@ or a hash if they differ.</li>
 </ul>
 
         
-          <div class='highlight'><pre>Resource.prototype.createAction = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(actionDefinition, isManaged)</span> </span>{
+          <div class='highlight'><pre>Resource.prototype.createAction = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">actionDefinition, isManaged</span>) </span>{
 	<span class="hljs-keyword">var</span> url;
 	<span class="hljs-keyword">var</span> fnName = <span class="hljs-keyword">this</span>.chooseMethodName(actionDefinition);
 	<span class="hljs-keyword">var</span> action = <span class="hljs-keyword">typeof</span> actionDefinition.apiCall === <span class="hljs-string">'undefined'</span> ?
@@ -269,7 +269,7 @@ or a hash if they differ.</li>
 	<span class="hljs-keyword">this</span>.logger.silly(<span class="hljs-string">'Creating method: '</span> + fnName + <span class="hljs-string">' for '</span> + action +
 					<span class="hljs-string">' action with '</span> + httpMethod + <span class="hljs-string">' HTTP verb'</span>);
 	<span class="hljs-comment">/*jshint validthis: true */</span>
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">invokeAction</span><span class="hljs-params">(requestData, callback)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">invokeAction</span>(<span class="hljs-params">requestData, callback</span>) </span>{
 		<span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
 		<span class="hljs-keyword">var</span> endpointInfo = {
 			host: invokeAction.host,
@@ -290,7 +290,7 @@ or a hash if they differ.</li>
 			requestData = {};
 		}
 
-		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkAndParse</span><span class="hljs-params">(err, data, response)</span> </span>{
+		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkAndParse</span>(<span class="hljs-params">err, data, response</span>) </span>{
 			<span class="hljs-keyword">if</span> (err) {
 				<span class="hljs-keyword">return</span> callback(err);
 			}
@@ -302,7 +302,7 @@ or a hash if they differ.</li>
 				params: requestData,
 				contentType: response.headers[<span class="hljs-string">'content-type'</span>]
 			}, getLocationForRedirectsAndCallback);
-			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLocationForRedirectsAndCallback</span><span class="hljs-params">(err, parsed)</span> </span>{
+			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLocationForRedirectsAndCallback</span>(<span class="hljs-params">err, parsed</span>) </span>{
 				<span class="hljs-keyword">if</span> (err) {
 					<span class="hljs-keyword">return</span> callback(err);
 				}

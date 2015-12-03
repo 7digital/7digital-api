@@ -163,11 +163,11 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+          <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">arrayify</span><span class="hljs-params">(items)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">arrayify</span>(<span class="hljs-params">items</span>) </span>{
 	<span class="hljs-keyword">return</span> (items.length !== <span class="hljs-literal">undefined</span>) ? items : [items];
 }</pre></div>
         
@@ -186,18 +186,17 @@ an array.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ensureCollections</span><span class="hljs-params">(collectionPaths, response)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ensureCollections</span>(<span class="hljs-params">collectionPaths, response</span>) </span>{
 	<span class="hljs-keyword">var</span> items, formats, listItems, basket;
-
-	_(collectionPaths).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkLength</span><span class="hljs-params">(item)</span> </span>{
+	_.each(collectionPaths, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkLength</span>(<span class="hljs-params">item</span>) </span>{
 		<span class="hljs-keyword">var</span> parts = item.split(<span class="hljs-string">'.'</span>);
 		<span class="hljs-keyword">var</span> allPartsButLast = _.initial(parts);
 		<span class="hljs-keyword">var</span> lastPart = _.last(parts);
-		<span class="hljs-keyword">var</span> parents = _.reduce(allPartsButLast, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(chain, part)</span> </span>{
+		<span class="hljs-keyword">var</span> parents = _.reduce(allPartsButLast, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">chain, part</span>) </span>{
 			<span class="hljs-keyword">return</span> chain.pluck(part).compact().flatten();
 		}, _([response])).value();
 
-		parents.map(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(parent)</span> </span>{
+		parents.map(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">parent</span>) </span>{
 			<span class="hljs-keyword">if</span> (parent[lastPart]) {
 				parent[lastPart] = arrayify(parent[lastPart]);
 			} <span class="hljs-keyword">else</span> {
@@ -218,9 +217,9 @@ an array.</p>
 	<span class="hljs-keyword">return</span> response;
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameCardTypes</span><span class="hljs-params">(response)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renameCardTypes</span>(<span class="hljs-params">response</span>) </span>{
 	<span class="hljs-keyword">if</span> (response.cardTypes &amp;&amp; response.cardTypes.cardType) {
-		_(response.cardTypes.cardType).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rename</span><span class="hljs-params">(cardType)</span> </span>{
+		_.each(response.cardTypes.cardType, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rename</span>(<span class="hljs-params">cardType</span>) </span>{
 			cardType.name = cardType._;
 			<span class="hljs-keyword">delete</span> cardType._;
 		});
@@ -229,7 +228,7 @@ an array.</p>
 	<span class="hljs-keyword">return</span> response;
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">nullifyNilsRecursive</span><span class="hljs-params">(parent, key)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">nullifyNilsRecursive</span>(<span class="hljs-params">parent, key</span>) </span>{
 	<span class="hljs-keyword">var</span> value = parent[key];
 
 	<span class="hljs-keyword">if</span> (value[<span class="hljs-string">'xsi:nil'</span>] === <span class="hljs-string">'true'</span>) {
@@ -238,14 +237,14 @@ an array.</p>
 	}
 
 	<span class="hljs-keyword">if</span> (_.isArray(value) || _.isObject(value)) {
-		_.forEach(value, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(v, k)</span> </span>{
+		_.forEach(value, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v, k</span>) </span>{
 			<span class="hljs-keyword">return</span> nullifyNilsRecursive(value, k);
 		});
 	}
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">nullifyNils</span><span class="hljs-params">(response)</span> </span>{
-	_.forEach(response, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(v, k)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">nullifyNils</span>(<span class="hljs-params">response</span>) </span>{
+	_.forEach(response, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v, k</span>) </span>{
 		nullifyNilsRecursive(response, k);
 	});
 
@@ -262,7 +261,7 @@ specific nodes that aren’t interesting to consumers.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeXmlNamespaceKeys</span><span class="hljs-params">(response)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeXmlNamespaceKeys</span>(<span class="hljs-params">response</span>) </span>{
 	<span class="hljs-keyword">delete</span> response[<span class="hljs-string">'xmlns:xsi'</span>];
 	<span class="hljs-keyword">delete</span> response[<span class="hljs-string">'xmlns:xsd'</span>];
 	<span class="hljs-keyword">delete</span> response[<span class="hljs-string">'xsi:noNamespaceSchemaLocation'</span>];

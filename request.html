@@ -163,7 +163,7 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+          <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
 
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
 <span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
@@ -186,7 +186,7 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">prepare</span><span class="hljs-params">(data, consumerkey)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">prepare</span>(<span class="hljs-params">data, consumerkey</span>) </span>{
 	<span class="hljs-keyword">var</span> prop;
 	data = data || {};
 
@@ -211,7 +211,7 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHeaders</span><span class="hljs-params">(host, headers)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHeaders</span>(<span class="hljs-params">host, headers</span>) </span>{
 	<span class="hljs-keyword">return</span> _.extend({}, headers, {
 		<span class="hljs-string">'host'</span>: host,
 		<span class="hljs-string">'User-Agent'</span> : USER_AGENT
@@ -227,8 +227,8 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logHeaders</span><span class="hljs-params">(logger, headers)</span> </span>{
-	<span class="hljs-keyword">return</span> _.each(_.keys(headers), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(key)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logHeaders</span>(<span class="hljs-params">logger, headers</span>) </span>{
+	<span class="hljs-keyword">return</span> _.each(_.keys(headers), <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
 		logger.info(key + <span class="hljs-string">': '</span> + headers[key]);
 	});
 }</pre></div>
@@ -246,8 +246,8 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(endpointInfo, requestData, headers, credentials, logger,
-	callback)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params">endpointInfo, requestData, headers, credentials, logger,
+	callback</span>) </span>{
 
 	<span class="hljs-keyword">var</span> normalisedData = prepare(requestData, credentials.consumerkey);
 	<span class="hljs-keyword">var</span> fullUrl = endpointInfo.url + <span class="hljs-string">'?'</span> + qs.stringify(normalisedData);
@@ -286,8 +286,8 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postOrPut</span><span class="hljs-params">(httpMethod, endpointInfo, requestData, headers, credentials,
-	logger, callback)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postOrPut</span>(<span class="hljs-params">httpMethod, endpointInfo, requestData, headers, credentials,
+	logger, callback</span>) </span>{
 
 	<span class="hljs-keyword">var</span> hostInfo = {
 		host: endpointInfo.host,
@@ -304,7 +304,7 @@
 	}
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildSecureUrl</span><span class="hljs-params">(httpMethod, hostInfo, path, requestData)</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildSecureUrl</span>(<span class="hljs-params">httpMethod, hostInfo, path, requestData</span>) </span>{
 	<span class="hljs-keyword">var</span> querystring = httpMethod === <span class="hljs-string">'GET'</span>
 		? <span class="hljs-string">'?'</span> + qs.stringify(requestData)
 		: <span class="hljs-string">''</span>;
@@ -326,8 +326,8 @@
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span><span class="hljs-params">(path, httpMethod, requestData, headers, authtype,
-		hostInfo, credentials, logger, callback)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatchSecure</span>(<span class="hljs-params">path, httpMethod, requestData, headers, authtype,
+		hostInfo, credentials, logger, callback</span>) </span>{
 	<span class="hljs-keyword">var</span> url;
 	<span class="hljs-keyword">var</span> is2Legged = authtype === <span class="hljs-string">'2-legged'</span>;
 	<span class="hljs-keyword">var</span> token = is2Legged ? <span class="hljs-literal">null</span> : requestData.accesstoken;
@@ -356,7 +356,7 @@
 	logger.info(httpMethod + <span class="hljs-string">': '</span> + url + <span class="hljs-string">' ('</span> + authtype + <span class="hljs-string">' oauth)'</span>);
 	logHeaders(logger, mergedHeaders);
 
-	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cbWithDataAndResponse</span><span class="hljs-params">(err, data, response)</span> </span>{
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cbWithDataAndResponse</span>(<span class="hljs-params">err, data, response</span>) </span>{
 		<span class="hljs-keyword">var</span> apiError;
 
 		<span class="hljs-keyword">if</span> (err) {</pre></div>
@@ -426,8 +426,8 @@ specification and applies approriate HTTP headers.</p>
 </ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatch</span><span class="hljs-params">(url, httpMethod, data, headers, hostInfo, credentials,
-		logger, callback)</span> </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispatch</span>(<span class="hljs-params">url, httpMethod, data, headers, hostInfo, credentials,
+		logger, callback</span>) </span>{
 
 	hostInfo.port = hostInfo.port || <span class="hljs-number">80</span>;
 
@@ -492,18 +492,18 @@ currently does not set CORS headers.</p>
 		path: url,
 		port: hostInfo.port,
 		headers: mergedHeaders
-	}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleResponse</span><span class="hljs-params">(response)</span> </span>{
+	}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleResponse</span>(<span class="hljs-params">response</span>) </span>{
 		<span class="hljs-keyword">var</span> responseBuffer = <span class="hljs-string">''</span>;
 
 		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> response.setEncoding === <span class="hljs-string">'function'</span>) {
 			response.setEncoding(<span class="hljs-string">'utf8'</span>);
 		}
 
-		response.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bufferData</span><span class="hljs-params">(chunk)</span> </span>{
+		response.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bufferData</span>(<span class="hljs-params">chunk</span>) </span>{
 			responseBuffer += chunk;
 		});
 
-		response.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endResponse</span><span class="hljs-params">()</span> </span>{
+		response.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endResponse</span>(<span class="hljs-params"></span>) </span>{
 			<span class="hljs-keyword">if</span> (+response.statusCode &gt;= <span class="hljs-number">400</span>) {
 				<span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> ApiHttpError(
 					response.statusCode, responseBuffer, apiPath));
@@ -515,7 +515,7 @@ currently does not set CORS headers.</p>
 		});
 	});
 
-	apiRequest.on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logErrorAndCallback</span><span class="hljs-params">(data)</span> </span>{</pre></div>
+	apiRequest.on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logErrorAndCallback</span>(<span class="hljs-params">data</span>) </span>{</pre></div>
         
       
         

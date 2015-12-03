@@ -163,9 +163,9 @@
         
         
         
-          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+          <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
 
-exports.padComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(component)</span> </span>{
+exports.padComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">component</span>) </span>{
 	<span class="hljs-keyword">return</span> component &lt;= <span class="hljs-number">9</span> ? <span class="hljs-string">'0'</span> + component : <span class="hljs-string">''</span> + component;
 };</pre></div>
         
@@ -178,7 +178,7 @@ exports.padComponent = <span class="hljs-function"><span class="hljs-keyword">fu
 </ul>
 
         
-          <div class='highlight'><pre>exports.toYYYYMMDD = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(theDate)</span> </span>{
+          <div class='highlight'><pre>exports.toYYYYMMDD = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">theDate</span>) </span>{
 	<span class="hljs-keyword">var</span> month = <span class="hljs-keyword">this</span>.padComponent(theDate.getMonth() + <span class="hljs-number">1</span>);
 
 	<span class="hljs-keyword">return</span> theDate.getUTCFullYear() +
@@ -196,7 +196,7 @@ exports.padComponent = <span class="hljs-function"><span class="hljs-keyword">fu
 </ul>
 
         
-          <div class='highlight'><pre>exports.capitalize = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(str)</span> </span>{
+          <div class='highlight'><pre>exports.capitalize = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
 	<span class="hljs-keyword">return</span> str.charAt(<span class="hljs-number">0</span>).toUpperCase() + str.slice(<span class="hljs-number">1</span>);
 };</pre></div>
         
@@ -210,7 +210,7 @@ exports.padComponent = <span class="hljs-function"><span class="hljs-keyword">fu
 </ul>
 
         
-          <div class='highlight'><pre>exports.formatPath = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatPath</span><span class="hljs-params">(prefix, resource, action)</span> </span>{
+          <div class='highlight'><pre>exports.formatPath = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatPath</span>(<span class="hljs-params">prefix, resource, action</span>) </span>{
 	<span class="hljs-keyword">var</span> requestPath = <span class="hljs-string">'/'</span> + (prefix ? prefix + <span class="hljs-string">'/'</span> : <span class="hljs-string">''</span>) + resource;
 
 	<span class="hljs-keyword">if</span> (action !== <span class="hljs-string">''</span>) {
