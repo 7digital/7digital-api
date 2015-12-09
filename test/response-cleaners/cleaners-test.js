@@ -1,6 +1,6 @@
 'use strict';
 
-var cleaners = require('../lib/cleaners');
+var cleaners = require('../../lib/response-cleaners');
 var assert = require('chai').assert;
 
 describe('cleaners', function () {
@@ -14,9 +14,87 @@ describe('cleaners', function () {
 
 	describe('ensureCollections', function () {
 
+		it('converts a single object to an array', function () {
+			var response = {
+				things: {
+					thing: {prop: 'hi'}
+				}
+			};
+
+			var cleaned = cleaners.ensureCollections(['things.thing'], response);
+
+			assert.instanceOf(cleaned.things.thing, Array);
+			assert.lengthOf(cleaned.things.thing, 1);
+			assert.deepEqual(cleaned.things.thing[0], {prop: 'hi'});
+		});
+
+		it('doesn\'t touch arrays', function () {
+			var response = {
+				things: {
+					thing: [{prop: 'hi'}, {prop: 'ho'}]
+				}
+			};
+
+			var cleaned = cleaners.ensureCollections(['things.thing'], response);
+
+			assert.instanceOf(cleaned.things.thing, Array);
+			assert.lengthOf(cleaned.things.thing, 2);
+			assert.deepEqual(cleaned.things.thing[0], {prop: 'hi'});
+			assert.deepEqual(cleaned.things.thing[1], {prop: 'ho'});
+		});
+
+		it('handles empty content', function () {
+			var response = {
+				things: {
+					thing: ''
+				}
+			};
+
+			var cleaned = cleaners.ensureCollections(['things.thing'], response);
+
+			assert.instanceOf(cleaned.things.thing, Array);
+			assert.lengthOf(cleaned.things.thing, 0);
+		});
+		//This is a known bug that has existed for a long time, and could
+		//potentially be fixed by the discussion in:
+		//https://github.com/raoulmillais/7digital-api/pull/76
+		xit('handles empty content containing newline characters correctly',
+			function () {
+			var response = {
+				things: {
+					thing: '\n'
+				}
+			};
+
+			var cleaned = cleaners.ensureCollections(['things.thing'], response);
+
+			assert.instanceOf(cleaned.things.thing, Array);
+			assert.lengthOf(cleaned.things.thing, 0);
+		});
+
+		it('handles part of the path being an array', function () {
+		
+			var response = {
+				things: [
+					{ thing: {prop: 'hi'} },
+					{ thing: {prop: 'ho'} }
+				]
+			};
+
+			var cleaned = cleaners.ensureCollections([
+				'things.thing'
+			], response);
+			assert.instanceOf(cleaned.things[0].thing, Array);
+			assert.lengthOf(cleaned.things[0].thing, 1);
+			assert.deepEqual(cleaned.things[0].thing[0], {prop: 'hi'});
+			assert.instanceOf(cleaned.things[1].thing, Array);
+			assert.lengthOf(cleaned.things[1].thing, 1);
+			assert.deepEqual(cleaned.things[1].thing[0], {prop: 'ho'});
+		});
+
 		it('ensures collections one level deep', function () {
 			var response = require(
-				'./responses/parsed/release-tracks-singletrack.json');
+				'../responses/parsed/release-tracks-singletrack.json');
 			var cleaned = cleaners.ensureCollections(
 				['tracks.track'], response);
 			assert.instanceOf(cleaned.tracks.track, Array);
@@ -24,7 +102,7 @@ describe('cleaners', function () {
 
 		it('ensures collections two levels deep', function () {
 			var response = require(
-				'./responses/parsed/release-single-format.json');
+				'../responses/parsed/release-single-format.json');
 			var cleaned = cleaners.ensureCollections(
 				['release.formats.format'], response);
 			assert.instanceOf(cleaned.release.formats.format, Array);
@@ -33,7 +111,7 @@ describe('cleaners', function () {
 		it('ensures nested collections', function () {
 			var lockerTrackArray;
 			var response = require(
-				'./responses/parsed/locker-single-release-and-track.json');
+				'../responses/parsed/locker-single-release-and-track.json');
 			var cleaned = cleaners.ensureCollections(
 				[
 					'locker.lockerReleases.lockerRelease',
@@ -47,32 +125,22 @@ describe('cleaners', function () {
 		});
 
 		it('preserves collections when they are already arrays', function () {
-			var response = require('./responses/parsed/list-multiple.json');
+			var response = require('../responses/parsed/list-multiple.json');
 			var cleaned = cleaners.ensureCollections(
 				['list.listItems.listItem'], response);
 			assert.instanceOf(cleaned.list.listItems.listItem, Array);
 		});
 
-		// Note that basket items are one level deeper than other arrays, hence
-		// the separate test.
-		it('normalises basket items into an array', function () {
-			var response = require('./responses/parsed/basket-additem.json');
-
-			var cleaned = cleaners.ensureCollections(
-				['basket.basketItems'], response);
-			assert.instanceOf(cleaned.basket.basketItems, Array);
-		});
-
 		it('returns an empty collection for empty basket case', function () {
-			var response = require('./responses/parsed/basket-empty.json');
+			var response = require('../responses/parsed/basket-empty.json');
 			var cleaned = cleaners.ensureCollections(
-				['basket.basketItems'], response);
+				['basket.basketItems.basketItem'], response);
 			assert.instanceOf(cleaned.basket.basketItems, Array);
 			assert.lengthOf(cleaned.basket.basketItems, 0);
 		});
 
 		it('returns an empty collection for empty locker case', function () {
-			var response = require('./responses/parsed/locker-release-no-tracks.json');
+			var response = require('../responses/parsed/locker-release-no-tracks.json');
 			var cleaned = cleaners.ensureCollections([
 				'locker.lockerReleases.lockerRelease',
 				'locker.lockerReleases.lockerRelease.lockerTracks.lockerTrack'
@@ -92,7 +160,7 @@ describe('cleaners', function () {
 	describe('renameCardTypes', function () {
 
 		it('names the payment card text node', function () {
-			var response = require('./responses/parsed/payment-card-type.json');
+			var response = require('../responses/parsed/payment-card-type.json');
 			var cleaned = cleaners.renameCardTypes(response);
 			assert.instanceOf(cleaned.cardTypes.cardType, Array);
 			assert.equal(cleaned.cardTypes.cardType[0].name, 'Mastercard');
@@ -105,7 +173,7 @@ describe('cleaners', function () {
 
 		it('removes xml cruft', function () {
 			var response = require(
-				'./responses/parsed/release-tracks-singletrack.json');
+				'../responses/parsed/release-tracks-singletrack.json');
 			var cleaned = cleaners.removeXmlNamespaceKeys(response);
 			assert.isUndefined(cleaned['xmlns:xsi']);
 			assert.isUndefined(cleaned['xmlns:xsd']);
@@ -134,5 +202,4 @@ describe('cleaners', function () {
 			assert.equal(cleaned.g[1].h, 'blah');
 		});
 	});
-
 });
