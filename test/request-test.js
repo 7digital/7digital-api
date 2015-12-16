@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var assert = require('chai').assert;
 var request = require('../lib/request');
+var RequestFailedError = require('../lib/errors').RequestFailedError;
 
 describe('request', function () {
 
@@ -33,6 +34,26 @@ describe('request', function () {
 
 	});
 
+	describe('dispatch', function () {
+		it('calls back with the error', function () {
+			var logger = { info: _.noop, error: _.noop };
+			var hostInfo = {
+				port: 80,
+				host: 'wibble'
+			};
+			request.dispatch('', 'GET', {}, {}, hostInfo, {}, logger,
+				function (err) {
+
+				assert(err);
+				console.log(err);
+				assert.instanceOf(err, RequestFailedError,
+					'expected instance of RequestFailedError');
+
+				done();
+			});
+		});
+	});
+
 	describe('dispatchSecure', function () {
 
 		it('calls back with an error for unknown verbs', function (done) {
@@ -41,9 +62,9 @@ describe('request', function () {
 				function (err) {
 
 				assert(err);
+
 				done();
 			});
 		});
 	});
-
 });
