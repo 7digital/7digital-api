@@ -230,6 +230,32 @@ util.inherits(ApiParseError, IdentifiedApiError);</pre></div>
         
       
         
+        <p>RequestFailedError</p>
+<p>Creates a new RequestFailedError supplied to callbacks when the request to
+the api fails.</p>
+<ul>
+<li>@constructor</li>
+<li>@param {String} message - Custom error message
+with the url that failed</li>
+<li>@param {ErrorEvent} errorEvent - The error object send by the failed
+http request.</li>
+</ul>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RequestFailedError</span>(<span class="hljs-params">msg, errorEvent</span>) </span>{
+	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"RequestFailedError"</span>;
+	<span class="hljs-keyword">this</span>.message = msg;
+	<span class="hljs-keyword">this</span>.errorEvent = errorEvent;
+	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">Error</span>.captureStackTrace
+		&amp;&amp; <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Error</span>.captureStackTrace === <span class="hljs-string">'function'</span>) {
+		<span class="hljs-built_in">Error</span>.captureStackTrace(<span class="hljs-keyword">this</span>, RequestFailedError);
+	}
+}
+
+util.inherits(RequestFailedError, <span class="hljs-built_in">Error</span>);</pre></div>
+        
+      
+        
         <p>OAuthError</p>
 <p>Creates a new ApiError supplied to callbacks when a valid error response is
 received.</p>
@@ -285,7 +311,8 @@ util.inherits(ApiError, IdentifiedApiError);
 	ApiParseError: ApiParseError,
 	OAuthError: OAuthError,
 	ApiError: ApiError,
-	IdentifiedApiError: IdentifiedApiError
+	IdentifiedApiError: IdentifiedApiError,
+	RequestFailedError: RequestFailedError
 };</pre></div>
         
       
