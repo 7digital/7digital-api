@@ -521,7 +521,7 @@ if we get an end event on the response.</p>
 		logger.info(<span class="hljs-string">'Error fetching ['</span> + url + <span class="hljs-string">']. Body:\n'</span> + data);
 
 		<span class="hljs-keyword">return</span> callback(
-			<span class="hljs-keyword">new</span> RequestFailedError(<span class="hljs-string">'Error connecting to '</span> + url, data)
+			<span class="hljs-keyword">new</span> RequestFailedError(data, <span class="hljs-string">'Error connecting to '</span> + url)
 		);
 	});
 

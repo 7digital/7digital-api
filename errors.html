@@ -158,7 +158,8 @@
         
           <div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
 
-<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);</pre></div>
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">var</span> VError = <span class="hljs-built_in">require</span>(<span class="hljs-string">'verror'</span>);</pre></div>
         
       
         
@@ -233,26 +234,14 @@ util.inherits(ApiParseError, IdentifiedApiError);</pre></div>
         <p>RequestFailedError</p>
 <p>Creates a new RequestFailedError supplied to callbacks when the request to
 the api fails.</p>
-<ul>
-<li>@constructor</li>
-<li>@param {String} message - Custom error message
-with the url that failed</li>
-<li>@param {ErrorEvent} errorEvent - The error object send by the failed
-http request.</li>
-</ul>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RequestFailedError</span>(<span class="hljs-params">msg, errorEvent</span>) </span>{
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RequestFailedError</span>(<span class="hljs-params"></span>) </span>{
+	VError.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
 	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"RequestFailedError"</span>;
-	<span class="hljs-keyword">this</span>.message = msg;
-	<span class="hljs-keyword">this</span>.errorEvent = errorEvent;
-	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">Error</span>.captureStackTrace
-		&amp;&amp; <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Error</span>.captureStackTrace === <span class="hljs-string">'function'</span>) {
-		<span class="hljs-built_in">Error</span>.captureStackTrace(<span class="hljs-keyword">this</span>, RequestFailedError);
-	}
 }
 
-util.inherits(RequestFailedError, <span class="hljs-built_in">Error</span>);</pre></div>
+util.inherits(RequestFailedError, VError);</pre></div>
         
       
         
