@@ -6,37 +6,6 @@ var OAuthError = require('../lib/errors').OAuthError;
 var ApiParseError = require('../lib/errors').ApiParseError;
 var ApiError = require('../lib/errors').ApiError;
 var IdentifiedApiError = require('../lib/errors').IdentifiedApiError;
-var RequestFailedError = require('../lib/errors').RequestFailedError;
-
-describe('Request failed error', function() {
-	var err;
-	var msg;
-	var errorEvent;
-	beforeEach(function () {
-		var url = '/1.2/translations?pageSize=5000&shopId=826&oauth_consumer_key=7digital.com';
-		msg = 'Error connecting to' + url;
-		errorEvent = {};
-		err = new RequestFailedError(msg, errorEvent);
-	});
-
-	it('has the message', function() {
-		assert.equal(err.message, msg);
-	});
-
-	it('has the error event', function() {
-		assert.deepEqual(err.errorEvent, errorEvent);
-	});
-
-	it('has a stack trace', function() {
-		console.log(err.stack);
-		assert.ok(err.stack);
-	});
-
-	it('is a RequestFailedError', function() {
-		assert.instanceOf(err, RequestFailedError,
-			'expected instance of RequestFailedError');
-	});
-});
 
 describe('API HTTP Error', function() {
 

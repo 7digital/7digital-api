@@ -35,7 +35,7 @@ describe('request', function () {
 	});
 
 	describe('dispatch', function () {
-		it('calls back with the error', function () {
+		it('calls back with the error', function (done) {
 			var logger = { info: _.noop, error: _.noop };
 			var hostInfo = {
 				port: 80,
@@ -45,9 +45,9 @@ describe('request', function () {
 				function (err) {
 
 				assert(err);
-				console.log(err);
 				assert.instanceOf(err, RequestFailedError,
 					'expected instance of RequestFailedError');
+				assert.instanceOf(err.cause(), Error);
 
 				done();
 			});
