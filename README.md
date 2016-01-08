@@ -3,7 +3,7 @@
 
 Current head build status:
 
-[![Build Status](https://travis-ci.org/raoulmillais/node-7digital-api.png?branch=master)](http://travis-ci.org/raoulmillais/node-7digital-api)
+[![Build Status](https://travis-ci.org/raoulmillais/7digital-api.png?branch=master)](http://travis-ci.org/raoulmillais/node-7digital-api)
 
 ## About 7digital
 
