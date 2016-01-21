@@ -1,11 +1,13 @@
 'use strict';
 
 var assert = require('chai').assert;
-var ApiHttpError = require('../lib/errors').ApiHttpError;
-var OAuthError = require('../lib/errors').OAuthError;
-var ApiParseError = require('../lib/errors').ApiParseError;
-var ApiError = require('../lib/errors').ApiError;
-var IdentifiedApiError = require('../lib/errors').IdentifiedApiError;
+var errs = require('../lib/errors');
+var ApiHttpError = errs.ApiHttpError;
+var OAuthError = errs.OAuthError;
+var ApiParseError = errs.ApiParseError;
+var ApiError = errs.ApiError;
+var IdentifiedApiError = errs.IdentifiedApiError;
+var RequestError = errs.RequestError;
 
 describe('API HTTP Error', function() {
 
@@ -122,3 +124,17 @@ describe('Api Response Error', function () {
 	});
 });
 
+describe('RequestError', function () {
+	it('works with encoded URLs', function () {
+		var e;
+
+		assert.doesNotThrow(function createRequestError() {
+			e = new RequestError(new Error('root error'),
+				'http://someserver/some%20encoded_url');
+		}, 'error is constructed');
+
+		assert.equal(e.toString(),
+			'RequestError: for url http://someserver/some%20encoded_url: root error',
+			'error message');
+	});
+});
