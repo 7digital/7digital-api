@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var assert = require('chai').assert;
 var request = require('../lib/request');
-var RequestFailedError = require('../lib/errors').RequestFailedError;
+var RequestError = require('../lib/errors').RequestError;
 
 describe('request', function () {
 
@@ -45,8 +45,8 @@ describe('request', function () {
 				function (err) {
 
 				assert(err);
-				assert.instanceOf(err, RequestFailedError,
-					'expected instance of RequestFailedError');
+				assert.instanceOf(err, RequestError,
+					'expected instance of RequestError');
 				assert.instanceOf(err.cause(), Error);
 
 				done();
