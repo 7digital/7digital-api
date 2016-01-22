@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>cache.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>cache.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="customconfig.html">
+                    customconfig.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="default-action.html">
+                    default-action.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth.html">
+                    oauth.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="simpleclient.html">
+                    simpleclient.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="two-legged.html">
+                    two-legged.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-authentication.html">
+                    user-authentication.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-locker.html">
+                    user-locker.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="user-management.html">
+                    user-management.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="actionhelper.html">
+                    actionhelper.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="api.html">
+                    api.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cache.html">
+                    cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="cleaners.html">
+                    cleaners.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="errors.html">
+                    errors.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="helpers.html">
+                    helpers.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="logger.html">
+                    logger.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="noop-cache.html">
+                    noop-cache.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="oauth.html">
+                    oauth.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="request.html">
+                    request.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="resource.html">
+                    resource.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="responseparser.html">
+                    responseparser.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">'crypto'</span>);</pre></div>
+        
+      
+        
+        <p>Generates a cache key for a request based on the full URL used to make the
+request</p>
+<ul>
+<li>@param {String} url - The full url of the request</li>
+<li>@return {String} - The cache key</li>
+</ul>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateCacheKeyFromUrl</span><span class="hljs-params">(url)</span> </span>{
+	<span class="hljs-keyword">var</span> md5sum = crypto.createHash(<span class="hljs-string">'md5'</span>);
+	md5sum.update(url);
+
+	<span class="hljs-keyword">return</span> <span class="hljs-string">'7digital-api:'</span> + md5sum.digest(<span class="hljs-string">'hex'</span>);
+}</pre></div>
+        
+      
+        
+        <p>Parses the max-age value from the cache-control header in the response</p>
+<ul>
+<li>@param {Response} HttpResponse - The response to parse</li>
+<li>@return {Number|Boolean} - Either the value of the max-age property of the
+Cache-Control header in the response or false if it doesn’t exist.</li>
+</ul>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseMaxAgeHeader</span><span class="hljs-params">(response)</span> </span>{
+	<span class="hljs-keyword">var</span> cacheControl = response.headers[<span class="hljs-string">'cache-control'</span>];
+	<span class="hljs-keyword">var</span> maxAge;
+	<span class="hljs-keyword">if</span> (!cacheControl) {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	}
+
+	maxAge = <span class="hljs-regexp">/max-age=(\d+)/</span>.exec(cacheControl);
+	<span class="hljs-keyword">if</span> (!maxAge) {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	}
+
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Number</span>(maxAge[<span class="hljs-number">1</span>]);
+}
+
+<span class="hljs-built_in">module</span>.exports.generateCacheKeyFromUrl = generateCacheKeyFromUrl;
+<span class="hljs-built_in">module</span>.exports.parseMaxAgeHeader = parseMaxAgeHeader;</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

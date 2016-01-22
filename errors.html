@@ -231,17 +231,17 @@ util.inherits(ApiParseError, IdentifiedApiError);</pre></div>
         
       
         
-        <p>RequestFailedError</p>
-<p>Creates a new RequestFailedError supplied to callbacks when the request to
+        <p>RequestError</p>
+<p>Creates a new RequestError supplied to callbacks when the request to
 the api fails.</p>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RequestFailedError</span>(<span class="hljs-params"></span>) </span>{
-	VError.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
-	<span class="hljs-keyword">this</span>.name = <span class="hljs-string">"RequestFailedError"</span>;
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RequestError</span>(<span class="hljs-params">err, url</span>) </span>{
+	VError.call(<span class="hljs-keyword">this</span>, err, <span class="hljs-string">'for url %s'</span>, url);
+	<span class="hljs-keyword">this</span>.name = RequestError.name;
 }
 
-util.inherits(RequestFailedError, VError);</pre></div>
+util.inherits(RequestError, VError);</pre></div>
         
       
         
@@ -301,7 +301,7 @@ util.inherits(ApiError, IdentifiedApiError);
 	OAuthError: OAuthError,
 	ApiError: ApiError,
 	IdentifiedApiError: IdentifiedApiError,
-	RequestFailedError: RequestFailedError
+	RequestError: RequestError
 };</pre></div>
         
       
