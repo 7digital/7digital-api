@@ -3,41 +3,105 @@ export namespace Responses {
         status: string;
         version: string;
     }
-    interface BasketResponse extends ApiResponse {
-        basket: Basket;
+    namespace Release {
+        interface ReleaseResponse extends ApiResponse {
+            release: Release
+        }
+        interface ReleasePrice {
+            currencyCode: string;
+            sevendigitalPrice: string;
+            recommendedRetailPrice: string;
+        }
+        interface Artist {
+            id: string;
+            name: string;
+            appearsAs: string;
+            slug: string;
+            image: string;
+            isPlaceholderImage: string;
+        }
+        interface Release {
+            id: string;
+            title: string;
+            barcode: string;
+            year: string;
+            explicitContent: string;
+            slug: string;
+            artist: Artist;
+            image: string;
+            label: Label;
+            licensor: Licensor;
+            popularity: string;
+            duration: string;
+            trackCount: string;
+            download: Download;
+        }
+        interface Format {
+            id: string;
+            description: string;
+        }
+        interface Formats {
+            format: Array<Format>;
+        }
+        interface Package {
+            id: string;
+            description: string;
+            price: ReleasePrice;
+            formats: Formats;
+        }
+        interface Packages {
+            package: Array<Package>;
+        }
+        interface Download {
+            releaseDate: string;
+            packages: Packages;
+        }
+        interface Label {
+            id: string;
+            name: string;
+        }
+        interface Licensor {
+            id: string;
+            name: string;
+        }
     }
-    interface AmountDue {
-        amount: string;
-        formattedAmount: string;
-    }
-    interface Package {
-        id: string;
-    }
-    interface BasketItem {
-        id: string;
-        type: string;
-        itemName: string;
-        artistName: string;
-        releaseId: string;
-        trackId:string;
-        price: Price;
-        amountDue: AmountDue;
-        package: Package;
-    }
-    interface Basket {
-        id: string;
-        basketItems: Array<BasketItem>;
-        itemCount: string;
-        amountDue: AmountDue;
-    }
-    interface Currency {
-        _: string;
-        code: string;
-    }
-    interface Price {
-        value: string;
-        fomattedPrice: string;
-        currency: Currency;
+    namespace Basket {
+        interface BasketResponse extends ApiResponse {
+            basket: Basket;
+        }
+        interface AmountDue {
+            amount: string;
+            formattedAmount: string;
+        }
+        interface Package {
+            id: string;
+        }
+        interface BasketItem {
+            id: string;
+            type: string;
+            itemName: string;
+            artistName: string;
+            releaseId: string;
+            trackId:string;
+            price: Price;
+            amountDue: AmountDue;
+            package: Package;
+        }
+        interface Basket {
+            id: string;
+            basketItems: Array<BasketItem>;
+            itemCount: string;
+            amountDue: AmountDue;
+        }
+        interface Currency {
+            _: string;
+            code: string;
+        }
+        interface Price {
+            value: string;
+            fomattedPrice: string;
+            currency: Currency;
+        }
     }
 }
 
@@ -57,15 +121,15 @@ export class Basket {
     get: (
         params:BasketParams,
         callback: (
-            err:Error, basket:Responses.BasketResponse
+            err:Error, basket:Responses.Basket.BasketResponse
         ) => void
     ) => void;
     create: (any, callback: (
-        err:Error, basket:Responses.BasketResponse
+        err:Error, basket:Responses.Basket.BasketResponse
         ) => void
     ) => void;
     addItem: (AddItemParams, callback: (
-        err:Error, basket:Responses.BasketResponse
+        err:Error, basket:Responses.Basket.BasketResponse
         ) => void
     ) => void;
     removeItem: (
@@ -116,7 +180,7 @@ export class Releases {
         params: any,
         callback: (
             err:Error,
-            response:any
+            response:Responses.Release.ReleaseResponse
         ) => void
     ) => void;
     getEditorial: (
@@ -497,4 +561,3 @@ export class Payment {
         ) => void
     ) => void;
 }
-
