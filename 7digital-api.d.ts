@@ -3,7 +3,7 @@ export namespace Responses {
         status: string;
         version: string;
     }
-    namespace Release {
+    namespace Releases {
         interface ReleaseResponse extends ApiResponse {
             release: Release
         }
@@ -65,7 +65,7 @@ export namespace Responses {
             name: string;
         }
     }
-    namespace Basket {
+    namespace Baskets {
         interface BasketResponse extends ApiResponse {
             basket: Basket;
         }
@@ -121,15 +121,15 @@ export class Basket {
     get: (
         params:BasketParams,
         callback: (
-            err:Error, basket:Responses.Basket.BasketResponse
+            err:Error, basket:Responses.Baskets.BasketResponse
         ) => void
     ) => void;
     create: (any, callback: (
-        err:Error, basket:Responses.Basket.BasketResponse
+        err:Error, basket:Responses.Baskets.BasketResponse
         ) => void
     ) => void;
     addItem: (AddItemParams, callback: (
-        err:Error, basket:Responses.Basket.BasketResponse
+        err:Error, basket:Responses.Baskets.BasketResponse
         ) => void
     ) => void;
     removeItem: (
@@ -180,7 +180,7 @@ export class Releases {
         params: any,
         callback: (
             err:Error,
-            response:Responses.Release.ReleaseResponse
+            response:Responses.Releases.ReleaseResponse
         ) => void
     ) => void;
     getEditorial: (
