@@ -45,5 +45,8 @@ describe('config', function() {
 	it('should have the response format set to JSON by default', function () {
 		assert.equal(config.format, 'json');
 	});
-
+	
+	it('should default to using the download usage type', function () {
+		assert.deepEqual(config.defaultParams, {usageTypes: 'download'});
+	});
 });

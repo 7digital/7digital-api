@@ -254,14 +254,16 @@ describe('API.build', function() {
 		assert.equal(testApi3.logger.label, 'logger2');
 
 		assert.deepEqual(testApi.defaultParams, {
-			pageSize: 5
+			pageSize: 5,
+			usageTypes: 'download'
 		});
 		assert.deepEqual(testApi.headers, {
 			'resource-header':1
 		});
 		assert.deepEqual(testApi2.defaultParams, {
 			page: 2,
-			pageSize: 6
+			pageSize: 6,
+			usageTypes: 'download'
 		});
 		assert.deepEqual(testApi2.headers, {
 			'resource-header': 2,
@@ -270,7 +272,8 @@ describe('API.build', function() {
 		assert.deepEqual(testApi3.defaultParams, {
 			page: 2,
 			pageSize: 7,
-			country: 'fr'
+			country: 'fr',
+			usageTypes: 'download'
 		});
 		assert.deepEqual(testApi3.headers, {
 			'resource-header': 3,
