@@ -106,6 +106,12 @@
 				"actions":
 				[
 					{
+						"apiCall": "unlimitedStreaming",
+						"methodName": "getUnlimitedStreaming",
+						"oauth": "3-legged",
+						"method": "GET"
+					},
+					{
 						"apiCall": "locker",
 						"methodName": "getLocker",
 						"oauth": "3-legged",

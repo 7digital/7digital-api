@@ -180,6 +180,18 @@ describe('API.build', function() {
 		assert.equal(api.User().getLocker.authtype, '2-legged');
 	});
 
+	it('creates a 3-legged user action when not managed', function() {
+		var api = Api.buildDefault();
+		assert.isFunction(api.User().getUnlimitedStreaming);
+		assert.equal(api.User().getUnlimitedStreaming.authtype, '3-legged');
+	});
+
+	it('creates a 2-legged user action when managed', function() {
+		var api = Api.buildDefault({ userManagement: true });
+		assert.isFunction(api.User().getUnlimitedStreaming);
+		assert.equal(api.User().getUnlimitedStreaming.authtype, '2-legged');
+	});
+
 	it('allows hierarchical default parameters', function() {
 		api = Api.build({
 			consumerkey: 'testkey',
