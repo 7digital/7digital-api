@@ -1,7 +1,7 @@
 // Module dependencies
 var async = require('async');
 var util = require('util');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 // Consumer key and secret
 // Replace these with your key
 var consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
