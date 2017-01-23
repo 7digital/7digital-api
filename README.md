@@ -20,7 +20,10 @@ purchasing and full length streaming. More details at
 
 
 A serverside javascript client for the 7digital API .
-Full code documentation for the most recent release can be found [here](http://raoulmillais.github.com/node-7digital-api/api.html)
+Full code documentation for the most recent release can be found [here](http://raoulmillais.github.com/node-7digital-api/api.html).
+
+To map documentation endpoints with this library's methods, it's best to look
+ at the [API definition file](https://github.com/7digital/7digital-api/blob/master/assets/7digital-api-schema.json).
 
 ### Installation
 
@@ -221,7 +224,7 @@ it possible to keep your key and secret actually secret:
 - `_7D_API_CLIENT_USER_SECRET` - is not set by default
 
 The client will check the environment for the following variables which makes
-controlling the behaviour per-environment easier (e.g. in tests) with out 
+controlling the behaviour per-environment easier (e.g. in tests) with out
 having to branch in your application code:
 
 - `_7D_API_CLIENT_HOST` - defaults to 'api.7digital.com'
