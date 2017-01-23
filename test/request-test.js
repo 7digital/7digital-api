@@ -11,7 +11,7 @@ describe('request', function () {
 
 		it('adds the user agent and host headers', function () {
 			var headers  = request.createHeaders('api.7digital.com');
-			assert.equal(headers.host, 'api.7digital.com');
+			assert.equal(headers.Host, 'api.7digital.com');
 			assert.equal(headers['User-Agent'], 'Node.js HTTP Client');
 		});
 
