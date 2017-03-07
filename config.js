@@ -40,10 +40,10 @@ module.exports = {
 	userManagement: false,
 	// A hash of parameters to provide with every GET request made to the API
 	//
-	// @type {Object} A hash contining querystring parameters
+	// @type {Object} A hash containing querystring parameters
 	defaultParams: {},
 	// A hash of custom headers to provide with every request made to the API
 	//
-	// @type {Object} A hash contining the headers
+	// @type {Object} A hash containing the headers
 	headers: {}
 };
