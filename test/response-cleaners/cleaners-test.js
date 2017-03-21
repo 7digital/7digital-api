@@ -201,5 +201,19 @@ describe('cleaners', function () {
 			assert.isNull(cleaned.g[0]);
 			assert.equal(cleaned.g[1].h, 'blah');
 		});
+
+		it('ignores null tags', function () {
+			var cleaned = cleaners.nullifyNils({
+				a: null,
+				b: { c: null },
+				d: [{ e: null }]
+			});
+
+			assert.deepEqual(cleaned, {
+				a: null,
+				b: { c: null },
+				d: [{ e: null }]
+			});
+		});
 	});
 });
