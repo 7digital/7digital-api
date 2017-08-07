@@ -112,6 +112,12 @@
 						"method": "GET"
 					},
 					{
+						"apiCall": "unlimitedStreaming",
+						"methodName": "updateUnlimitedStreaming",
+						"oauth": "2-legged",
+						"method": "POST"
+					},
+					{
 						"apiCall": "locker",
 						"methodName": "getLocker",
 						"oauth": "3-legged",
