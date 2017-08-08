@@ -21,9 +21,9 @@ endef
 
 define assert_remote
 	@git remote -v | grep origin | \
-	grep "raoulmillais/7digital-api" > /dev/null 2>&1 || \
+	grep "7digital/7digital-api" > /dev/null 2>&1 || \
 	(echo "Your origin must be the source repository " \
-	"raoulmillais/7digital-api" && exit 1)
+	"7digital/7digital-api" && exit 1)
 endef
 
 define assert_all_changes_pushed
