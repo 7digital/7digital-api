@@ -7,6 +7,12 @@
     "type": "git",
     "url": "git://github.com/7digital/7digital-api.git"
   },
+  "docs": {
+    "url": "https://github.com/7digital/7digital-api/blob/master/README.md"
+  },
+  "bugs": {
+    "url": "https://github.com/7digital/7digital-api/issues"
+  },
   "keywords": [
     "api",
     "nodejs",
