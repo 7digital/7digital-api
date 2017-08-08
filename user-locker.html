@@ -159,7 +159,7 @@
         
           <div class='highlight'><pre><span class="hljs-keyword">var</span> <span class="hljs-keyword">async</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
-<span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-uuid'</span>);</pre></div>
+<span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'uuid'</span>);</pre></div>
         
       
         
@@ -170,9 +170,9 @@ Replace these with your key</p>
           <div class='highlight'><pre><span class="hljs-keyword">var</span> consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
 <span class="hljs-keyword">var</span> consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET;
 <span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
-	consumerkey: consumerkey,
-	consumersecret: consumersecret,
-	defaultParams: {</pre></div>
+	<span class="hljs-attr">consumerkey</span>: consumerkey,
+	<span class="hljs-attr">consumersecret</span>: consumersecret,
+	<span class="hljs-attr">defaultParams</span>: {</pre></div>
         
       
         
@@ -191,8 +191,8 @@ country: ‘us’</p>
 		username = <span class="hljs-string">'node-client-test-'</span> + uuid.v4() + <span class="hljs-string">'@7digital.com'</span>;
 		password = <span class="hljs-string">'top-secret'</span>;
 		user.signup({
-			emailAddress: username,
-			password: password
+			<span class="hljs-attr">emailAddress</span>: username,
+			<span class="hljs-attr">password</span>: password
 		}, cb);
 	},
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span>(<span class="hljs-params">userResponse, cb</span>) </span>{
@@ -227,9 +227,9 @@ account.7digital.com to authorise the 3-legged access</p>
 
         
           <div class='highlight'><pre>		oauth.authoriseRequestToken({
-			username: username,
-			password: password,
-			token: requestToken
+			<span class="hljs-attr">username</span>: username,
+			<span class="hljs-attr">password</span>: password,
+			<span class="hljs-attr">token</span>: requestToken
 		}, cb);
 	},
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">continueAfterAuthorisation</span>(<span class="hljs-params">cb</span>) </span>{</pre></div>
@@ -241,8 +241,8 @@ request token and secret</p>
 
         
           <div class='highlight'><pre>		oauth.getAccessToken({
-			requesttoken: requestToken,
-			requestsecret: requestSecret
+			<span class="hljs-attr">requesttoken</span>: requestToken,
+			<span class="hljs-attr">requestsecret</span>: requestSecret
 		}, cb);
 	},
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logTheAccessToken</span>(<span class="hljs-params">accessToken, accessSecret, cb</span>) </span>{</pre></div>
@@ -257,21 +257,21 @@ request token and secret</p>
 		<span class="hljs-built_in">console</span>.info(<span class="hljs-string">'Access Secret: %s'</span>, accessSecret);
 
 		user.getLocker({
-			accesstoken: accessToken,
-			accesssecret: accessSecret,
-			pageSize: <span class="hljs-number">1</span>
+			<span class="hljs-attr">accesstoken</span>: accessToken,
+			<span class="hljs-attr">accesssecret</span>: accessSecret,
+			<span class="hljs-attr">pageSize</span>: <span class="hljs-number">1</span>
 		}, cb);
 	},
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showLocker</span>(<span class="hljs-params">lockerResponse, cb</span>) </span>{
 		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully accessed the user\'s locker: '</span>);
-		<span class="hljs-built_in">console</span>.log(util.inspect(lockerResponse, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+		<span class="hljs-built_in">console</span>.log(util.inspect(lockerResponse, { <span class="hljs-attr">depth</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span> }));
 
 		cb();
 	}
 ], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
 	<span class="hljs-keyword">if</span> (err) {
 		<span class="hljs-built_in">console</span>.error(<span class="hljs-string">'An error occurred:'</span>);
-		<span class="hljs-built_in">console</span>.error(util.inspect(err.stack, { depth: <span class="hljs-literal">null</span>, colors: <span class="hljs-literal">true</span> }));
+		<span class="hljs-built_in">console</span>.error(util.inspect(err.stack, { <span class="hljs-attr">depth</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span> }));
 		<span class="hljs-keyword">return</span> process.exit(<span class="hljs-number">1</span>);
 	}
 	process.exit(<span class="hljs-number">0</span>);

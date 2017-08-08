@@ -207,7 +207,7 @@
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHeaders</span>(<span class="hljs-params">host, headers</span>) </span>{
 	<span class="hljs-keyword">return</span> _.extend({}, headers, {
-		<span class="hljs-string">'host'</span>: host,
+		<span class="hljs-string">'Host'</span>: host,
 		<span class="hljs-string">'User-Agent'</span> : USER_AGENT
 	});
 }</pre></div>
@@ -246,8 +246,8 @@
 	<span class="hljs-keyword">var</span> normalisedData = prepare(requestData, credentials.consumerkey);
 	<span class="hljs-keyword">var</span> fullUrl = endpointInfo.url + <span class="hljs-string">'?'</span> + qs.stringify(normalisedData);
 	<span class="hljs-keyword">var</span> hostInfo = {
-		host: endpointInfo.host,
-		port: endpointInfo.port
+		<span class="hljs-attr">host</span>: endpointInfo.host,
+		<span class="hljs-attr">port</span>: endpointInfo.port
 	};</pre></div>
         
       
@@ -284,8 +284,8 @@
 	logger, callback</span>) </span>{
 
 	<span class="hljs-keyword">var</span> hostInfo = {
-		host: endpointInfo.host,
-		port: endpointInfo.port
+		<span class="hljs-attr">host</span>: endpointInfo.host,
+		<span class="hljs-attr">port</span>: endpointInfo.port
 	};
 
 	<span class="hljs-keyword">if</span> (endpointInfo.authtype) {
@@ -455,16 +455,8 @@ the XML response back instead of a redirect to the track download.</p>
 
         
           <div class='highlight'><pre>	apiRequest = http.request({
-		method: httpMethod,</pre></div>
-        
-      
-        
-        <p>disable connection pooling to get round node’s unnecessarily low
-5 max connections</p>
-
-        
-          <div class='highlight'><pre>		agent: <span class="hljs-literal">false</span>,
-		hostname: hostInfo.host,</pre></div>
+		<span class="hljs-attr">method</span>: httpMethod,
+		<span class="hljs-attr">hostname</span>: hostInfo.host,</pre></div>
         
       
         
@@ -483,9 +475,9 @@ currently does not set CORS headers.</p>
 
         
           <div class='highlight'><pre>		withCredentials: <span class="hljs-literal">false</span>,
-		path: url,
-		port: hostInfo.port,
-		headers: mergedHeaders
+		<span class="hljs-attr">path</span>: url,
+		<span class="hljs-attr">port</span>: hostInfo.port,
+		<span class="hljs-attr">headers</span>: mergedHeaders
 	}, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleResponse</span>(<span class="hljs-params">response</span>) </span>{
 		<span class="hljs-keyword">var</span> responseBuffer = <span class="hljs-string">''</span>;
 

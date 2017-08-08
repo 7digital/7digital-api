@@ -159,7 +159,7 @@
         
           <div class='highlight'><pre><span class="hljs-keyword">var</span> <span class="hljs-keyword">async</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
-<span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-uuid'</span>);</pre></div>
+<span class="hljs-keyword">var</span> uuid = <span class="hljs-built_in">require</span>(<span class="hljs-string">'uuid'</span>);</pre></div>
         
       
         
@@ -170,9 +170,9 @@ Replace these with your key</p>
           <div class='highlight'><pre><span class="hljs-keyword">var</span> consumerkey = process.env.NODE_API_CLIENT_TESTS_CONSUMER_KEY;
 <span class="hljs-keyword">var</span> consumersecret = process.env.NODE_API_CLIENT_TESTS_CONSUMER_SECRET;
 <span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../index'</span>).configure({
-	consumerkey: consumerkey,
-	consumersecret: consumersecret,
-	defaultParams: {</pre></div>
+	<span class="hljs-attr">consumerkey</span>: consumerkey,
+	<span class="hljs-attr">consumersecret</span>: consumersecret,
+	<span class="hljs-attr">defaultParams</span>: {</pre></div>
         
       
         
@@ -195,15 +195,15 @@ country: ‘us’</p>
 <span class="hljs-keyword">async</span>.waterfall([
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createUser</span>(<span class="hljs-params">cb</span>) </span>{
 		user.signup({
-			emailAddress: username,
-			password: password
+			<span class="hljs-attr">emailAddress</span>: username,
+			<span class="hljs-attr">password</span>: password
 		}, cb);
 	},
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authenticateUser</span>(<span class="hljs-params">res, cb</span>) </span>{
 		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully created user'</span>);
 		user.authenticate({
-			emailAddress: username,
-			password: password
+			<span class="hljs-attr">emailAddress</span>: username,
+			<span class="hljs-attr">password</span>: password
 		}, cb);
 	},
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateAuthentication</span>(<span class="hljs-params">res, cb</span>) </span>{

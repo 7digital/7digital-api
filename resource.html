@@ -194,8 +194,9 @@ the schema definition.</li>
 	<span class="hljs-keyword">this</span>.consumerkey = options.consumerkey;
 	<span class="hljs-keyword">this</span>.consumersecret = options.consumersecret;
 
-	<span class="hljs-keyword">this</span>.logger.silly(<span class="hljs-string">'Creating constructor for resource: '</span> +
-					<span class="hljs-keyword">this</span>.resourceName);
+	<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.logger.silly) {
+		<span class="hljs-keyword">this</span>.logger.silly(<span class="hljs-string">'Creating constructor for resource: '</span> + <span class="hljs-keyword">this</span>.resourceName);
+	}
 
 	_.each(options.resourceDefinition.actions,
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processAction</span>(<span class="hljs-params">action</span>) </span>{
@@ -259,23 +260,26 @@ or a hash if they differ.</li>
 			? <span class="hljs-string">'2-legged'</span>
 			: actionDefinition.oauth;
 
-	<span class="hljs-keyword">this</span>.logger.silly(<span class="hljs-string">'Creating method: '</span> + fnName + <span class="hljs-string">' for '</span> + action +
-					<span class="hljs-string">' action with '</span> + httpMethod + <span class="hljs-string">' HTTP verb'</span>);
+	<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.logger.silly) {
+		<span class="hljs-keyword">this</span>.logger.silly(
+			<span class="hljs-string">'Creating method: '</span> + fnName + <span class="hljs-string">' for '</span> + action +
+			<span class="hljs-string">' action with '</span> + httpMethod + <span class="hljs-string">' HTTP verb'</span>);
+	}
 	<span class="hljs-comment">/*jshint validthis: true */</span>
 	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">invokeAction</span>(<span class="hljs-params">requestData, callback</span>) </span>{
 		<span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
 		<span class="hljs-keyword">var</span> endpointInfo = {
-			host: invokeAction.host,
-			sslHost: invokeAction.sslHost || sslHost,
-			port: invokeAction.port,
-			prefix: invokeAction.prefix,
-			authtype: authType,
-			url: helpers.formatPath(invokeAction.prefix, <span class="hljs-keyword">this</span>.resourceName,
+			<span class="hljs-attr">host</span>: invokeAction.host,
+			<span class="hljs-attr">sslHost</span>: invokeAction.sslHost || sslHost,
+			<span class="hljs-attr">port</span>: invokeAction.port,
+			<span class="hljs-attr">prefix</span>: invokeAction.prefix,
+			<span class="hljs-attr">authtype</span>: authType,
+			<span class="hljs-attr">url</span>: helpers.formatPath(invokeAction.prefix, <span class="hljs-keyword">this</span>.resourceName,
 				action)
 		};
 		<span class="hljs-keyword">var</span> credentials = {
-			consumerkey: <span class="hljs-keyword">this</span>.consumerkey,
-			consumersecret: <span class="hljs-keyword">this</span>.consumersecret
+			<span class="hljs-attr">consumerkey</span>: <span class="hljs-keyword">this</span>.consumerkey,
+			<span class="hljs-attr">consumersecret</span>: <span class="hljs-keyword">this</span>.consumersecret
 		};
 
 		<span class="hljs-keyword">if</span> (_.isFunction(requestData)) {
@@ -289,11 +293,11 @@ or a hash if they differ.</li>
 			}
 
 			<span class="hljs-keyword">return</span> responseParser.parse(data, {
-				format: self.format,
-				logger: self.logger,
-				url: endpointInfo.url,
-				params: requestData,
-				contentType: response.headers[<span class="hljs-string">'content-type'</span>]
+				<span class="hljs-attr">format</span>: self.format,
+				<span class="hljs-attr">logger</span>: self.logger,
+				<span class="hljs-attr">url</span>: endpointInfo.url,
+				<span class="hljs-attr">params</span>: requestData,
+				<span class="hljs-attr">contentType</span>: response.headers[<span class="hljs-string">'content-type'</span>]
 			}, getLocationForRedirectsAndCallback);
 			<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLocationForRedirectsAndCallback</span>(<span class="hljs-params">err, parsed</span>) </span>{
 				<span class="hljs-keyword">if</span> (err) {

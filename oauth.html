@@ -200,10 +200,10 @@ secret and the necessary options for authenticating with the
 url for the user to grant the application access to their locker and
 make purchases on their behalf.</p>
 <pre><code><span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'7digital-api'</span>).configure({
-        consumerkey: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
-        consumersecret: <span class="hljs-string">'YOUR_SECRET'</span>,
-        defaultParams: {
-             country: <span class="hljs-string">'fr'</span>
+        <span class="hljs-attr">consumerkey</span>: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
+        <span class="hljs-attr">consumersecret</span>: <span class="hljs-string">'YOUR_SECRET'</span>,
+        <span class="hljs-attr">defaultParams</span>: {
+             <span class="hljs-attr">country</span>: <span class="hljs-string">'fr'</span>
         }
 });
 <span class="hljs-keyword">var</span> oAuth = <span class="hljs-keyword">new</span> api.OAuth();
@@ -220,7 +220,7 @@ oAuth.getRequestToken(<span class="hljs-string">'http://acme.com/oauth_cb'</span
           <div class='highlight'><pre>OAuth.prototype.getRequestToken = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRequestToken</span>(<span class="hljs-params">cbUrl, callback</span>) </span>{
 	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.defaultParams.country) {
 		<span class="hljs-keyword">this</span>.client.getOAuthRequestToken({
-			country: <span class="hljs-keyword">this</span>.defaultParams.country
+			<span class="hljs-attr">country</span>: <span class="hljs-keyword">this</span>.defaultParams.country
 		}, buildAuthoriseUrl.bind(<span class="hljs-keyword">this</span>));
 	} <span class="hljs-keyword">else</span> {
 		<span class="hljs-keyword">this</span>.client.getOAuthRequestToken(buildAuthoriseUrl.bind(<span class="hljs-keyword">this</span>));
@@ -280,7 +280,7 @@ may be used to gain an access token using <code>getAccessToken</code>.</p>
 		}
 
 		responseParser.parse(data,
-			{ format: <span class="hljs-keyword">this</span>.format, logger: <span class="hljs-keyword">this</span>.logger }, getTokens);
+			{ <span class="hljs-attr">format</span>: <span class="hljs-keyword">this</span>.format, <span class="hljs-attr">logger</span>: <span class="hljs-keyword">this</span>.logger }, getTokens);
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTokens</span>(<span class="hljs-params">err, tokenResponse</span>) </span>{
 			<span class="hljs-keyword">var</span> accessToken, accessSecret;
 
@@ -302,16 +302,16 @@ the request token.</p>
 <p>You can use this token and secret for signing requests to the 3-legged
 OAuth secured API endpoints.</p>
 <pre><code><span class="hljs-keyword">var</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">'7digital-api'</span>).configure({
-        consumerkey: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
-        consumersecret: <span class="hljs-string">'YOUR_SECRET'</span>,
-        defaultParams: {
-            country: <span class="hljs-string">'us'</span>
+        <span class="hljs-attr">consumerkey</span>: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
+        <span class="hljs-attr">consumersecret</span>: <span class="hljs-string">'YOUR_SECRET'</span>,
+        <span class="hljs-attr">defaultParams</span>: {
+            <span class="hljs-attr">country</span>: <span class="hljs-string">'us'</span>
         }
 });
 <span class="hljs-keyword">var</span> oAuth = <span class="hljs-keyword">new</span> api.OAuth();
 oAuth.getAccessToken({
-        requesttoken: <span class="hljs-string">'YOUR_TOKEN_HERE'</span>,
-        requestsecret: <span class="hljs-string">'TOKEN_SECRET_HERE'</span>
+        <span class="hljs-attr">requesttoken</span>: <span class="hljs-string">'YOUR_TOKEN_HERE'</span>,
+        <span class="hljs-attr">requestsecret</span>: <span class="hljs-string">'TOKEN_SECRET_HERE'</span>
     }, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accessSignedEndpoints</span>(<span class="hljs-params">err, accessToken, accessSecret</span>) </span>{
         <span class="hljs-comment">// Access the user's locker etc</span>
 });
@@ -332,7 +332,7 @@ oAuth.getAccessToken({
 	<span class="hljs-keyword">var</span> extraParams = <span class="hljs-literal">null</span>;
 
 	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.defaultParams.country) {
-		extraParams = { country: <span class="hljs-keyword">this</span>.defaultParams.country };
+		extraParams = { <span class="hljs-attr">country</span>: <span class="hljs-keyword">this</span>.defaultParams.country };
 	}</pre></div>
         
       
@@ -374,7 +374,7 @@ no means of supplying the extra parameter via getOAuthAccessToken</p>
 
         
           <div class='highlight'><pre>		responseParser.parse(data,
-			{ format: <span class="hljs-keyword">this</span>.format, logger: <span class="hljs-keyword">this</span>.logger }, getTokens);
+			{ <span class="hljs-attr">format</span>: <span class="hljs-keyword">this</span>.format, <span class="hljs-attr">logger</span>: <span class="hljs-keyword">this</span>.logger }, getTokens);
 		<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTokens</span>(<span class="hljs-params">err, tokenResponse</span>) </span>{
 			<span class="hljs-keyword">var</span> accessToken, accessSecret;
 
@@ -431,8 +431,8 @@ and receive the media data directly in the reponse.</p>
 };
 
 <span class="hljs-built_in">module</span>.exports = exports = {
-	createOAuthWrapper: createOAuthWrapper,
-	OAuth: OAuth
+	<span class="hljs-attr">createOAuthWrapper</span>: createOAuthWrapper,
+	<span class="hljs-attr">OAuth</span>: OAuth
 };</pre></div>
         
       

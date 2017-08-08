@@ -191,12 +191,12 @@ caller.</p>
 		} <span class="hljs-keyword">catch</span> (e) {
 			jsonParseError = e;
 		}
-		<span class="hljs-keyword">return</span> validateAndCleanResponse(jsonParseError, { response: result });
+		<span class="hljs-keyword">return</span> validateAndCleanResponse(jsonParseError, { <span class="hljs-attr">response</span>: result });
 	}
 
 	parser = <span class="hljs-keyword">new</span> xml2js.Parser({
-		mergeAttrs: <span class="hljs-literal">true</span>,
-		explicitArray: <span class="hljs-literal">false</span>
+		<span class="hljs-attr">mergeAttrs</span>: <span class="hljs-literal">true</span>,
+		<span class="hljs-attr">explicitArray</span>: <span class="hljs-literal">false</span>
 	});
 
 	parser.parseString(response, validateAndCleanResponse);

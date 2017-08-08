@@ -161,9 +161,9 @@
 <span class="hljs-keyword">var</span> artists;
 
 config = {
-	consumerkey: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
-	consumersecret: <span class="hljs-string">'YOUR_SECRET_HERE'</span>,
-	format: <span class="hljs-string">'json'</span>
+	<span class="hljs-attr">consumerkey</span>: <span class="hljs-string">'YOUR_KEY_HERE'</span>,
+	<span class="hljs-attr">consumersecret</span>: <span class="hljs-string">'YOUR_SECRET_HERE'</span>,
+	<span class="hljs-attr">format</span>: <span class="hljs-string">'json'</span>
 };</pre></div>
         
       
@@ -180,7 +180,7 @@ artists = <span class="hljs-keyword">new</span> api.Artists();</pre></div>
         <p>Make a request using the wrapper and process the result</p>
 
         
-          <div class='highlight'><pre>artists.getReleases({ artistid: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, data</span>) </span>{
+          <div class='highlight'><pre>artists.getReleases({ <span class="hljs-attr">artistid</span>: <span class="hljs-number">1</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, data</span>) </span>{
 	<span class="hljs-built_in">console</span>.dir(data);
 });</pre></div>
         
