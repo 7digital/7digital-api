@@ -1,3 +1,8 @@
+| :warning: | This repo is specific to the 7digital download store, and is not actively maintained. <br><br>For new integrations with the 7digital platform, we recommend referring to our [public documentation](https://docs.7digital.com/reference) and [integration guides](https://docs.7digital.com/docs). | :warning: |
+| --- | --- | --- |
+
+---
+
 ![7digital](http://i.imgur.com/StUnvCy.png?1)
 # Node.js API Client
 
