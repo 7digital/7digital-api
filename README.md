@@ -242,15 +242,16 @@ I.E. overriding them in application code will take precendence.
 
 ### Running the tests
 
+Requires node 4.8.3.
+
 To run the unit tests:
 
     npm test
 
 There are also integration tests. Tests for various error handling scenarios
-are run against a stub 7d api. It can be installed
-with:
+are run against a stub 7d api. It can be installed with:
 
-    npm install git://github.com/7digital/api-stub.git
+    npm install https://github.com/7digital/api-stub.git
 
 Some of the integration tests (around the client's handling of OAuth) run
 against the real 7d api. In order for these tests to work, you'll need to set
