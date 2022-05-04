@@ -77,10 +77,10 @@ describe('api', function () {
 		});
 	});
 
-	it('ensures release formats is an array', function (done) {
+	it('ensures release package formats is an array when only one format', function (done) {
 		var release = new api.Releases();
 		release.getDetails({ releaseId: 2431 }, function (err, data) {
-			assert.instanceOf(data.release.formats.format, Array);
+			assert.instanceOf(data.release.download.packages.package[0].formats.format, Array);
 			done();
 		});
 	});
