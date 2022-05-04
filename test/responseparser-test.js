@@ -9,12 +9,12 @@ var ApiParseError = require('../lib/errors').ApiParseError;
 var ApiError = require('../lib/errors').ApiError;
 
 describe('when parsing responses', function () {
-
 	function createOptsWithFormat(format) {
 		return {
 			format: format,
 			contentType: 'application/xml',
 			url: '/foo',
+			statusCode: 123,
 			logger: { silly: function () {} }
 		};
 	}
@@ -44,9 +44,13 @@ describe('when parsing responses', function () {
 
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
-		assert.instanceOf(callbackSpy.lastCall.args[0], ApiParseError);
-		assert.strictEqual(callbackSpy.lastCall.args[0].message,
-			'Unparsable api response from: /foo');
+		assert.lengthOf(callbackSpy.lastCall.args, 1);
+
+		var err = callbackSpy.lastCall.args[0];
+		assert.instanceOf(err, ApiParseError);
+		assert.strictEqual(err.message, 'Unparsable api response from: /foo');
+		assert.strictEqual(err.response, xml);
+		assert.strictEqual(err.statusCode, 123);
 	});
 
 	it('calls back with parse error when response is empty', function () {
@@ -54,27 +58,63 @@ describe('when parsing responses', function () {
 
 		parser.parse('', createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
-		assert.instanceOf(callbackSpy.lastCall.args[0], ApiParseError);
-		assert.strictEqual(callbackSpy.lastCall.args[0].message,
-			'Empty response from: /foo');
+		assert.lengthOf(callbackSpy.lastCall.args, 1);
+
+		var err = callbackSpy.lastCall.args[0];
+		assert.instanceOf(err, ApiParseError);
+		assert.strictEqual(err.message, 'Empty response from: /foo');
+		assert.strictEqual(err.response, '');
+		assert.strictEqual(err.statusCode, 123);
 	});
 
-	it('calls back with the error when the status is error', function () {
-		var error, response, callbackSpy = sinon.spy();
+	it('calls back with parse error when response is missing <response>', function () {
+		var callbackSpy = sinon.spy();
+		var xml = '<something-unexpected />';
+
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
+		assert(callbackSpy.calledOnce);
+		assert.lengthOf(callbackSpy.lastCall.args, 1);
+
+		var err = callbackSpy.lastCall.args[0];
+		assert.instanceOf(err, ApiParseError);
+		assert.strictEqual(err.message, 'Missing response node from: /foo');
+		assert.strictEqual(err.response, xml);
+		assert.strictEqual(err.statusCode, 123);
+	});
+
+	it('calls back with the error when the response status is error', function () {
+		var callbackSpy = sinon.spy();
 		var xml = fs.readFileSync(
 				path.join(__dirname, 'responses', 'release-not-found.xml'),
 				'utf-8');
 
 		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
 		assert(callbackSpy.calledOnce);
-		error = callbackSpy.lastCall.args[0];
-		response = callbackSpy.lastCall.args[1];
-		assert(error);
-		assert.isUndefined(response);
-		assert.instanceOf(error, ApiError);
-		assert.equal(error.code, '2001');
-		assert.equal(error.message, 'Release not found: /foo');
+		assert.lengthOf(callbackSpy.lastCall.args, 1);
+
+		var err = callbackSpy.lastCall.args[0];
+		assert(err);
+		assert.instanceOf(err, ApiError);
+		assert.equal(err.code, '2001');
+		assert.equal(err.message, 'Release not found: /foo');
+		assert.equal(err.statusCode, 123);
 	});
+
+	it('calls back with error when response status is not ok or error', function () {
+		var callbackSpy = sinon.spy();
+		var xml = '<response status="bang" />';
+
+		parser.parse(xml, createOptsWithFormat('js'), callbackSpy);
+		assert(callbackSpy.calledOnce);
+		assert.lengthOf(callbackSpy.lastCall.args, 1);
+
+		var err = callbackSpy.lastCall.args[0];
+		assert.instanceOf(err, ApiParseError);
+		assert.strictEqual(err.message, 'Unexpected response status from: /foo');
+		assert.strictEqual(err.response, xml);
+		assert.strictEqual(err.statusCode, 123);
+	});
+
 
 	it('assumes xml when no content type', function () {
 		var callbackSpy = sinon.spy();
