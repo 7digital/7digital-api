@@ -1,6 +1,6 @@
 {
   "name": "7digital-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "7digital API client for nodeJS",
   "homepage": "https://github.com/7digital/7digital-api",
   "repository": {

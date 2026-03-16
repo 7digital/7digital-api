@@ -38,7 +38,7 @@ describe('request', function () {
 		it('calls back with the error', function (done) {
 			var logger = { info: _.noop, error: _.noop };
 			var hostInfo = {
-				port: 80,
+				port: 443,
 				host: 'wibble'
 			};
 			request.dispatch('', 'GET', {}, {}, hostInfo, {}, logger,
